@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 
-export const MainView = () => {
+const MainView = () => {
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
@@ -15,10 +15,12 @@ export const MainView = () => {
             const moviesAPI = data.map((movie) => {
                 return {
                     _id: movie._id,
-                    title: movie.title,
-                    genre: movie.genre,
-                    director: movie.director,
-                    image: movie.image
+                    title: movie.Title,
+                    genre: movie.Genre,
+                    description: movie.Description,
+                    director: movie.Director, 
+                    image: movie.ImagePath,
+                    featured: movie.Featured
                 }
             })
             setMovies(moviesAPI);
@@ -27,18 +29,18 @@ export const MainView = () => {
     }, []);
     
     const [selectedMovie, setSelectedMovie] = useState(null);
-    
-      
+       
     return (
     <div>
         {selectedMovie ? (
         <MovieView
             movie = {selectedMovie}
-            onBackClick = {() => setSelectedMovie(null) }
+            onBackClick = {() => setSelectedMovie(null)}
             /> 
         ) : movies.length === 0 ? (
            <div>There are no movies!</div>
-        ) : ( movies.map((movie) => (
+        ) : ( 
+            movies.map((movie) => (
                 <MovieCard 
                 key = {movie.id}
                 movie = {movie}
@@ -49,4 +51,6 @@ export const MainView = () => {
         )}
     </div>
 );
-}
+};
+
+export default MainView;

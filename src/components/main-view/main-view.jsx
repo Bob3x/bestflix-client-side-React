@@ -6,18 +6,19 @@ export const MainView = () => {
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
-        fetch("")
+        fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies")
         .then((response) => response.json())
         .then((data) => {
-            const moviesFromMongo = data.movies.map((movie) => {
+            const moviesAPI = data.movies.map((movie) => {
                 return {
-                    id: movie.key,
+                    _id: movie._id,
                     title: movie.title,
                     genre: movie.genre,
-                    image: movie.img
+                    director: movie.director,
+                    image: movie.image
                 }
             })
-            setMovies(moviesFromMongo);
+            setMovies(moviesAPI);
         });
     }, []);
     

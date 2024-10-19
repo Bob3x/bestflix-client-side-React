@@ -29,6 +29,9 @@ const MainView = () => {
     }, []);
     
     const [selectedMovie, setSelectedMovie] = useState(null);
+    let similarMovies = movies.filter(
+        (m) => m.Genre.Name === movie.Genre.Name
+    );
        
     return (
     <div>
@@ -37,16 +40,19 @@ const MainView = () => {
             movie = {selectedMovie}
             onBackClick = {() => setSelectedMovie(null)}
             /> 
+           
         ) : movies.length === 0 ? (
            <div>There are no movies!</div>
         ) : ( 
-            movies.map((movie) => (
+            similarMovies.map((movie) => (
                 <MovieCard 
                 key = {movie.id}
                 movie = {movie}
-                onMovieClick = {(newSelectedMovie) => 
-                    setSelectedMovie(newSelectedMovie)}
+                onMovieClick = {(newSimilarMovie) => 
+                    setSelectedMovie(newSimilarMovie)}
                 />
+            
+
             ))
         )}
     </div>

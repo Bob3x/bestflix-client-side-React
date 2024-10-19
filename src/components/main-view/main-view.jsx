@@ -9,7 +9,8 @@ export const MainView = () => {
         fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies")
         .then((response) => response.json())
         .then((data) => {
-            const moviesAPI = data.movies.map((movie) => {
+            console.log("Fetched movies data", data);
+            const moviesAPI = data.map((movie) => {
                 return {
                     _id: movie._id,
                     title: movie.title,
@@ -19,7 +20,8 @@ export const MainView = () => {
                 }
             })
             setMovies(moviesAPI);
-        });
+        })
+        .catch((error) => console.error("Error fetching movies:", error));
     }, []);
     
     const [selectedMovie, setSelectedMovie] = useState(null);

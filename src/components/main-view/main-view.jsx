@@ -6,10 +6,12 @@ export const MainView = () => {
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
-        fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies")
+        fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies", {
+            headers: { Authorization: `Bearer ${token}`}
+        })
         .then((response) => response.json())
         .then((data) => {
-            console.log("Fetched movies data", data);
+            console.log("Fetched movies data:", data);
             const moviesAPI = data.map((movie) => {
                 return {
                     _id: movie._id,
@@ -34,9 +36,9 @@ export const MainView = () => {
             movie = {selectedMovie}
             onBackClick = {() => setSelectedMovie(null) }
             /> 
-        ): movies.length === 0 ? (
+        ) : movies.length === 0 ? (
            <div>There are no movies!</div>
-        ): ( movies.map((movie) => (
+        ) : ( movies.map((movie) => (
                 <MovieCard 
                 key = {movie.id}
                 movie = {movie}

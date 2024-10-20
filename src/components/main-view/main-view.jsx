@@ -1,13 +1,24 @@
 import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
+import { LoginView } from "../login-view/login-view";
 
 const MainView = () => {
+    const storedUser = JSON.parce(localStorage.getItem("user"));
+    const storedToken = localStarage.getItem("token");
+    const [user, setUser] = useState(storedUser? storedUser : null);
+    const [token, setToken] = useState(storedToken? storedToken : null);
     const [movies, setMovies] = useState([]);
-
+    const [selectedMovie, setSelectedMovie] = useState(null);
+            // let similarMovies = movies.filter(
+            //     (m) => m.Genre.Name === movie.Genre.Name
+            // );
+       
     useEffect(() => {
+        if (!token) return;
+
         fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies", {
-            headers: { Authorization: `Bearer ${token}`}
+            headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => response.json())
         .then((data) => {
@@ -26,13 +37,25 @@ const MainView = () => {
             setMovies(moviesAPI);
         })
         .catch((error) => console.error("Error fetching movies:", error));
-    }, []);
+    }, [token]);
     
-    const [selectedMovie, setSelectedMovie] = useState(null);
-    let similarMovies = movies.filter(
-        (m) => m.Genre.Name === movie.Genre.Name
-    );
-       
+    if (!user) {
+        return (
+            <LoginView 
+                onLoggedIn={(user, token) => {
+                    setUser(user);
+                    setToken(token)
+                }}
+            />
+        );
+    }
+    <button 
+        onClick={() => {
+            setUser(null);
+            setToken(null)
+        }}>Logout</button>;
+
+    
     return (
     <div>
         {selectedMovie ? (
@@ -51,8 +74,6 @@ const MainView = () => {
                 onMovieClick = {(newSimilarMovie) => 
                     setSelectedMovie(newSimilarMovie)}
                 />
-            
-
             ))
         )}
     </div>

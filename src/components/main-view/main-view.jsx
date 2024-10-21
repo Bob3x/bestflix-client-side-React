@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
+import { MovieCard } from "../movie-card/movie-card";
 import { LoginView } from "../login-view/login-view";
 
 const MainView = () => {
@@ -10,15 +10,12 @@ const MainView = () => {
     const [token, setToken] = useState(storedToken? storedToken : null);
     const [movies, setMovies] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState(null);
-            // let similarMovies = movies.filter(
-            //     (m) => m.Genre.Name === movie.Genre.Name
-            // );
        
     useEffect(() => {
         if (!token) return;
 
         fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies", {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { Authorization: `Bearer ${token}` }
         })
         .then((response) => response.json())
         .then((data) => {
@@ -27,9 +24,17 @@ const MainView = () => {
                 return {
                     _id: movie._id,
                     title: movie.Title,
-                    genre: movie.Genre,
                     description: movie.Description,
-                    director: movie.Director, 
+                    genre: {
+                        name: movie.Genre.Name,
+                        description: movie.Genre.Description
+                    },
+                    director: {
+                        name: movie.Director.Name,
+                        bio: movie.Director.Bio,
+                        birth: movie.Director.Birth,
+                        death: movie.Director.Death
+                    }, 
                     image: movie.ImagePath,
                     featured: movie.Featured
                 }
@@ -38,7 +43,12 @@ const MainView = () => {
         })
         .catch((error) => console.error("Error fetching movies:", error));
     }, [token]);
-    
+
+    const similarMovies = selectedMovie && movies.length > 0
+        ? movies.filter((m) => m.genre.name === selectedMovie.genre.name && 
+        m._id != selectedMovie._id)
+    : [];
+
     if (!user) {
         return (
             <LoginView 
@@ -59,20 +69,29 @@ const MainView = () => {
     return (
     <div>
         {selectedMovie ? (
+        <>
         <MovieView
             movie = {selectedMovie}
             onBackClick = {() => setSelectedMovie(null)}
-            /> 
-           
+            />
+            <h2>Similar Movies</h2>
+            {similarMovies.map((movie) => (
+                <MovieCard 
+                  key={movie_id}
+                  movie={movie}
+                  onMovieClick={(newSelectedMovie) => setSelectedMovie(newSelectedMovie)}
+                  />
+            ))}
+        </>
         ) : movies.length === 0 ? (
            <div>There are no movies!</div>
         ) : ( 
-            similarMovies.map((movie) => (
+            movies.map((movie) => (
                 <MovieCard 
-                key = {movie.id}
+                key = {movie._id}
                 movie = {movie}
-                onMovieClick = {(newSimilarMovie) => 
-                    setSelectedMovie(newSimilarMovie)}
+                onMovieClick = {(newSelectedMovie) => 
+                    setSelectedMovie(newSelectedMovie)}
                 />
             ))
         )}

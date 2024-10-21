@@ -20,9 +20,11 @@ export const LoginView = () => {
     .then((data) => {
         console.log("Login response: ", data);
         if (data.user) {
-            onLoggedIn(data.user, data.token);
-        } else (data.user) {
-            alert("No such user");
+          localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("token", data.token);
+          onLoggedIn(data.user, data.token);
+        } else {
+          alert("No such user");
         }
     })
     .catch((e) => {
@@ -31,7 +33,7 @@ export const LoginView = () => {
     return (
         <form onSubmit={handleSubmit}>
             <label>
-                Username: 
+                Username 
                 <input 
                     type="text"
                     value={username}
@@ -42,7 +44,7 @@ export const LoginView = () => {
                 />
             </label>
             <label>
-                Password: 
+                Password 
                 <input 
                     type="password"
                     value ={password}
@@ -55,4 +57,4 @@ export const LoginView = () => {
             <button type="submit">Submit</button>
         </form>
     );
-}:
+}}

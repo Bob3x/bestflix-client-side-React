@@ -1,12 +1,18 @@
 import { useState } from "react";
+import { useFormik } from "formik";
 
 export const SignupView = () => {
-    const [ username, setUsername ] = useState("");
-    const [ password, setPassword ] = useState("");
-    const [ email, setEmail ] = useState("");
-    const [ birthday, setBirthday] = useState("");
     const [ error, setError ] = useState("");
     const [ success, setSuccess ] = useState("");
+
+    const formik = useFormik ({
+        initialValues: {
+            username: "",
+            password: "",
+            email: "",
+            birthday: ""
+        }
+    })
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -60,8 +66,8 @@ export const SignupView = () => {
                 Username: 
                 <input 
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={formik.values.username}
+                onChange={formik.handleChange}
                 required
                 minLength="3"
                 className="border p-2 rounded"
@@ -71,8 +77,8 @@ export const SignupView = () => {
                 Password:
                 <input 
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formik.values.password}
+                onChange={formik.handleChange}
                 required
                 minLength="8"
                 className="border p-2 rounded"
@@ -82,8 +88,8 @@ export const SignupView = () => {
                 Email:
             <input 
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formik.values.email}
+                onChange={formik.handleChange}
                 required
                 className="border p-2 rounded"
                 />
@@ -92,8 +98,8 @@ export const SignupView = () => {
                 Birthday:
                 <input 
                 type="date"
-                value={birthday}
-                onChange={(e) => setBirthday(e.target.value)}
+                value={formik.values.birthday}
+                onChange={formik.handleChange}
                 required
                 className="border p-2 rounded"
                 />

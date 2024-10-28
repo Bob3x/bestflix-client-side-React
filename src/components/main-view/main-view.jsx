@@ -11,13 +11,9 @@ const MainView = () => {
     const [token, setToken] = useState(storedToken ? storedToken : null);
     const [movies, setMovies] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState(null);
-       
-    useEffect(() => {
-        if (!token) return;
 
-        fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies", {
-            headers: { Authorization: `Bearer ${token}` }
-        })
+    useEffect(() => {
+        fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies")
         .then((response) => response.json())
         .then((data) => {
             console.log("Fetched movies data:", data);
@@ -35,7 +31,7 @@ const MainView = () => {
                         bio: movie.Director.Bio,
                         birth: movie.Director.Birth,
                         death: movie.Director.Death
-                    }, 
+                    },
                     image: movie.ImagePath,
                     featured: movie.Featured
                 }
@@ -64,6 +60,8 @@ const MainView = () => {
         </div>
         );
     }
+    }, []);
+         
     return (
         <div className="p-4">
     <button 
@@ -95,16 +93,39 @@ const MainView = () => {
         ) : ( 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"> 
             {movies.map((movie) => (
+        <>
+        <MovieView
+            movie = {selectedMovie}
+            onBackClick = {() => setSelectedMovie(null)}
+        /> 
+        <h2>Similar Movies</h2>
+            {similarMovies.map((movie) => (
+            <MovieCard
+                key={movie._id}
+                movie={movie}
+                onMovieClick={(newSelectedMovie) => 
+                    setSelectedMovie(newSelectedMovie)}
+            />
+            ))}
+         </>
+         ) : movies.length === 0 ? (
+           <div>There are no movies!</div>
+         ) : ( 
+            similarMovies.map((movie) => (
                 <MovieCard 
                 key = {movie._id}
                 movie = {movie}
                 onMovieClick = {(newSelectedMovie) => 
                     setSelectedMovie(newSelectedMovie)}
                 />
+
             ))}
             </div>
         )}
     </div>
+        ))
+    )}
+</div>
 );
 };
 

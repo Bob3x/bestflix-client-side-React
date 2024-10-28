@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Button, Container, Row, Col, Card, CardGroup, CardBody } from "react-bootstrap";
 import * as Yup from "yup";
 
 export const SignupView = () => {
@@ -18,23 +19,25 @@ export const SignupView = () => {
         .email("Please enter valid email")
         .required("Email is required!"),
         birthday: Yup.string()
-    });
+        });
         // Form submission handler
         const handleSubmit = (values, { setSubmitting, resetForm }) => {
                 setError("");
                 setSuccess(false);
-        
+                        
                 fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/users", {
                     method: "POST",
                     body: JSON.stringify(values),
                     headers: {
                         "Content-Type": "application/json"
                     }
-                }).then((response) => {
+                })
+                .then((response) => {
                     if (!response.ok) {
                         throw new Error("Signup failed");
                     }
                     return response.json();
+                    
                 })
                 .then (() => {
                     setSuccess(true);
@@ -46,15 +49,21 @@ export const SignupView = () => {
                 })
                 .catch((e) => {
                     setError(e.message);
+                    console.log(e.message, Error());
                 })
                 .finally(() => {
                     setSubmitting(false);
                 });
             }; 
 
-    return (   
-        <div className="signup-container">
-            <h2>Sign Up</h2>
+    return (
+        <Container>
+            <Row>
+                <Col>
+                    <CardGroup >
+                        <Card>
+                            <Card.Body>
+                                <Card.Title>Sign Up</Card.Title>  
             { /* Error message display to client*/}
             {error && (
                 <div className="error-message">
@@ -74,51 +83,45 @@ export const SignupView = () => {
             onSubmit={handleSubmit}
         >
             {({ isSubmitting }) => (
-                <Form>
-
-                    <div className="form-group">
-                        <label htmlFor="username">Username:</label>
+                <Form as={Col} >
+                        <label htmlFor="username">Username</label>
                         <Field
                             id="username"
                             name="username"
                             type="text"
+                            placeholder="Enter a username"
                         />
                         <ErrorMessage
                             name="username"
                             component="div"
                             className="erro-message"
                         />    
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password:</label>
+                        <label htmlFor="password">Password</label>
                         <Field
                             id="password"
                             name="password"
                             type="password"
+                            placeholder="At least 8 characters"
                         />
                         <ErrorMessage
                             name="password"
                             component="div"
                             className="error-message"
                         />        
-                    </div>
 
-                    <div className="form-group">
-                        <label htmlFor="email">Email:</label>
+                        <label htmlFor="email">Email</label>
                         <Field
                             id="email"
                             name="email"
                             type="email"
+                            placeholder="Enter a valid email"
                         />
                         <ErrorMessage
                             name="email"
                             component="div"
                             className="error-message"
                         />        
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="birthday">Birthday:</label>
+                        <label htmlFor="birthday">Birthday</label>
                         <Field
                             id="birthday"
                             name="birthday"
@@ -128,17 +131,22 @@ export const SignupView = () => {
                             name="birthday"
                             component="div"
                             className="error-message"
-                        />        
-                    </div>
-                    <button 
+                        />
+                    <Button 
+                        variant="primary" 
                         type="submit"
                         disabled={isSubmitting}
                     >
                         {isSubmitting ? "Signing up..." : "Sign Up"}
-                    </button>
-                </Form>    
+                    </Button>
+                </Form>   
             )}
         </Formik>
-    </div>
+    </Card.Body>
+    </Card>
+    </CardGroup>
+    </Col>
+    </Row>
+    </Container>
     );
 };

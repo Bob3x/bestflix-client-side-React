@@ -1,27 +1,32 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 export const SignupView = () => {
+    // State for managing form-level messages
     const [ error, setError ] = useState("");
-    const [ success, setSuccess ] = useState("");
+    const [ success, setSuccess ] = useState(false);
 
-        const onSubmit = {(values, { setSubmitting }) => {
-                setErrors("");
-                setSuccess("");
-
-        
-                const data = {
-                    Username: username,
-                    Password: password, 
-                    Email: email,
-                    Birthday: birthday
-                }
+    const validationSchema = Yup.object({ 
+        username: Yup.string()
+        .max(15, "Must be 15 characters or less")
+        .required("Username is required!"),
+        password: Yup.string()
+        .min(8, "Must be at least 8 characters")
+        .required("Password is required!"),
+        email: Yup.string()
+        .email("Please enter valid email")
+        .required("Email is required!"),
+        birthday: Yup.string()
+    });
+        // Form submission handler
+        const handleSubmit = (values, { setSubmitting, resetForm }) => {
+                setError("");
+                setSuccess(false);
         
                 fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/users", {
                     method: "POST",
-                    body: JSON.stringify(values, data),
+                    body: JSON.stringify(values),
                     headers: {
                         "Content-Type": "application/json"
                     }
@@ -33,59 +38,107 @@ export const SignupView = () => {
                 })
                 .then (() => {
                     setSuccess(true);
+                    resetForm();
                     setTimeout(function() {
                         window.location.reload();
                         setSubmitting(false);
                     }, 2000);
-                    actions.resetForm();
                 })
                 .catch((e) => {
-                    actions.setErrors(e.message);
+                    setError(e.message);
+                })
+                .finally(() => {
+                    setSubmitting(false);
                 });
-            }} 
-            >
+            }; 
 
-    return (
-        <Formik
-        initialValues={{ username: "", email: "", birthday: "" }}
-        validationSchema={Yup.object({ 
-            username: Yup.string().max(15, "Must be 15 characters or less").required("Username is required!"),
-            password: Yup.string().min(8, "Must be at least 8 characters").required("Password is required!"),
-            email: Yup.string().email("Please enter valid email").required("Email is required!"),
-            birthday: Yup.string()
-        })}
-        onSubmit={handleSubmit, setSubmitting} className="flex flex-col gap-4 max-w-md mx-auto p-4">
-            <h2 className="tex-xl font-bold mb-4">Sign Up</h2>
-            {formik.errors && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                    {formik.errors}
+    return (   
+        <div className="signup-container">
+            <h2>Sign Up</h2>
+            { /* Error message display to client*/}
+            {error && (
+                <div className="error-message">
+                    {error}
                 </div>
             )}
+            {/* Success message display */}
             {success && (
-                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-                    Signup seccessful! Redirecting...
-                </div>  >
+                <div className="success-message">
+                    Signup successfull! Redirecting...
+                    </div>
             )}
-            >
-            <Form>
-            <label className="flex flex-col gap-1">Username:</label>
-            <Field className="border p-2 rounded" name="username" type="text" />
-            <ErrorMessage className="error" name="username" />
+        {/* Formik form handling */}
+        <Formik
+            initialValues={{ username: "", password:"", email: "", birthday: "" }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+        >
+            {({ isSubmitting }) => (
+                <Form>
 
-            <label className="flex flex-col gap-1">Password:</label>
-            <Field className="border p-2 rounded" name="password" type="password" />
-            <ErrorMessage className="error" name="password" />
+                    <div className="form-group">
+                        <label htmlFor="username">Username:</label>
+                        <Field
+                            id="username"
+                            name="username"
+                            type="text"
+                        />
+                        <ErrorMessage
+                            name="username"
+                            component="div"
+                            className="erro-message"
+                        />    
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password:</label>
+                        <Field
+                            id="password"
+                            name="password"
+                            type="password"
+                        />
+                        <ErrorMessage
+                            name="password"
+                            component="div"
+                            className="error-message"
+                        />        
+                    </div>
 
-            <label className="flex flex-col gap-1">Email:</label>
-            <Field className="border p-2 rounded" name="email" type="email" />
-            <ErrorMessage className="error" name="email" />
+                    <div className="form-group">
+                        <label htmlFor="email">Email:</label>
+                        <Field
+                            id="email"
+                            name="email"
+                            type="email"
+                        />
+                        <ErrorMessage
+                            name="email"
+                            component="div"
+                            className="error-message"
+                        />        
+                    </div>
 
-            <label className="flex flex-col gap-1">Birthday:</label>
-            <Field className="border p-2 rounded" name="birthday" type="date" />
-            <ErrorMessage className="error" name="birthday" />
-            
-            <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Sign Up</button>
-        </Form>
+                    <div className="form-group">
+                        <label htmlFor="birthday">Birthday:</label>
+                        <Field
+                            id="birthday"
+                            name="birthday"
+                            type="date"
+                        />
+                        <ErrorMessage
+                            name="birthday"
+                            component="div"
+                            className="error-message"
+                        />        
+                    </div>
+                    <button 
+                        type="submit"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? "Signing up..." : "Sign Up"}
+                    </button>
+                </Form>    
+            )}
         </Formik>
+    </div>
     );
 };

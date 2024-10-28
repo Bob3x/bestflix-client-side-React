@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Container, Col, Button } from "react-bootstrap";
 import { MovieView } from "../movie-view/movie-view";
 import { MovieCard } from "../movie-card/movie-card";
 import { LoginView } from "../login-view/login-view";
@@ -52,26 +53,29 @@ const MainView = () => {
 
     if (!user) {
         return (
-        <div className="p-4">
+            <Container>
+            <Col>
             <LoginView 
                 onLoggedIn={(user, token) => {
                     setUser(user);
                     setToken(token);
                 }}
-            />
-            <div className="text-center my-4">or</div>
+            /> 
+            <p>or</p>
             <SignupView />
-        </div>
+            </Col>
+            </Container>
         );
     }
     return (
+        <Container>
         <div className="p-4">
-    <button 
+    <Button variant="primary" 
         onClick={() => {
             setUser(null);
             setToken(null);
             localStorage.clear();
-        }} className="bg-blue-500 text-white ph-4 py-2 rounded mb-4 hover:bg-blue-600">Logout</button>
+        }} >Logout</Button>
 
         {selectedMovie ? (
         <div>
@@ -105,6 +109,7 @@ const MainView = () => {
             </div>
         )}
     </div>
+    </Container>
 );
 };
 

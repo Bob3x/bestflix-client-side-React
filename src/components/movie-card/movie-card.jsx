@@ -12,11 +12,12 @@ export const MovieCard = ({ movie, onMovieClick }) => {
         alt = {movie.title} 
         />
         <h3>{movie.title}</h3>
+        <span>F: {movie.featured}</span>
         </div>
     );
-}
+};
 
-MovieCard.PropTypes = {
+MovieCard.propTypes = {
     movie: PropTypes.shape ({
         _id: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
@@ -35,4 +36,5 @@ MovieCard.PropTypes = {
         featured: PropTypes.bool.isRequired
     }).isRequired,
     onMovieClick: PropTypes.func.isRequired
-}
+};
+

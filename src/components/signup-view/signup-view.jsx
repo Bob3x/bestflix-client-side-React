@@ -58,12 +58,12 @@ export const SignupView = () => {
 
     return (
         <Container>
-            <Row>
-                <Col>
-                    <CardGroup >
-                        <Card>
+                    <CardGroup>
+                        <Card className="SignUpCard">
                             <Card.Body>
-                                <Card.Title>Sign Up</Card.Title>  
+                                <Card.Header>
+                                <Card.Title>Sign Up</Card.Title> 
+                                </Card.Header> 
             { /* Error message display to client*/}
             {error && (
                 <div className="error-message">
@@ -83,9 +83,13 @@ export const SignupView = () => {
             onSubmit={handleSubmit}
         >
             {({ isSubmitting }) => (
-                <Form as={Col} >
+                <Row className="justify-center">
+                <Form as={Col} md="4">
+                        <Col>
                         <label htmlFor="username">Username</label>
+                        </Col>
                         <Field
+                            className="Input-Fields"
                             id="username"
                             name="username"
                             type="text"
@@ -95,9 +99,12 @@ export const SignupView = () => {
                             name="username"
                             component="div"
                             className="erro-message"
-                        />    
+                        />
+                        <Col>  
                         <label htmlFor="password">Password</label>
+                        </Col>
                         <Field
+                            className="Input-Fields"
                             id="password"
                             name="password"
                             type="password"
@@ -108,9 +115,12 @@ export const SignupView = () => {
                             component="div"
                             className="error-message"
                         />        
-
+                        <Col>
                         <label htmlFor="email">Email</label>
+                        </Col>
+                        <Col>
                         <Field
+                            className="Input-Fields"
                             id="email"
                             name="email"
                             type="email"
@@ -120,9 +130,14 @@ export const SignupView = () => {
                             name="email"
                             component="div"
                             className="error-message"
-                        />        
+                        />
+                        </Col>
+                        <Col>        
                         <label htmlFor="birthday">Birthday</label>
+                        </Col>
+                        <Col>
                         <Field
+                            className="Input-Fields"
                             id="birthday"
                             name="birthday"
                             type="date"
@@ -132,21 +147,24 @@ export const SignupView = () => {
                             component="div"
                             className="error-message"
                         />
+                        </Col>
+                        <Col>
                     <Button 
+                        className="SignUp"
                         variant="primary" 
                         type="submit"
                         disabled={isSubmitting}
                     >
                         {isSubmitting ? "Signing up..." : "Sign Up"}
                     </Button>
-                </Form>   
+                    </Col>
+                </Form>
+                </Row>
             )}
         </Formik>
     </Card.Body>
     </Card>
     </CardGroup>
-    </Col>
-    </Row>
     </Container>
     );
 };

@@ -53,7 +53,6 @@ const MainView = () => {
 
     if (!user) {
         return (
-            <Container>
             <Col>
             <LoginView 
                 onLoggedIn={(user, token) => {
@@ -61,14 +60,12 @@ const MainView = () => {
                     setToken(token);
                 }}
             /> 
-            <p>or</p>
+            <p className="FrontViewText">or</p>
             <SignupView />
             </Col>
-            </Container>
         );
     }
     return (
-        <Container>
         <div className="p-4">
     <Button variant="primary" 
         onClick={() => {
@@ -109,7 +106,6 @@ const MainView = () => {
             </div>
         )}
     </div>
-    </Container>
 );
 };
 

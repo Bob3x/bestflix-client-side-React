@@ -44,9 +44,9 @@ export const LoginView = ({ onLoggedIn }) => {
     return (
         <Container>
         <Row>
-            <Col>
+            <Col className="mt-3">
             <CardGroup> 
-                <Card>
+                <Card className="Card-Login">
                     <Card.Body>
             <Card.Title>Login</Card.Title> 
             {error && (
@@ -55,7 +55,7 @@ export const LoginView = ({ onLoggedIn }) => {
                 </div>    
             )}
             <Form onSubmit={handleSubmit}>
-            <Form.Group as={Col} md="4" controlId="formUsername">
+            <Form.Group as={Col} controlId="formUsername">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
                         type="text"
@@ -67,7 +67,7 @@ export const LoginView = ({ onLoggedIn }) => {
                     />
             </Form.Group>
 
-            <Form.Group as={Col} md="4" controlId="formPassword">
+            <Form.Group as={Col} controlId="formPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                         type="password"
@@ -78,7 +78,7 @@ export const LoginView = ({ onLoggedIn }) => {
                         minLength="3"
                 />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="mt-3" >
                 Login
                 </Button>
         </Form>

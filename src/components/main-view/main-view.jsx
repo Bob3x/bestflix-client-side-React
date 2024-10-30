@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Col, Button } from "react-bootstrap";
+import { Col, Button } from "react-bootstrap";
 import { MovieView } from "../movie-view/movie-view";
 import { MovieCard } from "../movie-card/movie-card";
 import { LoginView } from "../login-view/login-view";
@@ -66,7 +66,7 @@ const MainView = () => {
         );
     }
     return (
-        <div className="p-4">
+        <div className="d-grid p-4">
     <Button variant="primary" 
         onClick={() => {
             setUser(null);
@@ -75,19 +75,22 @@ const MainView = () => {
         }} >Logout</Button>
 
         {selectedMovie ? (
-        <div>
+            <div>
+            <Col md={8}>
         <MovieView
             movie = {selectedMovie}
             onBackClick = {() => setSelectedMovie(null)}
             />
+            </Col>
             <h2 className="text-xl font-bold mt-6 mb-4">Similar Movies</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {similarMovies.map((movie) => (
-                <MovieCard 
-                  key={movie_id}
+                <Col className="mb-5" key={movie._id} md={3}>
+                <MovieCard
                   movie={movie}
                   onMovieClick={(newSelectedMovie) => setSelectedMovie(newSelectedMovie)}
                   />
+                </Col>
             ))}
             </div>
         </div>

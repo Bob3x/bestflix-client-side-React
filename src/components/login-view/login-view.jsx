@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Button, Container, Row, Col, Card, CardGroup } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
 
 export const LoginView = ({ onLoggedIn }) => {
     const[username, setUsername] = useState("");
@@ -43,19 +43,20 @@ export const LoginView = ({ onLoggedIn }) => {
 }
     return (
         <Container>
-        <Row>
-            <Col className="mt-3">
-            <CardGroup> 
-                <Card className="Card-Login">
+        <Row className="justify-content-center">
+            <Col md={6} className="mt-5">
+                <Card className="mt=4">
+                    <Card.Header className="text-center">
+                <Card.Title>Login</Card.Title> 
+                    </Card.Header>
                     <Card.Body>
-            <Card.Title>Login</Card.Title> 
             {error && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                <Alert variant="danger" className="mb-3">
                     {error}
-                </div>    
+                </Alert>    
             )}
             <Form onSubmit={handleSubmit}>
-            <Form.Group as={Col} controlId="formUsername">
+            <Form.Group controlId="formUsername" className="mb-3">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
                         type="text"
@@ -67,7 +68,7 @@ export const LoginView = ({ onLoggedIn }) => {
                     />
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formPassword">
+            <Form.Group controlId="formPassword" className="mb-3">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                         type="password"
@@ -78,13 +79,12 @@ export const LoginView = ({ onLoggedIn }) => {
                         minLength="3"
                 />
             </Form.Group>
-            <Button variant="primary" type="submit" className="mt-3" >
-                Login
-                </Button>
+            <div className="d-grid">
+                <Button variant="primary" type="submit" className="mt-3" >Login</Button>
+            </div>
         </Form>
         </Card.Body>
         </Card>
-        </CardGroup>
         </Col>
         </Row>
         </Container>

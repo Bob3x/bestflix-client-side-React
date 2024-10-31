@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { Button, Container, Row, Col, Card, Form as BootstrapForm, Alert } from "react-bootstrap";
+import { Button, Container, Row, Col, Card, Form as BootstrapForm, Alert, Spinner } from "react-bootstrap";
 import { validationSchema } from "../form-validation/form-validation";
 
 export const SignupView = () => {
@@ -35,7 +35,7 @@ export const SignupView = () => {
                     setSuccess(true);
                     resetForm();
                     setTimeout(() => {
-                    window.location.reaload();
+                    window.location.reload();
                     }, 2000);
                 } catch (err) {
                     setError(err.message);
@@ -49,7 +49,7 @@ export const SignupView = () => {
             <Container>
                 <Row className="justify-content-center">
                     <Col md={6}>
-                        <Card className="mt=4">
+                        <Card className="mt-4">
                             <Card.Header className="text-center">
                                 <Card.Title>Sign Up</Card.Title> 
                             </Card.Header> 
@@ -76,11 +76,22 @@ export const SignupView = () => {
             >
                 {({ isSubmitting, touched, errors }) => (
                     <Form noValidate>
+                        {isSubmitting ? (
+                                        <div className="text-center">
+                                            <Spinner 
+                                                animation="border" 
+                                                variant="primary" 
+                                                role="status"
+                                            >
+                                                <span className="visually-hidden">Loading...</span>
+                                            </Spinner>
+                                        </div>
+                                    ) : (
+                    <>            
                             <BootstrapForm.Group className="mb-3">
                             <BootstrapForm.Label htmlFor="Username">Username</BootstrapForm.Label>
                             <Field
                                 as={BootstrapForm.Control}
-                                className="Input-Fields"
                                 id="Username"
                                 name="Username"
                                 type="text"
@@ -149,6 +160,8 @@ export const SignupView = () => {
                             {isSubmitting ? "Signing up..." : "Sign Up"}
                         </Button>
                         </div>
+                </>
+                    )}
                     </Form>
                 )}
             </Formik>

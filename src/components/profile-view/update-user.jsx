@@ -79,9 +79,9 @@ export const UpdateUser = ({ user, token, onUpdateSuccess }) => {
                             {/* Formik form handling */}
                             <Formik
                                 initialValues={{
-                                    Username: userData?.Username || "",
+                                    Username: userData.Username || "",
                                     Password: "",
-                                    Email: userData?.Email || "",
+                                    Email: userData.Email || "",
                                 }}
                                 validationSchema={updateSchema}
                                 onSubmit={handleSubmit}
@@ -166,9 +166,7 @@ export const UpdateUser = ({ user, token, onUpdateSuccess }) => {
                                                         type="submit"
                                                         disabled={isSubmitting}
                                                     >
-                                                        {isSubmitting
-                                                            ? "Updating..."
-                                                            : "Updated successfully!"}
+                                                        {isSubmitting ? "Updating..." : "Update"}
                                                     </Button>
                                                 </div>
                                             </>

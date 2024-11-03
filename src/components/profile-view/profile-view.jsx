@@ -1,6 +1,7 @@
 import React from "react";
 import { UserInfo } from "./user-info";
 import { UpdateUser } from "./update-user";
+import { Button, Row, Col } from "react-bootstrap";
 import { FavoriteMovies } from "./favorite-movies";
 
 export const ProfileView = ({ user, token, onLoggedOut }) => {
@@ -25,7 +26,6 @@ export const ProfileView = ({ user, token, onLoggedOut }) => {
     return (
         <div>
             <UserInfo name={user.Username} email={user.Email} />
-            <FavoriteMovies favoriteMoviesList={favoriteMoviesList} />
             <UpdateUser user={user} token={token} onLoggedOut={onLoggedOut} />
             <Button variant="danger" onClick={handleUserRemove}>
                 Delete account

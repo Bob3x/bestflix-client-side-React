@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Col, Button } from "react-bootstrap";
 import { MovieView } from "../movie-view/movie-view";
 import { MovieCard } from "../movie-card/movie-card";
 import { LoginView } from "../login-view/login-view";
@@ -48,43 +49,46 @@ const MainView = () => {
 
     if (!user) {
         return (
-        <div className="p-4">
+            <Col>
             <LoginView 
                 onLoggedIn={(user, token) => {
                     setUser(user);
                     setToken(token);
                 }}
-            />
-            <div className="text-center my-4">or</div>
+            /> 
+            <p className="FrontViewText">or</p>
             <SignupView />
-        </div>
+            </Col>
         );
     }
     }, []);
          
     return (
-        <div className="p-4">
-    <button 
+        <div className="d-grid p-4">
+    <Button variant="primary" 
         onClick={() => {
             setUser(null);
             setToken(null);
             localStorage.clear();
-        }} className="bg-blue-500 text-white ph-4 py-2 rounded mb-4 hover:bg-blue-600">Logout</button>
+        }} >Logout</Button>
 
         {selectedMovie ? (
-        <div>
+            <div>
+            <Col md={8}>
         <MovieView
             movie = {selectedMovie}
             onBackClick = {() => setSelectedMovie(null)}
             />
+            </Col>
             <h2 className="text-xl font-bold mt-6 mb-4">Similar Movies</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {similarMovies.map((movie) => (
-                <MovieCard 
-                  key={movie_id}
+                <Col className="mb-5" key={movie._id} md={3}>
+                <MovieCard
                   movie={movie}
                   onMovieClick={(newSelectedMovie) => setSelectedMovie(newSelectedMovie)}
                   />
+                </Col>
             ))}
             </div>
         </div>

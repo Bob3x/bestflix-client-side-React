@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
 
 export const LoginView = ({ onLoggedIn }) => {
     const[username, setUsername] = useState("");
@@ -41,36 +42,51 @@ export const LoginView = ({ onLoggedIn }) => {
     });
 }
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md mx-auto p-4">
-            <h2 className="text-xl fond-bold mb-4">Login</h2>
+        <Container>
+        <Row className="justify-content-center">
+            <Col md={6} className="mt-5">
+                <Card className="mt=4">
+                    <Card.Header className="text-center">
+                <Card.Title>Login</Card.Title> 
+                    </Card.Header>
+                    <Card.Body>
             {error && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                <Alert variant="danger" className="mb-3">
                     {error}
-                </div>
+                </Alert>    
             )}
-            <label className="flex flex-col gap-1">
-                Username: 
-                <input 
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    className="border p-2 rounded"
-                    minLength="3"
+            <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formUsername" className="mb-3">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                        placeholder="Enter your unsername"
+                        minLength="3"
+                    />
+            </Form.Group>
+
+            <Form.Group controlId="formPassword" className="mb-3">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        placeholder="At least 8 characters"
+                        minLength="3"
                 />
-            </label>
-            <label className="flex flex-col gap-1">
-                Password 
-                <input 
-                    type="password"
-                    value ={password}
-                    onChange={(e) => 
-                        setPassword(e.target.value)}
-                    required
-                    className="border p-2 rounded"
-                />
-            </label>
-            <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Login</button>
-        </form>
+            </Form.Group>
+            <div className="d-grid">
+                <Button variant="primary" type="submit" className="mt-3" >Login</Button>
+            </div>
+        </Form>
+        </Card.Body>
+        </Card>
+        </Col>
+        </Row>
+        </Container>
     );
 }

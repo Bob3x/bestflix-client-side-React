@@ -1,36 +1,41 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Container, Row, Col, Card, Button } from "react-bootstrap"
 
 export const MovieView = ({movie, onBackClick}) => {
     return (
-        <div>
-         <div>
-            <img 
-            src={movie.image} 
-            alt={movie.title}
-            /> 
-         </div>
-        <div>
-            <span>Title: </span>
-            <span>{movie.title}</span> 
-        </div>
-        <div>
-            <span>Description: </span>
-            <span>{movie.description}</span> 
-        </div>
-        <div>
-            <span>Genre: </span>
-            <span>{movie.genre.name}</span>
-            <span>{movie.genre.description}</span> 
-        </div>
-        <div>
-            <span>Director: </span>
-            <span>{movie.director.name}</span>
-            <span>{movie.director.birth}</span>
-            <span>{movie.director.bio}</span> 
-        </div>
-        <button onClick={onBackClick}>Back</button>
-    </div>
+    <Container>
+        <Row>
+        <Col md={5}>
+        <Card className="mt-3 mb-2" >
+            <Card.Img src={movie.image} alt={movie.title}  /> 
+          <Card.Body>
+            <Card.Header>
+            <Card.Title><strong>{movie.title}</strong></Card.Title>
+            </Card.Header>
+            <Card.Text>
+                <h5>Genre:</h5>
+                   <p>{movie.genre.name}</p>
+                <h5>Description:</h5>
+                <p>{movie.description}</p>
+            <h5>Director: </h5>
+                <span>{movie.director.name}</span>
+            <p>Birth year: {movie.director.birth}</p>
+            <h5>Bio: </h5>
+                <p>{movie.director.bio}</p> 
+                </Card.Text>
+            
+            
+        
+        <Button 
+            onClick={onBackClick}
+            variant="secondary"
+            >Back</Button>
+    </Card.Body>        
+    </Card>
+    </Col>
+    </Row>
+    </Container>
     );
 };
 

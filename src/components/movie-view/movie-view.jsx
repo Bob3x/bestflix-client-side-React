@@ -1,13 +1,75 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 
-export const MovieView = ({ movies }) => {
+export const MovieView = ({ movies, user, token, setUser }) => {
   const { movieId } = useParams();
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const movie = movies.find((m) => m._id === movieId);
+
+  useEffect(() => {
+    if (user && user.FavoriteMovies) {
+      const isFavorite = user.FavoriteMovies.includes(movieId);
+      setIsFavorite(isFavorite);
+    }
+  }, [movieId, user]);
+
+  const addFavorite = () => {
+    fetch(
+      "https://my-movies-flix-app-56f9661dc035.herokuapp.com/users/${user.Username}/${movieId}",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        setUser(data);
+        localStorage.setItem("user", JSON.stringify(data));
+        setIsFavorite(true);
+        console.log("Added movie:", response, data);
+      })
+      .catch((err) => {
+        console.error("Error adding movie:", err);
+      });
+  };
+
+  const removeFavorite = () => {
+    fetch(
+      "https://my-movies-flix-app-56f9661dc035.herokuapp.com/users/${user.Username}/${movieId}",
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        setUser(data);
+        localStorage.setItem("user".JSON.stringify(data));
+        setIsFavorite(false);
+        console.log("Added favorite movie:", data);
+      })
+      .catch((err) => {
+        console.error("Error deleting movie:", err);
+      });
+  };
 
   return (
     <Container>
@@ -32,12 +94,20 @@ export const MovieView = ({ movies }) => {
                 <h5>Bio: </h5>
                 <p>{movie.director.bio}</p>
               </Card.Text>
-
               <Link to={`/`}>
-                <Button onClick={onBackClick} variant="secondary">
-                  Back
-                </Button>
+                <Button variant="secondary">Back</Button>
               </Link>
+              <div className="mt-2">
+                {isFavorite ? (
+                  <Button variant="danger" onClick={removeFavorite}>
+                    Remove
+                  </Button>
+                ) : (
+                  <Button variant="primary" onClick={addFavorite}>
+                    Add to favorites
+                  </Button>
+                )}
+              </div>
             </Card.Body>
           </Card>
         </Col>

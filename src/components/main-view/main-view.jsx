@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ProfileView } from "../profile-view/profile-view";
 import { MovieView } from "../movie-view/movie-view";
@@ -61,10 +61,10 @@ const MainView = () => {
     localStorage.clear();
   };
 
-  const updateUser = (user) => {
-    setUser(user);
-    localStorage.setItem("user", JSON.stringify(user));
-  };
+  // const updatedUser = (user) => {
+  // setUser(user);
+  // localStorage.setItem("user", JSON.stringify(user));
+  //};
 
   return (
     <Container>
@@ -95,6 +95,25 @@ const MainView = () => {
                   ) : (
                     <Col md={5}>
                       <LoginView onLoggedIn={onLoggedIn} />
+                    </Col>
+                  )}
+                </>
+              }
+            />
+
+            <Route
+              path="/users/:Username"
+              element={
+                <>
+                  {!user ? (
+                    <Navigate to="/login" replace />
+                  ) : (
+                    <Col md={5}>
+                      <ProfileView
+                        // user={user}
+                        // token={token}
+                        onLoggedIn={onLoggedIn}
+                      />
                     </Col>
                   )}
                 </>

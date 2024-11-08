@@ -1,26 +1,27 @@
-import React, { useState } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { useState } from "react";
 // prettier-ignore
 import { Button, Container, Row, Col, Card, Form as BootstrapForm, Alert, Spinner } from "react-bootstrap";
-import { signupSchema } from "../form-validation/form-validation";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import { updateSchema } from "../form-validation/form-validation";
+import PropTypes from "prop-types";
 
-export const SignupView = () => {
-    // State for managing form-level messages
+export const UpdateUser = ({ user, token, onUpdateSuccess }) => {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const [userData, setUserData] = useState(user);
 
-    // Form submission handler
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
-            console.log("Submitting values:", values); // Debug log
+            console.log("Submitting values:", values);
 
             const response = await fetch(
                 "https://my-movies-flix-app-56f9661dc035.herokuapp.com/users",
                 {
-                    method: "POST",
+                    method: "PUT",
                     body: JSON.stringify(values),
                     headers: {
                         "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
@@ -33,9 +34,14 @@ export const SignupView = () => {
                     const errorMessages = data.errors.map((err) => err.msg).join(". ");
                     throw new Error(errorMessages);
                 }
-                throw new Error(data.message || "Signup failed");
+                throw new Error(data.message || "Update failed");
             }
+            setUserData(data);
             setSuccess(true);
+
+            if (onUpdateSuccess) {
+                onUpdateSuccess(data);
+            }
             resetForm();
             setTimeout(() => {
                 window.location.reload();
@@ -54,7 +60,7 @@ export const SignupView = () => {
                 <Col md={6}>
                     <Card className="mt-4">
                         <Card.Header className="text-center">
-                            <Card.Title>Sign Up</Card.Title>
+                            <Card.Title>Update your info</Card.Title>
                         </Card.Header>
                         <Card.Body>
                             {/* Error message display to client*/}
@@ -63,23 +69,21 @@ export const SignupView = () => {
                                     {error}
                                 </Alert>
                             )}
-
                             {/* Success message display */}
                             {success && (
                                 <Alert variant="success" className="mb-3">
-                                    Signup successfull! Redirecting...
+                                    Update successfull!
                                 </Alert>
                             )}
 
                             {/* Formik form handling */}
                             <Formik
                                 initialValues={{
-                                    Username: "",
+                                    Username: userData.Username || "",
                                     Password: "",
-                                    Email: "",
-                                    Birthday: "",
+                                    Email: userData.Email || "",
                                 }}
-                                validationSchema={signupSchema}
+                                validationSchema={updateSchema}
                                 onSubmit={handleSubmit}
                             >
                                 {({ isSubmitting, touched, errors }) => (
@@ -107,7 +111,7 @@ export const SignupView = () => {
                                                         id="Username"
                                                         name="Username"
                                                         type="text"
-                                                        placeholder="Enter a username"
+                                                        placeholder="Enter new username"
                                                         isInvalid={
                                                             touched.Username && errors.Username
                                                         }
@@ -147,30 +151,11 @@ export const SignupView = () => {
                                                         id="Email"
                                                         name="Email"
                                                         type="email"
-                                                        placeholder="Enter a valid email"
+                                                        placeholder="Enter a new email"
                                                         isInvalid={touched.Email && errors.Email}
                                                     />
                                                     <ErrorMessage
                                                         name="Email"
-                                                        component={BootstrapForm.Control.Feedback}
-                                                        type="invalid"
-                                                    />
-                                                </BootstrapForm.Group>
-                                                <BootstrapForm.Group className="mb-3">
-                                                    <BootstrapForm.Label htmlFor="Birthday">
-                                                        Birthday
-                                                    </BootstrapForm.Label>
-                                                    <Field
-                                                        as={BootstrapForm.Control}
-                                                        id="Birthday"
-                                                        name="Birthday"
-                                                        type="date"
-                                                        isInvalid={
-                                                            touched.Birthday && errors.Birthday
-                                                        }
-                                                    />
-                                                    <ErrorMessage
-                                                        name="Birthday"
                                                         component={BootstrapForm.Control.Feedback}
                                                         type="invalid"
                                                     />
@@ -181,7 +166,7 @@ export const SignupView = () => {
                                                         type="submit"
                                                         disabled={isSubmitting}
                                                     >
-                                                        {isSubmitting ? "Signing up..." : "Sign Up"}
+                                                        {isSubmitting ? "Updating..." : "Update"}
                                                     </Button>
                                                 </div>
                                             </>
@@ -195,4 +180,14 @@ export const SignupView = () => {
             </Row>
         </Container>
     );
+};
+
+UpdateUser.propTypes = {
+    user: PropTypes.shape({
+        Username: PropTypes.string,
+        Email: PropTypes.string,
+        Birthday: PropTypes.string,
+    }),
+    token: PropTypes.string.isRequired,
+    onUpdateSuccess: PropTypes.func,
 };

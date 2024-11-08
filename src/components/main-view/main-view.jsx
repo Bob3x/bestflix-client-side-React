@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ProfileView } from "../profile-view/profile-view";
@@ -9,17 +9,32 @@ import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 
 const MainView = () => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = (() => {
+        try {
+            const user = localStorage.getItem("user");
+            return user ? JSON.parse(user) : null;
+        } catch (e) {
+            console.error("Error parsing stored user:", e);
+            localStorage.removeItem("user");
+            return null;
+        }
+    })();
+
     const storedToken = localStorage.getItem("token");
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
     const [movies, setMovies] = useState([]);
+    const [filteredMovies, setFilteredMovies] = useState([]);
 
     useEffect(() => {
         if (!token) return;
 
         fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies", {
-            headers: { Authorization: `Bearer ${token}` },
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
         })
             .then((response) => response.json())
             .then((data) => {
@@ -44,6 +59,7 @@ const MainView = () => {
                     };
                 });
                 setMovies(moviesAPI);
+                setFilteredMovies(moviesAPI);
             })
             .catch((error) => console.error("Error fetching movies:", error));
     }, [token]);
@@ -61,15 +77,19 @@ const MainView = () => {
         localStorage.clear();
     };
 
-    const onUpdateSuccess = (updatedUser) => {
-        setUser(updatedUser);
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-    };
+    const handleFilter = useCallback((filteredMovies) => {
+        setFilteredMovies(filteredMovies);
+    }, []);
 
     return (
         <Container>
             <BrowserRouter>
-                <NavigationBar user={user} onLoggedOut={onLoggedOut} />
+                <NavigationBar
+                    user={user}
+                    moviesAPI={movies}
+                    onLoggedOut={onLoggedOut}
+                    onFilter={handleFilter}
+                />
                 <Row className="justify-content-md-center">
                     <Routes>
                         <Route
@@ -113,7 +133,6 @@ const MainView = () => {
                                                 user={user}
                                                 token={token}
                                                 onLoggedOut={onLoggedOut}
-                                                onUpdateSuccess={onUpdateSuccess}
                                             />
                                         </Col>
                                     )}
@@ -172,6 +191,14 @@ const MainView = () => {
                             }
                         />
                     </Routes>
+                </Row>
+                <Row>
+                    {filteredMovies.map((movie) => (
+                        <Col key={movie._id} md={3}>
+                            <div>{movie.Title}</div>
+                            <div>{movie.Genre}</div>
+                        </Col>
+                    ))}
                 </Row>
             </BrowserRouter>
         </Container>

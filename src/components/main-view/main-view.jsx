@@ -7,6 +7,7 @@ import { MovieCard } from "../movie-card/movie-card";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { SearchBar } from "../search-bar/search-bar";
 
 const MainView = () => {
     const storedUser = (() => {
@@ -58,6 +59,7 @@ const MainView = () => {
                         featured: movie.Featured,
                     };
                 });
+                console.log("Fetched Movies:", moviesAPI);
                 setMovies(moviesAPI);
                 setFilteredMovies(moviesAPI);
             })
@@ -77,19 +79,17 @@ const MainView = () => {
         localStorage.clear();
     };
 
-    const handleFilter = useCallback((filteredMovies) => {
+    const handleFilter = (filteredMovies) => {
+        console.log("Setting Filtered Movies:", filteredMovies);
         setFilteredMovies(filteredMovies);
-    }, []);
+    };
+
+    const displayedMovies = filteredMovies.length > 0 ? filteredMovies : movies;
 
     return (
         <Container>
             <BrowserRouter>
-                <NavigationBar
-                    user={user}
-                    moviesAPI={movies}
-                    onLoggedOut={onLoggedOut}
-                    onFilter={handleFilter}
-                />
+                <NavigationBar user={user} onLoggedOut={onLoggedOut} />
                 <Row className="justify-content-md-center">
                     <Routes>
                         <Route
@@ -190,15 +190,47 @@ const MainView = () => {
                                 </>
                             }
                         />
+                        <Route
+                            path="/"
+                            element={
+                                <>
+                                    <Row className="mb-4">
+                                        <Col>
+                                            <SearchBar moviesAPI={movies} onFilter={handleFilter} />
+                                        </Col>
+                                    </Row>
+                                    {!user ? (
+                                        <Navigate to="/login" replace />
+                                    ) : displayedMovies.length === 0 ? (
+                                        <Col className="text-center text-gray-600">
+                                            No movies found!
+                                        </Col>
+                                    ) : (
+                                        <>
+                                            {displayedMovies.map((movie) => (
+                                                <Col key={movie._id} md={3} className="mb-4">
+                                                    <MovieCard movie={movie} />
+                                                </Col>
+                                            ))}
+                                        </>
+                                    )}
+                                </>
+                            }
+                        />
                     </Routes>
                 </Row>
                 <Row>
-                    {filteredMovies.map((movie) => (
-                        <Col key={movie._id} md={3}>
-                            <div>{movie.Title}</div>
-                            <div>{movie.Genre}</div>
-                        </Col>
-                    ))}
+                    {displayedMovies.length === 0 ? (
+                        <Col className="text-center text-gray-600">No movies found!</Col>
+                    ) : (
+                        displayedMovies.map((movie) => (
+                            <Col key={movie._id} md={3}>
+                                <img src={movie.image} />
+                                <div>{movie.title}</div>
+                                <div>{movie.genre.Name}</div>
+                            </Col>
+                        ))
+                    )}
                 </Row>
             </BrowserRouter>
         </Container>

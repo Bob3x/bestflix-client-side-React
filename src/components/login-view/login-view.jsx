@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
 
 export const LoginView = ({ onLoggedIn }) => {
@@ -6,7 +7,7 @@ export const LoginView = ({ onLoggedIn }) => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setError("");
 
@@ -15,45 +16,48 @@ export const LoginView = ({ onLoggedIn }) => {
             Password: password,
         };
 
-        fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+        console.log("Attempting login with:", data);
 
-            body: JSON.stringify(data),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    return response.text().then((text) => {
-                        try {
-                            const errorData = JSON.parse(text);
-                            throw new Error(errorData.message || text);
-                        } catch (e) {
-                            throw new Error(text);
-                        }
-                    });
+        try {
+            const response = await fetch(
+                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
                 }
-                return response.json();
-            })
-            .then((data) => {
-                if (data.user) {
-                    localStorage.setItem("user", JSON.stringify(data.user));
-                    localStorage.setItem("token", data.token);
-                    onLoggedIn(data.user, data.token);
-                } else {
-                    setError("Invalid credentials");
-                }
-            })
-            .catch((error) => {
-                console.error("Detailed fetch error:", {
-                    message: error.message,
-                    name: error.name,
-                    stack: error.stack,
-                });
-                setError(error.message);
-            });
+            );
+
+            console.log("Response status:", response.status);
+
+            // Check if response is not JSON
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                throw new Error("Invalid server response format");
+            }
+
+            const responseData = await response.json();
+            console.log("Response data:", responseData);
+
+            if (!response.ok) {
+                throw new Error(responseData.message || "Invalid username or password");
+            }
+
+            if (!responseData.user || !responseData.token) {
+                throw new Error("Invalid server response");
+            }
+
+            localStorage.setItem("user", JSON.stringify(responseData.user));
+            localStorage.setItem("token", responseData.token);
+            onLoggedIn(responseData.user, responseData.token);
+        } catch (error) {
+            console.error("Login error details:", error);
+            setError(error.message || "Login failed. Please try again.");
+        }
     };
+
     return (
         <Container>
             <Row className="justify-content-center">

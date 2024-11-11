@@ -68,7 +68,6 @@ export const MainView = () => {
                         featured: movie.Featured,
                     };
                 });
-                console.log("Fetched Movies:", moviesAPI);
                 setMovies(moviesAPI);
             })
             .catch((error) => console.error("Error fetching movies:", error));

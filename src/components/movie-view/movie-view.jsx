@@ -153,7 +153,3 @@ MovieView.propTypes = {
     user: PropTypes.shape({
         Username: PropTypes.string.isRequired,
         FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }).isRequired,
-    token: PropTypes.string.isRequired,
-    setUser: PropTypes.func.isRequired,
-};

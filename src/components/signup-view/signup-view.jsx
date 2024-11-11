@@ -198,7 +198,7 @@ export const SignupView = ({ onLoggedIn }) => {
                                                     "Sign Up"
                                                 )}
                                             </Button>
-                                        </div>
+                                        </div>     
                                     </Form>
                                 )}
                             </Formik>

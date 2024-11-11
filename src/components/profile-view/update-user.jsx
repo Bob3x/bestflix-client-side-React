@@ -13,16 +13,12 @@ export const UpdateUser = ({ user, token, onUpdateSuccess }) => {
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
             console.log("Submitting values:", values);
-            console.log("Authorization token:", token);
-
-            const requestBody = JSON.stringify(values);
-            console.log("Request body:", requestBody);
 
             const response = await fetch(
-                `https://my-movies-flix-app-56f9661dc035.herokuapp.com/users/${user.Username}`,
+                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/users",
                 {
                     method: "PUT",
-                    body: requestBody,
+                    body: JSON.stringify(values),
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,
@@ -30,25 +26,29 @@ export const UpdateUser = ({ user, token, onUpdateSuccess }) => {
                 }
             );
 
-            if (!response.ok) {
-                // Handle validation errors from the server
-                const errorText = await response.text();
-                console.error("Server response:", errorText);
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
             const data = await response.json();
-            console.log("Response data:", data);
 
+            if (!response.ok) {
+                //Handle validation errors from the server
+                if (data.errors && Array.isArray(data.errors)) {
+                    const errorMessages = data.errors.map((err) => err.msg).join(". ");
+                    throw new Error(errorMessages);
+                }
+                throw new Error(data.message || "Update failed");
+            }
+            setUserData(data);
             setSuccess(true);
-            onUpdateSuccess(data);
+
+            if (onUpdateSuccess) {
+                onUpdateSuccess(data);
+            }
             resetForm();
             setTimeout(() => {
                 window.location.reload();
             }, 2000);
-        } catch (error) {
-            console.error("Error updating user:", error);
-            setError("Failed to update user. Please try again.");
+        } catch (err) {
+            setError(err.message);
+            console.error("Signup error:", err);
         } finally {
             setSubmitting(false);
         }
@@ -87,7 +87,7 @@ export const UpdateUser = ({ user, token, onUpdateSuccess }) => {
                                 onSubmit={handleSubmit}
                             >
                                 {({ isSubmitting, touched, errors }) => (
-                                    <Form>
+                                    <Form noValidate>
                                         {isSubmitting ? (
                                             <div className="text-center">
                                                 <Spinner
@@ -183,7 +183,11 @@ export const UpdateUser = ({ user, token, onUpdateSuccess }) => {
 };
 
 UpdateUser.propTypes = {
-    user: PropTypes.object.isRequired,
+    user: PropTypes.shape({
+        Username: PropTypes.string,
+        Email: PropTypes.string,
+        Birthday: PropTypes.string,
+    }),
     token: PropTypes.string.isRequired,
-    onUpdateSuccess: PropTypes.func.isRequired,
+    onUpdateSuccess: PropTypes.func,
 };

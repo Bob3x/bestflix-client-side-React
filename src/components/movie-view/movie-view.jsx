@@ -153,3 +153,5 @@ MovieView.propTypes = {
     user: PropTypes.shape({
         Username: PropTypes.string.isRequired,
         FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }),
+};

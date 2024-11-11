@@ -173,6 +173,6 @@ return (
             </Container>
         </BrowserRouter>
     );
-};
+}
 
 export default MainView;

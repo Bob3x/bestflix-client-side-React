@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ProfileView } from "../profile-view/profile-view";
@@ -7,19 +7,34 @@ import { MovieCard } from "../movie-card/movie-card";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { SearchBar } from "../search-bar/search-bar";
 
 const MainView = () => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = (() => {
+        try {
+            const user = localStorage.getItem("user");
+            return user ? JSON.parse(user) : null;
+        } catch (e) {
+            console.error("Error parsing stored user:", e);
+            localStorage.removeItem("user");
+            return null;
+        }
+    })();
+
     const storedToken = localStorage.getItem("token");
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
     const [movies, setMovies] = useState([]);
-  
+
     useEffect(() => {
         if (!token) return;
 
         fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies", {
-            headers: { Authorization: `Bearer ${token}` },
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
         })
             .then((response) => response.json())
             .then((data) => {
@@ -43,9 +58,11 @@ const MainView = () => {
                         featured: movie.Featured,
                     };
                 });
+                console.log("Fetched Movies:", moviesAPI);
                 setMovies(moviesAPI);
-          
-    const [selectedMovie, setSelectedMovie] = useState(null);
+
+         
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
     useEffect(() => {
         fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies")
@@ -71,6 +88,7 @@ const MainView = () => {
                     featured: movie.Featured
                 }
 
+
             })
             .catch((error) => console.error("Error fetching movies:", error));
     }, [token]);
@@ -88,11 +106,10 @@ const MainView = () => {
         localStorage.clear();
     };
 
-    const onUpdateSuccess = (updatedUser) => {
-        setUser(updatedUser);
-        localStorage.setItem("user", JSON.stringify(updatedUser));
+    const handleFilter = (filteredMovies) => {
+        console.log("Setting Filtered Movies:", filteredMovies);
+        setFilteredMovies(filteredMovies);
     };
-         
     return (
         <Container>
             <BrowserRouter>
@@ -139,7 +156,6 @@ const MainView = () => {
                                                 user={user}
                                                 token={token}
                                                 onLoggedOut={onLoggedOut}
-                                                onUpdateSuccess={onUpdateSuccess}
                                             />
                                         </Col>
                                     )}
@@ -196,7 +212,47 @@ const MainView = () => {
                                 </>
                             }
                         />
+                        <Route
+                            path="/"
+                            element={
+                                <>
+                                    <Row className="mb-4">
+                                        <Col>
+                                            <SearchBar moviesAPI={movies} onFilter={handleFilter} />
+                                        </Col>
+                                    </Row>
+                                    {!user ? (
+                                        <Navigate to="/login" replace />
+                                    ) : displayedMovies.length === 0 ? (
+                                        <Col className="text-center text-gray-600">
+                                            No movies found!
+                                        </Col>
+                                    ) : (
+                                        <>
+                                            {displayedMovies.map((movie) => (
+                                                <Col key={movie._id} md={3} className="mb-4">
+                                                    <MovieCard movie={movie} />
+                                                </Col>
+                                            ))}
+                                        </>
+                                    )}
+                                </>
+                            }
+                        />
                     </Routes>
+                </Row>
+                <Row>
+                    {displayedMovies.length === 0 ? (
+                        <Col className="text-center text-gray-600">No movies found!</Col>
+                    ) : (
+                        displayedMovies.map((movie) => (
+                            <Col key={movie._id} md={3}>
+                                <img src={movie.image} />
+                                <div>{movie.title}</div>
+                                <div>{movie.genre.Name}</div>
+                            </Col>
+                        ))
+                    )}
                 </Row>
             </BrowserRouter>
         </Container>

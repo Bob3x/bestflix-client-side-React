@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
 
 export const LoginView = ({ onLoggedIn }) => {
@@ -6,41 +7,57 @@ export const LoginView = ({ onLoggedIn }) => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setError("");
+      
+        const data = {
+            Username: username,
+            Password: password,
+        };
 
-    const data = {
-        Username: username,
-        Password: password
+        console.log("Attempting login with:", data);
+
+        try {
+            const response = await fetch(
+                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                }
+            );
+
+            console.log("Response status:", response.status);
+
+            // Check if response is not JSON
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                throw new Error("Invalid server response format");
+            }
+
+            const responseData = await response.json();
+            console.log("Response data:", responseData);
+
+            if (!response.ok) {
+                throw new Error(responseData.message || "Invalid username or password");
+            }
+
+            if (!responseData.user || !responseData.token) {
+                throw new Error("Invalid server response");
+            }
+
+            localStorage.setItem("user", JSON.stringify(responseData.user));
+            localStorage.setItem("token", responseData.token);
+            onLoggedIn(responseData.user, responseData.token);
+        } catch (error) {
+            console.error("Login error details:", error);
+            setError(error.message || "Login failed. Please try again.");
+        }
     };
-
-    fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/login", {
-        method: "POST", 
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
-    .then((response) => { 
-        if (!response.ok) {
-            throw new Error("Login failed");
-        }
-        return response.json();
-    })
-    .then((data) => {
-        if (data.user) {
-          localStorage.setItem("user", JSON.stringify(data.user));
-          localStorage.setItem("token", data.token);
-          onLoggedIn(data.user, data.token);
-        } else {
-          setError("Invalid credentials");
-        }
-    })
-    .catch((e) => {
-        setError(e.message);
-    });
-}
+  
     return (
         <Container>
         <Row className="justify-content-center">

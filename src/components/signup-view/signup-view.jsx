@@ -84,99 +84,108 @@ export const SignupView = () => {
                             >
                                 {({ isSubmitting, touched, errors }) => (
                                     <Form noValidate>
-                                        <BootstrapForm.Group className="mb-3">
-                                            <BootstrapForm.Label htmlFor="Username">
-                                                Username
-                                            </BootstrapForm.Label>
-                                            <Field
-                                                as={BootstrapForm.Control}
-                                                id="Username"
-                                                name="Username"
-                                                type="text"
-                                                placeholder="Enter a username"
-                                                isInvalid={touched.Username && errors.Username}
-                                            />
-                                            <ErrorMessage
-                                                name="Username"
-                                                component={BootstrapForm.Control.Feedback}
-                                                type="invalid"
-                                            />
-                                        </BootstrapForm.Group>
-                                        <BootstrapForm.Group className="mb-3">
-                                            <BootstrapForm.Label htmlFor="Password">
-                                                Password
-                                            </BootstrapForm.Label>
-                                            <Field
-                                                as={BootstrapForm.Control}
-                                                id="Password"
-                                                name="Password"
-                                                type="password"
-                                                placeholder="At least 8 characters"
-                                                isInvalid={touched.Password && errors.Password}
-                                            />
-                                            <ErrorMessage
-                                                name="Password"
-                                                component={BootstrapForm.Control.Feedback}
-                                                type="invalid"
-                                            />
-                                        </BootstrapForm.Group>
-                                        <BootstrapForm.Group className="mb-3">
-                                            <BootstrapForm.Label htmlFor="Email">
-                                                Email
-                                            </BootstrapForm.Label>
-                                            <Field
-                                                as={BootstrapForm.Control}
-                                                id="Email"
-                                                name="Email"
-                                                type="email"
-                                                placeholder="Enter a valid email"
-                                                isInvalid={touched.Email && errors.Email}
-                                            />
-                                            <ErrorMessage
-                                                name="Email"
-                                                component={BootstrapForm.Control.Feedback}
-                                                type="invalid"
-                                            />
-                                        </BootstrapForm.Group>
-                                        <BootstrapForm.Group className="mb-3">
-                                            <BootstrapForm.Label htmlFor="Birthday">
-                                                Birthday
-                                            </BootstrapForm.Label>
-                                            <Field
-                                                as={BootstrapForm.Control}
-                                                id="Birthday"
-                                                name="Birthday"
-                                                type="date"
-                                                isInvalid={touched.Birthday && errors.Birthday}
-                                            />
-                                            <ErrorMessage
-                                                name="Birthday"
-                                                component={BootstrapForm.Control.Feedback}
-                                                type="invalid"
-                                            />
-                                        </BootstrapForm.Group>
-                                        <div className="d-grid">
-                                            <Button
-                                                variant="primary"
-                                                type="submit"
-                                                disabled={isSubmitting}
-                                            >
-                                                {isSubmitting ? (
-                                                    <>
-                                                        <Spinner
-                                                            as="span"
-                                                            animation="border"
-                                                            size="sm"
-                                                            role="status"
-                                                            aria-hidden="true"
-                                                        />{" "}
-                                                        Submitting...
-                                                    </>
-                                                ) : (
-                                                    "Sign Up"
-                                                )}
-                                            </Button>
-                                        </div>
+                                        {isSubmitting ? (
+                                            <div className="text-center">
+                                                <Spinner
+                                                    animation="border"
+                                                    variant="primary"
+                                                    role="status"
+                                                >
+                                                    <span className="visually-hidden">
+                                                        Loading...
+                                                    </span>
+                                                </Spinner>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <BootstrapForm.Group className="mb-3">
+                                                    <BootstrapForm.Label htmlFor="Username">
+                                                        Username
+                                                    </BootstrapForm.Label>
+                                                    <Field
+                                                        as={BootstrapForm.Control}
+                                                        id="Username"
+                                                        name="Username"
+                                                        type="text"
+                                                        placeholder="Enter a username"
+                                                        isInvalid={
+                                                            touched.Username && errors.Username
+                                                        }
+                                                    />
+                                                    <ErrorMessage
+                                                        name="Username"
+                                                        component={BootstrapForm.Control.Feedback}
+                                                        type="invalid"
+                                                    />
+                                                </BootstrapForm.Group>
+                                                <BootstrapForm.Group className="mb-3">
+                                                    <BootstrapForm.Label htmlFor="Password">
+                                                        Password
+                                                    </BootstrapForm.Label>
+                                                    <Field
+                                                        as={BootstrapForm.Control}
+                                                        id="Password"
+                                                        name="Password"
+                                                        type="password"
+                                                        placeholder="At least 8 characters"
+                                                        isInvalid={
+                                                            touched.Password && errors.Password
+                                                        }
+                                                    />
+                                                    <ErrorMessage
+                                                        name="Password"
+                                                        component={BootstrapForm.Control.Feedback}
+                                                        type="invalid"
+                                                    />
+                                                </BootstrapForm.Group>
+                                                <BootstrapForm.Group className="mb-3">
+                                                    <BootstrapForm.Label htmlFor="Email">
+                                                        Email
+                                                    </BootstrapForm.Label>
+                                                    <Field
+                                                        as={BootstrapForm.Control}
+                                                        id="Email"
+                                                        name="Email"
+                                                        type="email"
+                                                        placeholder="Enter a valid email"
+                                                        isInvalid={touched.Email && errors.Email}
+                                                    />
+                                                    <ErrorMessage
+                                                        name="Email"
+                                                        component={BootstrapForm.Control.Feedback}
+                                                        type="invalid"
+                                                    />
+                                                </BootstrapForm.Group>
+                                                <BootstrapForm.Group className="mb-3">
+                                                    <BootstrapForm.Label htmlFor="Birthday">
+                                                        Birthday
+                                                    </BootstrapForm.Label>
+                                                    <Field
+                                                        as={BootstrapForm.Control}
+                                                        id="Birthday"
+                                                        name="Birthday"
+                                                        type="date"
+                                                        isInvalid={
+                                                            touched.Birthday && errors.Birthday
+                                                        }
+                                                    />
+                                                    <ErrorMessage
+                                                        name="Birthday"
+                                                        component={BootstrapForm.Control.Feedback}
+                                                        type="invalid"
+                                                    />
+                                                </BootstrapForm.Group>
+                                                <div className="d-grid">
+                                                    <Button
+                                                        variant="primary"
+                                                        type="submit"
+                                                        disabled={isSubmitting}
+                                                    >
+                                                        {isSubmitting ? "Signing up..." : "Sign Up"}
+                                                    </Button>
+                                                </div>
+                                            </>
+                                        )}
                                     </Form>
                                 )}
                             </Formik>

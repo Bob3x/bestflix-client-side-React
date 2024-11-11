@@ -1,8 +1,7 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { SearchBar } from "../search-bar/search-bar";
 
-export const NavigationBar = ({ user, moviesAPI, onLoggedOut, onFilter }) => {
+export const NavigationBar = ({ user, onLoggedOut }) => {
     return (
         <Navbar bg="light" exapand="lg">
             <Container>
@@ -34,7 +33,6 @@ export const NavigationBar = ({ user, moviesAPI, onLoggedOut, onFilter }) => {
                             </>
                         )}
                     </Nav>
-                    {user && <SearchBar moviesAPI={moviesAPI} onFilter={onFilter} />}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

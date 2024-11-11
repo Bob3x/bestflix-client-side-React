@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
@@ -19,8 +19,8 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
+                    "Content-Type": "application/json"
+                }
             }
         )
             .then((response) => {
@@ -51,8 +51,8 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
+                    "Content-Type": "application/json"
+                }
             }
         )
             .then((response) => {
@@ -138,18 +138,20 @@ MovieView.propTypes = {
             description: PropTypes.string.isRequired,
             genre: PropTypes.shape({
                 name: PropTypes.string.isRequired,
-                description: PropTypes.string.isRequired,
+                description: PropTypes.string.isRequired
             }).isRequired,
             director: PropTypes.shape({
                 name: PropTypes.string.isRequired,
                 bio: PropTypes.string.isRequired,
                 birth: PropTypes.string,
-                death: PropTypes.string,
+                death: PropTypes.string
             }).isRequired,
             image: PropTypes.string.isRequired,
-            featured: PropTypes.bool.isRequired,
+            featured: PropTypes.bool.isRequired
         })
     ).isRequired,
     user: PropTypes.shape({
         Username: PropTypes.string.isRequired,
-        FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
+        FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired
+    })
+};

@@ -31,8 +31,8 @@ export const MainView = () => {
         fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies", {
             method: "GET",
             headers: {
-                Authorization: `Bearer ${token}`,
-            },
+                Authorization: `Bearer ${token}`
+            }
         })
             .then((response) => {
                 if (!response.ok) {
@@ -56,16 +56,16 @@ export const MainView = () => {
                         description: movie.Description,
                         genre: {
                             name: movie.Genre.Name,
-                            description: movie.Genre.Description,
+                            description: movie.Genre.Description
                         },
                         director: {
                             name: movie.Director.Name,
                             bio: movie.Director.Bio,
                             birth: movie.Director.Birth,
-                            death: movie.Director.Death,
+                            death: movie.Director.Death
                         },
                         image: movie.ImagePath,
-                        featured: movie.Featured,
+                        featured: movie.Featured
                     };
                 });
                 setMovies(moviesAPI);
@@ -143,7 +143,7 @@ export const MainView = () => {
                                         setUser={setUser}
                                         token={token}
                                         movies={movies}
-                                        onLogout={onLoggedOut}
+                                        onLoggedOut={onLoggedOut}
                                     />
                                 )
                             }

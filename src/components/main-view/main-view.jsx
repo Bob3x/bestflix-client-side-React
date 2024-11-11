@@ -9,19 +9,44 @@ import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 
 export const MainView = () => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = (() => {
+        try {
+            const user = localStorage.getItem("user");
+            return user ? JSON.parse(user) : null;
+        } catch (e) {
+            console.error("Error parsing stored user:", e);
+            localStorage.removeItem("user");
+            return null;
+        }
+    })();
+
     const storedToken = localStorage.getItem("token");
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
     const [movies, setMovies] = useState([]);
-  
+
     useEffect(() => {
         if (!token) return;
 
         fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies", {
-            headers: { Authorization: `Bearer ${token}` },
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        // Token expired
+                        setUser(null);
+                        setToken(null);
+                        localStorage.clear();
+                        throw new Error("Token expired - please login again");
+                    }
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                return response.json();
+            })
             .then((data) => {
                 console.log("Fetched movies data:", data);
                 const moviesAPI = data.map((movie) => {
@@ -44,38 +69,13 @@ export const MainView = () => {
                     };
                 });
                 setMovies(moviesAPI);
-          
-    const [selectedMovie, setSelectedMovie] = useState(null);
-
-    useEffect(() => {
-        fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies")
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Fetched movies data:", data);
-            const moviesAPI = data.map((movie) => {
-                return {
-                    _id: movie._id,
-                    title: movie.Title,
-                    description: movie.Description,
-                    genre: {
-                        name: movie.Genre.Name,
-                        description: movie.Genre.Description
-                    },
-                    director: {
-                        name: movie.Director.Name,
-                        bio: movie.Director.Bio,
-                        birth: movie.Director.Birth,
-                        death: movie.Director.Death
-                    },
-                    image: movie.ImagePath,
-                    featured: movie.Featured
-                }
-
             })
             .catch((error) => console.error("Error fetching movies:", error));
     }, [token]);
 
     const onLoggedIn = (user, token) => {
+        console.log("User logged in:", user);
+        console.log("Token received:", token);
         setUser(user);
         setToken(token);
         localStorage.setItem("user", JSON.stringify(user));
@@ -83,17 +83,20 @@ export const MainView = () => {
     };
 
     const onLoggedOut = () => {
+        console.log("User logged out");
         setUser(null);
         setToken(null);
         localStorage.clear();
     };
 
-    const onUpdateSuccess = (updatedUser) => {
-        setUser(updatedUser);
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-    };
-         
-return (
+    /* const handleFilter = (filteredMovies) => {
+        console.log("Setting Filtered Movies:", filteredMovies);
+        setFilteredMovies(filteredMovies);
+    }; 
+    */
+    // const displayedMovies = filteredMovies.length > 0 ? filteredMovies : movies;
+
+    return (
         <BrowserRouter>
             <NavigationBar user={user} onLoggedOut={onLoggedOut} />
             <Container>
@@ -173,4 +176,4 @@ return (
             </Container>
         </BrowserRouter>
     );
-}
+};

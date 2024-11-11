@@ -56,7 +56,7 @@ export const UpdateUser = ({ user, token, onUpdateSuccess }) => {
 
     return (
         <Container>
-            <Row>
+            <Row className="justify-content-center">
                 <Col md={10}>
                     <Card className="mt-4">
                         <Card.Header className="text-center">

@@ -94,7 +94,6 @@ export const MainView = () => {
         setFilteredMovies(filteredMovies);
     }; 
     */
-    // const displayedMovies = filteredMovies.length > 0 ? filteredMovies : movies;
 
     return (
         <BrowserRouter>

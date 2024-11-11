@@ -1,48 +1,64 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 // prettier-ignore
 import { Button, Container, Row, Col, Card, Form as BootstrapForm, Alert, Spinner } from "react-bootstrap";
 import { signupSchema } from "../form-validation/form-validation";
 
-export const SignupView = () => {
+export const SignupView = ({ onLoggedIn }) => {
     // State for managing form-level messages
+    const navigate = useNavigate();
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
 
     // Form submission handler
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
-            console.log("Submitting values:", values); // Debug log
-
             const response = await fetch(
                 "https://my-movies-flix-app-56f9661dc035.herokuapp.com/users",
                 {
                     method: "POST",
-                    body: JSON.stringify(values),
                     headers: {
                         "Content-Type": "application/json",
                     },
+                    body: JSON.stringify(values),
                 }
             );
 
-            const data = await response.json();
-
             if (!response.ok) {
-                //Handle validation errors from the server
-                if (data.errors && Array.isArray(data.errors)) {
-                    const errorMessages = data.errors.map((err) => err.msg).join(". ");
-                    throw new Error(errorMessages);
-                }
-                throw new Error(data.message || "Signup failed");
+                throw new Error("Signup failed");
             }
+
+            // Auto login after signup
+            const loginResponse = await fetch(
+                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        Username: values.Username,
+                        Password: values.Password,
+                    }),
+                }
+            );
+
+            if (!loginResponse.ok) {
+                throw new Error("Auto-login failed");
+            }
+
+            const data = await loginResponse.json();
+            onLoggedIn(data.user, data.token);
+
             setSuccess(true);
             resetForm();
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
-        } catch (err) {
-            setError(err.message);
-            console.error("Signup error:", err);
+
+            // Navigate to main view
+            navigate("/");
+        } catch (error) {
+            console.error("Error:", error);
+            setError(error.message);
         } finally {
             setSubmitting(false);
         }
@@ -80,10 +96,13 @@ export const SignupView = () => {
                                     Birthday: "",
                                 }}
                                 validationSchema={signupSchema}
-                                onSubmit={handleSubmit}
+                                onSubmit={(values, actions) => {
+                                    console.log("Form submitted with values:", values);
+                                    handleSubmit(values, actions);
+                                }}
                             >
                                 {({ isSubmitting, touched, errors }) => (
-                                    <Form noValidate>
+                                    <Form>
                                         <BootstrapForm.Group className="mb-3">
                                             <BootstrapForm.Label htmlFor="Username">
                                                 Username
@@ -155,7 +174,7 @@ export const SignupView = () => {
                                                 type="invalid"
                                             />
                                         </BootstrapForm.Group>
-                                        <div className="d-grid">
+                                        <div className="d-grid gap-2">
                                             <Button
                                                 variant="primary"
                                                 type="submit"
@@ -169,8 +188,11 @@ export const SignupView = () => {
                                                             size="sm"
                                                             role="status"
                                                             aria-hidden="true"
-                                                        />{" "}
-                                                        Submitting...
+                                                            className="me-2"
+                                                        />
+                                                        <span className="visually-hidden">
+                                                            Signing up...
+                                                        </span>
                                                     </>
                                                 ) : (
                                                     "Sign Up"

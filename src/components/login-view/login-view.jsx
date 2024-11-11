@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
 
 export const LoginView = ({ onLoggedIn }) => {
-    const [username, setUsername] = useState("");
+    const[username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError("");
-
+      
         const data = {
             Username: username,
             Password: password,
@@ -57,55 +57,53 @@ export const LoginView = ({ onLoggedIn }) => {
             setError(error.message || "Login failed. Please try again.");
         }
     };
-
+  
     return (
         <Container>
-            <Row className="justify-content-center">
-                <Col md={6} className="mt-5">
-                    <Card className="mt=4">
-                        <Card.Header className="text-center">
-                            <Card.Title>Login</Card.Title>
-                        </Card.Header>
-                        <Card.Body>
-                            {error && (
-                                <Alert variant="danger" className="mb-3">
-                                    {error}
-                                </Alert>
-                            )}
-                            <Form onSubmit={handleSubmit}>
-                                <Form.Group controlId="formUsername" className="mb-3">
-                                    <Form.Label>Username</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        required
-                                        placeholder="Enter your unsername"
-                                        minLength="3"
-                                    />
-                                </Form.Group>
+        <Row className="justify-content-center">
+            <Col md={6} className="mt-5">
+                <Card className="mt=4">
+                    <Card.Header className="text-center">
+                <Card.Title>Login</Card.Title> 
+                    </Card.Header>
+                    <Card.Body>
+            {error && (
+                <Alert variant="danger" className="mb-3">
+                    {error}
+                </Alert>    
+            )}
+            <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formUsername" className="mb-3">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                        placeholder="Enter your unsername"
+                        minLength="3"
+                    />
+            </Form.Group>
 
-                                <Form.Group controlId="formPassword" className="mb-3">
-                                    <Form.Label>Password</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                        placeholder="At least 8 characters"
-                                        minLength="3"
-                                    />
-                                </Form.Group>
-                                <div className="d-grid">
-                                    <Button variant="primary" type="submit" className="mt-3">
-                                        Login
-                                    </Button>
-                                </div>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
+            <Form.Group controlId="formPassword" className="mb-3">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        placeholder="At least 8 characters"
+                        minLength="3"
+                />
+            </Form.Group>
+            <div className="d-grid">
+                <Button variant="primary" type="submit" className="mt-3" >Login</Button>
+            </div>
+        </Form>
+        </Card.Body>
+        </Card>
+        </Col>
+        </Row>
         </Container>
     );
-};
+}

@@ -25,7 +25,6 @@ const MainView = () => {
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
     const [movies, setMovies] = useState([]);
-    const [filteredMovies, setFilteredMovies] = useState([]);
 
     useEffect(() => {
         if (!token) return;
@@ -61,7 +60,35 @@ const MainView = () => {
                 });
                 console.log("Fetched Movies:", moviesAPI);
                 setMovies(moviesAPI);
-                setFilteredMovies(moviesAPI);
+
+         
+  const [selectedMovie, setSelectedMovie] = useState(null);
+
+    useEffect(() => {
+        fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies")
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Fetched movies data:", data);
+            const moviesAPI = data.map((movie) => {
+                return {
+                    _id: movie._id,
+                    title: movie.Title,
+                    description: movie.Description,
+                    genre: {
+                        name: movie.Genre.Name,
+                        description: movie.Genre.Description
+                    },
+                    director: {
+                        name: movie.Director.Name,
+                        bio: movie.Director.Bio,
+                        birth: movie.Director.Birth,
+                        death: movie.Director.Death
+                    },
+                    image: movie.ImagePath,
+                    featured: movie.Featured
+                }
+
+
             })
             .catch((error) => console.error("Error fetching movies:", error));
     }, [token]);
@@ -83,9 +110,6 @@ const MainView = () => {
         console.log("Setting Filtered Movies:", filteredMovies);
         setFilteredMovies(filteredMovies);
     };
-
-    const displayedMovies = filteredMovies.length > 0 ? filteredMovies : movies;
-
     return (
         <Container>
             <BrowserRouter>
@@ -120,7 +144,6 @@ const MainView = () => {
                                 </>
                             }
                         />
-
                         <Route
                             path="/users/:Username"
                             element={
@@ -139,7 +162,6 @@ const MainView = () => {
                                 </>
                             }
                         />
-
                         <Route
                             path="/movies/:movieId"
                             element={
@@ -235,6 +257,4 @@ const MainView = () => {
             </BrowserRouter>
         </Container>
     );
-};
-
 export default MainView;

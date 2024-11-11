@@ -129,7 +129,7 @@ MovieView.propTypes = {
       name: PropTypes.string.isRequired,
       bio: PropTypes.string.isRequired,
       birth: PropTypes.string,
-      death: PropTypes.string,
+      death: PropTypes.string
     }).isRequired,
     image: PropTypes.string.isRequired,
     featured: PropTypes.bool.isRequired,

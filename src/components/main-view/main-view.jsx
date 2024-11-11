@@ -8,7 +8,7 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 
-const MainView = () => {
+export const MainView = () => {
     const storedUser = (() => {
         try {
             const user = localStorage.getItem("user");
@@ -24,7 +24,6 @@ const MainView = () => {
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
     const [movies, setMovies] = useState([]);
-    // const [filteredMovies, setFilteredMovies] = useState([]);
 
     useEffect(() => {
         if (!token) return;
@@ -179,5 +178,3 @@ const MainView = () => {
         </BrowserRouter>
     );
 };
-
-export default MainView;

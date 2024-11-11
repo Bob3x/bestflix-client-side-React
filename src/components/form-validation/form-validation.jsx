@@ -20,7 +20,7 @@ const validationSchema = {
 export const signupSchema = Yup.object({
     ...validationSchema,
     Username: validationSchema.Username.required("Username is required!"),
-    Pasword: validationSchema.Password.required("Password is required!"),
+    Password: validationSchema.Password.required("Password is required!"),
     Email: validationSchema.Email.required("Email is required!"),
     Birthday: validationSchema.Birthday.required("Birthday is required!"),
 });

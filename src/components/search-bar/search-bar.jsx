@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-export const SearchBar = ({ moviesAPI = [], onFilter }) => {
+export const SearchBar = ({ moviesAPI, onFilter }) => {
     const [searchInput, setSearchInput] = useState("");
 
     const handleSubmit = (e) => {
@@ -25,7 +25,7 @@ export const SearchBar = ({ moviesAPI = [], onFilter }) => {
             console.log("Filtered Movies:", filteredMovies.length);
             onFilter(filteredMovies);
         } catch (error) {
-            onFilter([]);
+            console.error("Movie not found", error);
         }
     };
 
@@ -36,7 +36,7 @@ export const SearchBar = ({ moviesAPI = [], onFilter }) => {
     return (
         <form onSubmit={handleSubmit}>
             <input
-                type="search"
+                type="text"
                 placeholder="Search here"
                 onChange={handleChange}
                 value={searchInput}
@@ -47,6 +47,20 @@ export const SearchBar = ({ moviesAPI = [], onFilter }) => {
 };
 
 SearchBar.propTypes = {
+    movies: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+            genre: PropTypes.shape({
+                name: PropTypes.string.isRequired,
+                description: PropTypes.string.isRequired,
+            }).isRequired,
+            image: PropTypes.string.isRequired,
+            featured: PropTypes.bool.isRequired,
+        })
+    ).isRequired,
     moviesAPI: PropTypes.array,
+    filteredMovies: PropTypes.array,
     onFilter: PropTypes.func.isRequired,
 };

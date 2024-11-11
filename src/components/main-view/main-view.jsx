@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ProfileView } from "../profile-view/profile-view";
@@ -7,7 +7,6 @@ import { MovieCard } from "../movie-card/movie-card";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
-import { SearchBar } from "../search-bar/search-bar";
 
 const MainView = () => {
     const storedUser = (() => {
@@ -25,7 +24,7 @@ const MainView = () => {
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
     const [movies, setMovies] = useState([]);
-    const [filteredMovies, setFilteredMovies] = useState([]);
+    // const [filteredMovies, setFilteredMovies] = useState([]);
 
     useEffect(() => {
         if (!token) return;
@@ -34,10 +33,21 @@ const MainView = () => {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
             },
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        // Token expired
+                        setUser(null);
+                        setToken(null);
+                        localStorage.clear();
+                        throw new Error("Token expired - please login again");
+                    }
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                return response.json();
+            })
             .then((data) => {
                 console.log("Fetched movies data:", data);
                 const moviesAPI = data.map((movie) => {
@@ -61,12 +71,13 @@ const MainView = () => {
                 });
                 console.log("Fetched Movies:", moviesAPI);
                 setMovies(moviesAPI);
-                setFilteredMovies(moviesAPI);
             })
             .catch((error) => console.error("Error fetching movies:", error));
     }, [token]);
 
     const onLoggedIn = (user, token) => {
+        console.log("User logged in:", user);
+        console.log("Token received:", token);
         setUser(user);
         setToken(token);
         localStorage.setItem("user", JSON.stringify(user));
@@ -74,166 +85,98 @@ const MainView = () => {
     };
 
     const onLoggedOut = () => {
+        console.log("User logged out");
         setUser(null);
         setToken(null);
         localStorage.clear();
     };
 
-    const handleFilter = (filteredMovies) => {
+    /* const handleFilter = (filteredMovies) => {
         console.log("Setting Filtered Movies:", filteredMovies);
         setFilteredMovies(filteredMovies);
-    };
-
-    const displayedMovies = filteredMovies.length > 0 ? filteredMovies : movies;
+    }; 
+    */
+    // const displayedMovies = filteredMovies.length > 0 ? filteredMovies : movies;
 
     return (
-        <Container>
-            <BrowserRouter>
-                <NavigationBar user={user} onLoggedOut={onLoggedOut} />
+        <BrowserRouter>
+            <NavigationBar user={user} onLoggedOut={onLoggedOut} />
+            <Container>
                 <Row className="justify-content-md-center">
                     <Routes>
-                        <Route
-                            path="/signup"
-                            element={
-                                <>
-                                    {user ? (
-                                        <Navigate to="/" />
-                                    ) : (
-                                        <Col md={5}>
-                                            <SignupView />
-                                        </Col>
-                                    )}
-                                </>
-                            }
-                        />
+                        {/* Show login if no user */}
                         <Route
                             path="/login"
                             element={
-                                <>
-                                    {user ? (
-                                        <Navigate to="/" />
-                                    ) : (
-                                        <Col md={5}>
-                                            <LoginView onLoggedIn={onLoggedIn} />
-                                        </Col>
-                                    )}
-                                </>
+                                !user ? <LoginView onLoggedIn={onLoggedIn} /> : <Navigate to="/" />
                             }
                         />
-
                         <Route
-                            path="/users/:Username"
+                            path="/signup"
                             element={
-                                <>
-                                    {!user ? (
-                                        <Navigate to="/login" replace />
-                                    ) : (
-                                        <Col md={5}>
-                                            <ProfileView
-                                                user={user}
-                                                token={token}
-                                                onLoggedOut={onLoggedOut}
-                                            />
-                                        </Col>
-                                    )}
-                                </>
+                                !user ? <SignupView onLoggedIn={onLoggedIn} /> : <Navigate to="/" />
                             }
                         />
 
                         <Route
                             path="/movies/:movieId"
                             element={
-                                <>
-                                    {!user ? (
-                                        <Navigate to="/login" replace />
-                                    ) : movies.length === 0 ? (
-                                        <Col className="text-center text-gray-600">
-                                            There are no movies!
-                                        </Col>
-                                    ) : (
-                                        <Col md={12}>
-                                            <MovieView
-                                                movies={movies}
-                                                user={user}
-                                                token={token}
-                                                setUser={setUser}
-                                            />
-                                        </Col>
-                                    )}
-                                </>
+                                !user ? (
+                                    <Navigate to="/login" replace />
+                                ) : (
+                                    <MovieView
+                                        movies={movies}
+                                        user={user}
+                                        token={token}
+                                        setUser={setUser}
+                                    />
+                                )
+                            }
+                        />
+
+                        <Route
+                            path="/users/:Username"
+                            element={
+                                !user ? (
+                                    <Navigate to="/login" replace />
+                                ) : (
+                                    <ProfileView
+                                        user={user}
+                                        setUser={setUser}
+                                        token={token}
+                                        movies={movies}
+                                        onLogout={onLoggedOut}
+                                    />
+                                )
                             }
                         />
                         <Route
                             path="/"
                             element={
-                                <>
-                                    {!user ? (
-                                        <Navigate to="/login" replace />
-                                    ) : movies.length === 0 ? (
-                                        <Col className="text-center text-gray-600">
-                                            There are no movies!
-                                        </Col>
-                                    ) : (
-                                        <>
-                                            {movies.map((movie) => (
-                                                <Col
-                                                    key={movie._id}
-                                                    xs={12}
-                                                    md={4}
-                                                    className="mb-4 mt-3"
-                                                >
-                                                    <MovieCard movie={movie} />
-                                                </Col>
-                                            ))}
-                                        </>
-                                    )}
-                                </>
-                            }
-                        />
-                        <Route
-                            path="/"
-                            element={
-                                <>
-                                    <Row className="mb-4">
-                                        <Col>
-                                            <SearchBar moviesAPI={movies} onFilter={handleFilter} />
-                                        </Col>
+                                !user ? (
+                                    <Navigate to="/login" replace />
+                                ) : (
+                                    <Row className="justify-content-md-center">
+                                        {movies.map((movie) => (
+                                            <Col
+                                                className="mb-4"
+                                                key={movie._id}
+                                                xs={12}
+                                                sm={6}
+                                                md={4}
+                                                lg={3}
+                                            >
+                                                <MovieCard movie={movie} />
+                                            </Col>
+                                        ))}
                                     </Row>
-                                    {!user ? (
-                                        <Navigate to="/login" replace />
-                                    ) : displayedMovies.length === 0 ? (
-                                        <Col className="text-center text-gray-600">
-                                            No movies found!
-                                        </Col>
-                                    ) : (
-                                        <>
-                                            {displayedMovies.map((movie) => (
-                                                <Col key={movie._id} md={3} className="mb-4">
-                                                    <MovieCard movie={movie} />
-                                                </Col>
-                                            ))}
-                                        </>
-                                    )}
-                                </>
+                                )
                             }
                         />
                     </Routes>
                 </Row>
-                <Row>
-                    {displayedMovies.length === 0 ? (
-                        <Col className="text-center text-gray-600">No movies found!</Col>
-                    ) : (
-                        displayedMovies.map((movie) => (
-                            <Col key={movie._id} md={3}>
-                                <img src={movie.image} />
-                                <div>{movie.title}</div>
-                                <div>{movie.genre.Name}</div>
-                            </Col>
-                        ))
-                    )}
-                </Row>
-            </BrowserRouter>
-        </Container>
+            </Container>
+        </BrowserRouter>
     );
 };
 

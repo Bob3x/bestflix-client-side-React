@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const FavoriteMovies = ({ favoriteMovieList }) => {
@@ -37,7 +36,7 @@ FavoriteMovies.propTypes = {
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
-            image: PropTypes.string.isRequired,
+            image: PropTypes.string.isRequired
         })
-    ).isRequired,
+    ).isRequired
 };

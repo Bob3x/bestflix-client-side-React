@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { UserInfo } from "./user-info";
@@ -27,8 +27,8 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
+                        Authorization: `Bearer ${token}`
+                    }
                 }
             );
 
@@ -62,7 +62,7 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
         <Container>
             <Row className="justify-content-md-center">
                 <Col md={6}>
-                    <UserInfo user={user.Username} email={user.Emal} />
+                    <UserInfo user={user.Username} email={user.Email} />
 
                     <UpdateUser
                         user={user}
@@ -96,7 +96,7 @@ ProfileView.propTypes = {
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
-            image: PropTypes.string.isRequired,
+            image: PropTypes.string.isRequired
         })
-    ).isRequired,
+    ).isRequired
 };

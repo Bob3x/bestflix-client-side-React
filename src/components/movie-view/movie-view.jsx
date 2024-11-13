@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Stack, Button } from "react-bootstrap";
+import { Toast, ToastContainer } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 export const MovieView = ({ movies, user, token, setUser }) => {
     const { movieId } = useParams();
     const [isLoading, setIsLoading] = useState(false);
+
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState("");
+    const [toastVariant, setToastVariant] = useState("success");
 
     const movie = movies.find((m) => m._id === movieId);
     const isFavorite = user.FavoriteMovies.includes(movieId);
@@ -32,11 +37,15 @@ export const MovieView = ({ movies, user, token, setUser }) => {
             .then((data) => {
                 setUser(data);
                 localStorage.setItem("user", JSON.stringify(data));
-                alert("Added to favorites");
+                setToastVariant("success");
+                setToastMessage("Movie added to favorites!");
+                setShowToast(true);
             })
             .catch((err) => {
                 console.error("Error adding movie:", err);
-                alert(err.message);
+                setToastVariant("danger");
+                setToastMessage(err.message);
+                setShowToast(true);
             })
             .finally(() => {
                 setIsLoading(false);
@@ -59,16 +68,21 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                 if (!response.ok) {
                     throw new Error("Failed to remove favorite movie");
                 }
-                return response.json();
-            })
-            .then((data) => {
-                setUser(data);
-                localStorage.setItem("user", JSON.stringify(data));
-                alert("Removed from favorites");
+                const updatedUser = {
+                    ...user,
+                    FavoriteMovies: user.FavoriteMovies.filter((_id) => _id !== movieId)
+                };
+                setUser(updatedUser);
+                localStorage.setItem("user", JSON.stringify(updatedUser));
+                setToastVariant("success");
+                setToastMessage("Movie removed from favorites!");
+                setShowToast(true);
             })
             .catch((err) => {
                 console.error("Error removing movie:", err);
-                alert(err.message);
+                setToastVariant("danger");
+                setToastMessage(err.message);
+                setShowToast(true);
             })
             .finally(() => {
                 setIsLoading(false);
@@ -94,19 +108,40 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                 </Col>
                 <Col className="mt-3 mb-2">
                     <Card>
-                        <Card.Body>
-                            <Card.Text>
-                                <h5>Genre:</h5>
-                                <p>{movie.genre.name}</p>
-                                <h5>Description:</h5>
-                                <p>{movie.description}</p>
-                                <h5>Director: </h5>
-                                <span>{movie.director.name}</span>
-                                <p>Birth year: {movie.director.birth}</p>
-                                <h5>Bio: </h5>
-                                <p>{movie.director.bio}</p>
-                            </Card.Text>
-                            <div className="mt-2 mb-2">
+                        <Card.Body className="movie-details">
+                            <Stack gap={3}>
+                                <div>
+                                    <Card.Subtitle className="text-primary mb-2">
+                                        Genre
+                                    </Card.Subtitle>
+                                    <div className="ms-2">{movie.genre.name}</div>
+                                </div>
+
+                                <div>
+                                    <Card.Subtitle className="text-primary mb-2">
+                                        Description
+                                    </Card.Subtitle>
+                                    <div className="ms-2">{movie.description}</div>
+                                </div>
+
+                                <hr />
+
+                                <div>
+                                    <Card.Subtitle className="text-primary mb-2">
+                                        Director
+                                    </Card.Subtitle>
+                                    <div className="ms-2">
+                                        <Card.Title className="mb-1 fw-bold">
+                                            {movie.director.name}
+                                        </Card.Title>
+                                        <Card.Text className="text-muted small mb-2">
+                                            Birth year: {movie.director.birth}
+                                        </Card.Text>
+                                        <Card.Text>{movie.director.bio}</Card.Text>
+                                    </div>
+                                </div>
+                            </Stack>
+                            <div className="mt-2 mb-2 d-flex gap-2">
                                 <Button
                                     variant="secondary"
                                     onClick={isFavorite ? removeFavorite : addFavorite}
@@ -115,17 +150,28 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                                     {isLoading
                                         ? "Processing..."
                                         : isFavorite
-                                        ? "Remove from Favorites"
-                                        : "Add to Favorites"}
+                                        ? "Remove from favorites"
+                                        : "Add to favorites"}
                                 </Button>
+                                <Link to={`/`}>
+                                    <Button variant="secondary">Back</Button>
+                                </Link>
                             </div>
-                            <Link to={`/`}>
-                                <Button variant="secondary">Back</Button>
-                            </Link>
                         </Card.Body>
                     </Card>
                 </Col>
             </Row>
+            <ToastContainer position="bottom-end" className="p-3">
+                <Toast
+                    show={showToast}
+                    onClose={() => setShowToast(false)}
+                    delay={3000}
+                    autohide
+                    bg={toastVariant}
+                >
+                    <Toast.Body className="text-white">{toastMessage}</Toast.Body>
+                </Toast>
+            </ToastContainer>
         </Container>
     );
 };

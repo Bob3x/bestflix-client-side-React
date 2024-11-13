@@ -24,6 +24,7 @@ export const MainView = () => {
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
     const [movies, setMovies] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         if (!token) return;
@@ -89,16 +90,23 @@ export const MainView = () => {
         localStorage.clear();
     };
 
-    /* const handleFilter = (filteredMovies) => {
-        console.log("Setting Filtered Movies:", filteredMovies);
-        setFilteredMovies(filteredMovies);
-    }; 
-    */
-    // const displayedMovies = filteredMovies.length > 0 ? filteredMovies : movies;
+    const handleSearch = (query) => {
+        console.log("Searched Movies:", searchQuery);
+        setSearchQuery(query);
+    };
+
+    const filteredMovies = movies.filter((movie) =>
+        movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <BrowserRouter>
-            <NavigationBar user={user} onLoggedOut={onLoggedOut} />
+            <NavigationBar
+                user={user}
+                onLoggedOut={onLoggedOut}
+                onSearch={handleSearch}
+                searchQuery={searchQuery}
+            />
             <Container>
                 <Row className="justify-content-md-center">
                     <Routes>
@@ -153,9 +161,9 @@ export const MainView = () => {
                             element={
                                 !user ? (
                                     <Navigate to="/login" replace />
-                                ) : (
+                                ) : filteredMovies.length > 0 ? (
                                     <Row className="justify-content-md-center">
-                                        {movies.map((movie) => (
+                                        {filteredMovies.map((movie) => (
                                             <Col
                                                 className="mb-4"
                                                 key={movie._id}
@@ -167,6 +175,12 @@ export const MainView = () => {
                                                 <MovieCard movie={movie} />
                                             </Col>
                                         ))}
+                                    </Row>
+                                ) : (
+                                    <Row className="justify-content-md-center">
+                                        <Col>
+                                            <p>No movies found</p>
+                                        </Col>
                                     </Row>
                                 )
                             }

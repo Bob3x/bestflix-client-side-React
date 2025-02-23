@@ -1,4 +1,15 @@
+// Variables
 $color: steelblue;
+$body-bg: #0e2e4d;
+$body-color: #ecececee;
+
+body {
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
 
 .my-flix {
     color: $color;

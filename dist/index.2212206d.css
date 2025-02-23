@@ -1,3 +1,11 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  color: #ecececee !important;
+  background-color: #0e2e4d !important;
+}
+
 .my-flix {
   color: #4682b4;
 }
@@ -6,6 +14,122 @@
   text-align: center;
   font-size: 24px;
   font-weight: 500;
+}
+
+.header-container {
+  margin-bottom: 2rem;
+}
+
+.header-container .text-end {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  display: flex;
+}
+
+.header-container .text-end .title-logo-wrapper {
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  display: flex;
+}
+
+.header-container h2 {
+  white-space: nowrap;
+  font-weight: 700;
+  margin: 0 !important;
+  font-size: 1.25rem !important;
+}
+
+.header-container .logo-image {
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+.header-container h6 {
+  opacity: .8;
+  align-self: center;
+  font-size: .85rem;
+  font-weight: 700;
+  margin: 0 !important;
+}
+
+.login-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  color: #cfcfcf !important;
+}
+
+.title-container {
+  text-align: center;
+  margin-top: 10px;
+  color: #cfcfcf !important;
+}
+
+.title-container .text-muted {
+  font-size: .75rem;
+  color: #ffffffb1 !important;
+}
+
+.login-card {
+  background-color: #445866 !important;
+  border-radius: 24px !important;
+}
+
+.form-group {
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  color: #cfcfcf;
+  font-weight: 500;
+}
+
+.form-control {
+  padding: .75rem;
+  background-color: #353b3d !important;
+  border: none !important;
+  border-radius: 16px !important;
+  max-width: 380px !important;
+  height: 46px !important;
+}
+
+.form-control:focus {
+  border-color: #b69651 !important;
+}
+
+.btn-primary {
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  width: 100%;
+  margin-top: 1rem;
+  padding: .75rem;
+  font-weight: 700;
+  background-color: #b69651 !important;
+  border-radius: 16px !important;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px #0003;
+}
+
+.signup-link {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.signup-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.signup-link a:hover {
+  text-decoration: none;
 }
 
 :root, [data-bs-theme="light"] {

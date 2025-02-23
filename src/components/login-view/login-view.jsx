@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col, Card, Alert, Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import logo from "../../assets/bestflix_075.png";
+import "./login-view.scss";
 
 export const LoginView = ({ onLoggedIn }) => {
     const [username, setUsername] = useState("");
@@ -61,13 +64,35 @@ export const LoginView = ({ onLoggedIn }) => {
     };
 
     return (
-        <Container>
+        <Container className="login-container">
+            <Container className="header-container">
+                <Row className="justify-content-center">
+                    <Col xs={12} sm={8} md={6} lg={4}>
+                        <div className="text-end mb-4">
+                            <div className="title-logo-wrapper">
+                                <h2>Welcome to</h2>
+                                <img
+                                    src={logo}
+                                    alt="MyFlix Logo"
+                                    className="logo-image"
+                                    width="250"
+                                    height="auto"
+                                />
+                            </div>
+                            <h6>Still a lot to watch</h6>
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
             <Row className="justify-content-center">
-                <Col md={6} className="mt-5">
-                    <Card className="mt=4">
-                        <Card.Header className="text-center">
+                <Col xs={12} sm={8} md={6} lg={4}>
+                    <Card className="login-card">
+                        <div className="title-container">
                             <Card.Title>Login</Card.Title>
-                        </Card.Header>
+                            <Card.Subtitle className="text-muted">
+                                Please login to continue
+                            </Card.Subtitle>
+                        </div>{" "}
                         <Card.Body>
                             {error && (
                                 <Alert variant="danger" className="mb-3">
@@ -82,7 +107,6 @@ export const LoginView = ({ onLoggedIn }) => {
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
                                         required
-                                        placeholder="Enter your unsername"
                                         minLength="3"
                                     />
                                 </Form.Group>
@@ -94,15 +118,14 @@ export const LoginView = ({ onLoggedIn }) => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
-                                        placeholder="At least 8 characters"
                                         minLength="3"
                                     />
                                 </Form.Group>
-                                <div className="d-grid">
+                                <div className="d-grid gap-2">
                                     <Button
                                         variant="primary"
                                         type="submit"
-                                        className="mt-3"
+                                        className="login-button"
                                         disabled={isLoading}
                                     >
                                         {isLoading ? (
@@ -121,6 +144,15 @@ export const LoginView = ({ onLoggedIn }) => {
                                             "Login"
                                         )}
                                     </Button>
+                                </div>
+
+                                <div className="text-center mt-3">
+                                    <p className="mb-0">
+                                        Don't have an account?{" "}
+                                        <Link to="/signup" className="signup-link">
+                                            Sign up
+                                        </Link>
+                                    </p>
                                 </div>
                             </Form>
                         </Card.Body>

@@ -1,0 +1,115 @@
+.header-container {
+    margin-bottom: 2rem;
+
+    .text-end {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+
+        .title-logo-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%; // Take full width
+        }
+    }
+
+    h2 {
+        font-weight: 700;
+        font-size: 1.25rem !important;
+        margin: 0 !important;
+        white-space: nowrap;
+    }
+
+    .logo-image {
+        max-width: 100%;
+        height: auto;
+        margin: 0;
+    }
+
+    h6 {
+        margin: 0 !important;
+        font-size: 0.85rem;
+        font-weight: 700;
+        opacity: 0.8;
+        align-self: center;
+    }
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    color: #cfcfcf !important;
+}
+
+.title-container {
+    color: #cfcfcf !important;
+    margin-top: 10px;
+    text-align: center;
+
+    .text-muted {
+        font-size: 0.75rem;
+        color: #ffffffb1 !important;
+    }
+}
+
+.login-card {
+    background-color: #445866 !important;
+    border-radius: 24px !important;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #cfcfcf;
+}
+
+.form-control {
+    max-width: 380px !important;
+    height: 46px !important;
+    background-color: #353b3d !important;
+    border-radius: 16px !important;
+    border: none !important;
+    padding: 0.75rem;
+
+    &:focus {
+        border-color: #b69651 !important;
+    }
+}
+
+.btn-primary {
+    background-color: #b69651 !important;
+    border-radius: 16px !important;
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1rem;
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 1.5rem;
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}

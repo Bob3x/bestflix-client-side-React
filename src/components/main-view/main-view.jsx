@@ -6,7 +6,6 @@ import { MovieView } from "../movie-view/movie-view";
 import { MovieCard } from "../movie-card/movie-card";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
-import { NavigationBar } from "../navigation-bar/navigation-bar";
 
 export const MainView = () => {
     const storedUser = (() => {
@@ -101,12 +100,6 @@ export const MainView = () => {
 
     return (
         <BrowserRouter>
-            <NavigationBar
-                user={user}
-                onLoggedOut={onLoggedOut}
-                onSearch={handleSearch}
-                searchQuery={searchQuery}
-            />
             <Container>
                 <Row className="justify-content-md-center">
                     <Routes>

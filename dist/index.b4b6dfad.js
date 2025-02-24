@@ -41289,6 +41289,9 @@ var _formik = require("formik");
 // prettier-ignore
 var _reactBootstrap = require("react-bootstrap");
 var _formValidation = require("../form-validation/form-validation");
+var _signupViewScss = require("./signup-view.scss");
+var _bestflix075Png = require("../../assets/bestflix_075.png");
+var _bestflix075PngDefault = parcelHelpers.interopDefault(_bestflix075Png);
 var _s = $RefreshSig$();
 const SignupView = ({ onLoggedIn })=>{
     _s();
@@ -41333,288 +41336,421 @@ const SignupView = ({ onLoggedIn })=>{
         }
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Container), {
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Row), {
-            className: "justify-content-center",
-            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
-                md: 6,
-                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card), {
-                    className: "mt-4",
-                    children: [
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Header, {
-                            className: "text-center",
-                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Title, {
-                                children: "Sign Up"
-                            }, void 0, false, {
-                                fileName: "src/components/signup-view/signup-view.jsx",
-                                lineNumber: 73,
-                                columnNumber: 29
-                            }, undefined)
-                        }, void 0, false, {
-                            fileName: "src/components/signup-view/signup-view.jsx",
-                            lineNumber: 72,
-                            columnNumber: 25
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
+        className: "signup-container",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Container), {
+                className: "header-conainer",
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Row), {
+                    className: "justify-content-center",
+                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
+                        xs: 12,
+                        sm: 8,
+                        md: 6,
+                        lg: 4,
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "text-end mb-4",
                             children: [
-                                error && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Alert), {
-                                    variant: "danger",
-                                    className: "mb-3",
-                                    children: error
-                                }, void 0, false, {
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: "title-logo-wrapper",
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                                            children: "Welcome to"
+                                        }, void 0, false, {
+                                            fileName: "src/components/signup-view/signup-view.jsx",
+                                            lineNumber: 76,
+                                            columnNumber: 33
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                            src: (0, _bestflix075PngDefault.default),
+                                            alt: "MyFlix Logo",
+                                            className: "logo-image",
+                                            width: "250",
+                                            height: "auto"
+                                        }, void 0, false, {
+                                            fileName: "src/components/signup-view/signup-view.jsx",
+                                            lineNumber: 77,
+                                            columnNumber: 33
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
                                     fileName: "src/components/signup-view/signup-view.jsx",
-                                    lineNumber: 78,
-                                    columnNumber: 33
+                                    lineNumber: 75,
+                                    columnNumber: 29
                                 }, undefined),
-                                success && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Alert), {
-                                    variant: "success",
-                                    className: "mb-3",
-                                    children: "Signup successfull! Redirecting..."
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h6", {
+                                    children: "Still a lot to watch"
                                 }, void 0, false, {
                                     fileName: "src/components/signup-view/signup-view.jsx",
                                     lineNumber: 85,
-                                    columnNumber: 33
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Formik), {
-                                    initialValues: {
-                                        Username: "",
-                                        Password: "",
-                                        Email: "",
-                                        Birthday: ""
-                                    },
-                                    validationSchema: (0, _formValidation.signupSchema),
-                                    onSubmit: (values, actions)=>{
-                                        console.log("Form submitted with values:", values);
-                                        handleSubmit(values, actions);
-                                    },
-                                    children: ({ isSubmitting, touched, errors })=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Form), {
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
-                                                    className: "mb-3",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Label, {
-                                                            htmlFor: "Username",
-                                                            children: "Username"
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                                            lineNumber: 107,
-                                                            columnNumber: 45
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Field), {
-                                                            as: (0, _reactBootstrap.Form).Control,
-                                                            id: "Username",
-                                                            name: "Username",
-                                                            type: "text",
-                                                            placeholder: "Enter a username",
-                                                            isInvalid: touched.Username && errors.Username
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                                            lineNumber: 110,
-                                                            columnNumber: 45
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.ErrorMessage), {
-                                                            name: "Username",
-                                                            component: (0, _reactBootstrap.Form).Control.Feedback,
-                                                            type: "invalid"
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                                            lineNumber: 118,
-                                                            columnNumber: 45
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/components/signup-view/signup-view.jsx",
-                                                    lineNumber: 106,
-                                                    columnNumber: 41
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
-                                                    className: "mb-3",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Label, {
-                                                            htmlFor: "Password",
-                                                            children: "Password"
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                                            lineNumber: 125,
-                                                            columnNumber: 45
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Field), {
-                                                            as: (0, _reactBootstrap.Form).Control,
-                                                            id: "Password",
-                                                            name: "Password",
-                                                            type: "password",
-                                                            placeholder: "At least 8 characters",
-                                                            isInvalid: touched.Password && errors.Password
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                                            lineNumber: 128,
-                                                            columnNumber: 45
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.ErrorMessage), {
-                                                            name: "Password",
-                                                            component: (0, _reactBootstrap.Form).Control.Feedback,
-                                                            type: "invalid"
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                                            lineNumber: 136,
-                                                            columnNumber: 45
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/components/signup-view/signup-view.jsx",
-                                                    lineNumber: 124,
-                                                    columnNumber: 41
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
-                                                    className: "mb-3",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Label, {
-                                                            htmlFor: "Email",
-                                                            children: "Email"
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                                            lineNumber: 143,
-                                                            columnNumber: 45
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Field), {
-                                                            as: (0, _reactBootstrap.Form).Control,
-                                                            id: "Email",
-                                                            name: "Email",
-                                                            type: "email",
-                                                            placeholder: "Enter a valid email",
-                                                            isInvalid: touched.Email && errors.Email
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                                            lineNumber: 146,
-                                                            columnNumber: 45
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.ErrorMessage), {
-                                                            name: "Email",
-                                                            component: (0, _reactBootstrap.Form).Control.Feedback,
-                                                            type: "invalid"
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                                            lineNumber: 154,
-                                                            columnNumber: 45
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/components/signup-view/signup-view.jsx",
-                                                    lineNumber: 142,
-                                                    columnNumber: 41
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
-                                                    className: "mb-3",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Label, {
-                                                            htmlFor: "Birthday",
-                                                            children: "Birthday"
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                                            lineNumber: 161,
-                                                            columnNumber: 45
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Field), {
-                                                            as: (0, _reactBootstrap.Form).Control,
-                                                            id: "Birthday",
-                                                            name: "Birthday",
-                                                            type: "date",
-                                                            isInvalid: touched.Birthday && errors.Birthday
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                                            lineNumber: 164,
-                                                            columnNumber: 45
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.ErrorMessage), {
-                                                            name: "Birthday",
-                                                            component: (0, _reactBootstrap.Form).Control.Feedback,
-                                                            type: "invalid"
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                                            lineNumber: 171,
-                                                            columnNumber: 45
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/components/signup-view/signup-view.jsx",
-                                                    lineNumber: 160,
-                                                    columnNumber: 41
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    className: "d-grid gap-2",
-                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
-                                                        variant: "primary",
-                                                        type: "submit",
-                                                        disabled: isSubmitting,
-                                                        children: isSubmitting ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Spinner), {
-                                                                    as: "span",
-                                                                    animation: "border",
-                                                                    size: "sm",
-                                                                    role: "status",
-                                                                    "aria-hidden": "true",
-                                                                    className: "me-2"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/components/signup-view/signup-view.jsx",
-                                                                    lineNumber: 185,
-                                                                    columnNumber: 57
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                    className: "visually-hidden",
-                                                                    children: "Signing up..."
-                                                                }, void 0, false, {
-                                                                    fileName: "src/components/signup-view/signup-view.jsx",
-                                                                    lineNumber: 193,
-                                                                    columnNumber: 57
-                                                                }, undefined)
-                                                            ]
-                                                        }, void 0, true) : "Sign Up"
-                                                    }, void 0, false, {
-                                                        fileName: "src/components/signup-view/signup-view.jsx",
-                                                        lineNumber: 178,
-                                                        columnNumber: 45
-                                                    }, undefined)
-                                                }, void 0, false, {
-                                                    fileName: "src/components/signup-view/signup-view.jsx",
-                                                    lineNumber: 177,
-                                                    columnNumber: 41
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/components/signup-view/signup-view.jsx",
-                                            lineNumber: 105,
-                                            columnNumber: 37
-                                        }, undefined)
-                                }, void 0, false, {
-                                    fileName: "src/components/signup-view/signup-view.jsx",
-                                    lineNumber: 91,
                                     columnNumber: 29
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/components/signup-view/signup-view.jsx",
-                            lineNumber: 75,
+                            lineNumber: 74,
                             columnNumber: 25
                         }, undefined)
-                    ]
-                }, void 0, true, {
+                    }, void 0, false, {
+                        fileName: "src/components/signup-view/signup-view.jsx",
+                        lineNumber: 73,
+                        columnNumber: 21
+                    }, undefined)
+                }, void 0, false, {
                     fileName: "src/components/signup-view/signup-view.jsx",
-                    lineNumber: 71,
-                    columnNumber: 21
+                    lineNumber: 72,
+                    columnNumber: 17
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/components/signup-view/signup-view.jsx",
-                lineNumber: 70,
-                columnNumber: 17
+                lineNumber: 71,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Row), {
+                className: "justify-content-center",
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
+                    xs: 12,
+                    sm: 8,
+                    md: 6,
+                    lg: 4,
+                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card), {
+                        className: "signup-card",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "title-container",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Title, {
+                                        children: "Sign Up"
+                                    }, void 0, false, {
+                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                        lineNumber: 94,
+                                        columnNumber: 29
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Subtitle, {
+                                        className: "text-muted",
+                                        children: "Create an account"
+                                    }, void 0, false, {
+                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                        lineNumber: 95,
+                                        columnNumber: 29
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/signup-view/signup-view.jsx",
+                                lineNumber: 93,
+                                columnNumber: 25
+                            }, undefined),
+                            " ",
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
+                                children: [
+                                    error && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Alert), {
+                                        variant: "danger",
+                                        className: "mb-3",
+                                        role: "alert",
+                                        children: error
+                                    }, void 0, false, {
+                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                        lineNumber: 100,
+                                        columnNumber: 33
+                                    }, undefined),
+                                    success && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Alert), {
+                                        variant: "success",
+                                        className: "mb-3",
+                                        role: "status",
+                                        children: "Signup successfull! Redirecting..."
+                                    }, void 0, false, {
+                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                        lineNumber: 107,
+                                        columnNumber: 33
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Formik), {
+                                        initialValues: {
+                                            Username: "",
+                                            Password: "",
+                                            Email: "",
+                                            termsAccepted: false
+                                        },
+                                        validationSchema: (0, _formValidation.signupSchema),
+                                        onSubmit: (values, actions)=>{
+                                            console.log("Form submitted with values:", values);
+                                            handleSubmit(values, actions);
+                                        },
+                                        children: ({ isSubmitting, touched, errors })=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Form), {
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
+                                                        className: "form-group",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Label, {
+                                                                htmlFor: "Username",
+                                                                children: "Username"
+                                                            }, void 0, false, {
+                                                                fileName: "src/components/signup-view/signup-view.jsx",
+                                                                lineNumber: 129,
+                                                                columnNumber: 45
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Field), {
+                                                                as: (0, _reactBootstrap.Form).Control,
+                                                                id: "Username",
+                                                                name: "Username",
+                                                                type: "text",
+                                                                "aria-describedby": "username-error",
+                                                                isInvalid: touched.Username && errors.Username
+                                                            }, void 0, false, {
+                                                                fileName: "src/components/signup-view/signup-view.jsx",
+                                                                lineNumber: 132,
+                                                                columnNumber: 45
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.ErrorMessage), {
+                                                                name: "Username",
+                                                                component: (0, _reactBootstrap.Form).Text,
+                                                                id: "username-error",
+                                                                className: "text-danger"
+                                                            }, void 0, false, {
+                                                                fileName: "src/components/signup-view/signup-view.jsx",
+                                                                lineNumber: 140,
+                                                                columnNumber: 45
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                                        lineNumber: 128,
+                                                        columnNumber: 41
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
+                                                        className: "form-group",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Label, {
+                                                                htmlFor: "Email",
+                                                                children: "Email"
+                                                            }, void 0, false, {
+                                                                fileName: "src/components/signup-view/signup-view.jsx",
+                                                                lineNumber: 148,
+                                                                columnNumber: 45
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Field), {
+                                                                as: (0, _reactBootstrap.Form).Control,
+                                                                id: "Email",
+                                                                name: "Email",
+                                                                type: "email",
+                                                                isInvalid: touched.Email && errors.Email
+                                                            }, void 0, false, {
+                                                                fileName: "src/components/signup-view/signup-view.jsx",
+                                                                lineNumber: 151,
+                                                                columnNumber: 45
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.ErrorMessage), {
+                                                                name: "Email",
+                                                                component: (0, _reactBootstrap.Form).Text,
+                                                                id: "email-error",
+                                                                className: "text-danger"
+                                                            }, void 0, false, {
+                                                                fileName: "src/components/signup-view/signup-view.jsx",
+                                                                lineNumber: 158,
+                                                                columnNumber: 45
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                                        lineNumber: 147,
+                                                        columnNumber: 41
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
+                                                        className: "form-group",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Label, {
+                                                                htmlFor: "Password",
+                                                                children: "Password"
+                                                            }, void 0, false, {
+                                                                fileName: "src/components/signup-view/signup-view.jsx",
+                                                                lineNumber: 166,
+                                                                columnNumber: 45
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Field), {
+                                                                as: (0, _reactBootstrap.Form).Control,
+                                                                id: "Password",
+                                                                name: "Password",
+                                                                type: "password",
+                                                                isInvalid: touched.Password && errors.Password
+                                                            }, void 0, false, {
+                                                                fileName: "src/components/signup-view/signup-view.jsx",
+                                                                lineNumber: 169,
+                                                                columnNumber: 45
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.ErrorMessage), {
+                                                                name: "Password",
+                                                                component: (0, _reactBootstrap.Form).Text,
+                                                                id: "password-error",
+                                                                className: "text-danger"
+                                                            }, void 0, false, {
+                                                                fileName: "src/components/signup-view/signup-view.jsx",
+                                                                lineNumber: 176,
+                                                                columnNumber: 45
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                                        lineNumber: 165,
+                                                        columnNumber: 41
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Group, {
+                                                        className: "form-group mb-4",
+                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                            className: "terms-checkbox",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Field), {
+                                                                    type: "checkbox",
+                                                                    name: "termsAccepted",
+                                                                    id: "termsAccepted",
+                                                                    className: `form-check-input ${touched.termsAccepted && errors.termsAccepted ? "is-invalid" : ""}`
+                                                                }, void 0, false, {
+                                                                    fileName: "src/components/signup-view/signup-view.jsx",
+                                                                    lineNumber: 185,
+                                                                    columnNumber: 49
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form).Label, {
+                                                                    htmlFor: "termsAccepted",
+                                                                    className: "form-check-lable ms-2",
+                                                                    children: [
+                                                                        "I Agree to the",
+                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
+                                                                            to: "/terms",
+                                                                            className: "terms-link",
+                                                                            children: "Terms & Conditions"
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/components/signup-view/signup-view.jsx",
+                                                                            lineNumber: 201,
+                                                                            columnNumber: 53
+                                                                        }, undefined)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "src/components/signup-view/signup-view.jsx",
+                                                                    lineNumber: 196,
+                                                                    columnNumber: 49
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.ErrorMessage), {
+                                                                    name: "termsAccepted",
+                                                                    component: (0, _reactBootstrap.Form).Text,
+                                                                    className: "text-danger"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/components/signup-view/signup-view.jsx",
+                                                                    lineNumber: 205,
+                                                                    columnNumber: 49
+                                                                }, undefined)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/components/signup-view/signup-view.jsx",
+                                                            lineNumber: 184,
+                                                            columnNumber: 45
+                                                        }, undefined)
+                                                    }, void 0, false, {
+                                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                                        lineNumber: 183,
+                                                        columnNumber: 41
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        className: "d-grid",
+                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
+                                                            variant: "primary",
+                                                            type: "submit",
+                                                            disabled: isSubmitting,
+                                                            className: "signup-button",
+                                                            children: isSubmitting ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Spinner), {
+                                                                        as: "span",
+                                                                        animation: "border",
+                                                                        size: "sm",
+                                                                        role: "status",
+                                                                        "aria-hidden": "true",
+                                                                        className: "me-2"
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                                                        lineNumber: 221,
+                                                                        columnNumber: 57
+                                                                    }, undefined),
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                        className: "visually-hidden",
+                                                                        children: "Signing up..."
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                                                        lineNumber: 229,
+                                                                        columnNumber: 57
+                                                                    }, undefined)
+                                                                ]
+                                                            }, void 0, true) : "Sign Up"
+                                                        }, void 0, false, {
+                                                            fileName: "src/components/signup-view/signup-view.jsx",
+                                                            lineNumber: 213,
+                                                            columnNumber: 45
+                                                        }, undefined)
+                                                    }, void 0, false, {
+                                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                                        lineNumber: 212,
+                                                        columnNumber: 41
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        className: "text-center mt-3",
+                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                            className: "mb-0",
+                                                            children: [
+                                                                "Already have an account...",
+                                                                " ",
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
+                                                                    to: "/login",
+                                                                    className: "login-link",
+                                                                    children: "Login"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/components/signup-view/signup-view.jsx",
+                                                                    lineNumber: 241,
+                                                                    columnNumber: 49
+                                                                }, undefined)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/components/signup-view/signup-view.jsx",
+                                                            lineNumber: 239,
+                                                            columnNumber: 45
+                                                        }, undefined)
+                                                    }, void 0, false, {
+                                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                                        lineNumber: 238,
+                                                        columnNumber: 41
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/components/signup-view/signup-view.jsx",
+                                                lineNumber: 127,
+                                                columnNumber: 37
+                                            }, undefined)
+                                    }, void 0, false, {
+                                        fileName: "src/components/signup-view/signup-view.jsx",
+                                        lineNumber: 113,
+                                        columnNumber: 29
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/signup-view/signup-view.jsx",
+                                lineNumber: 97,
+                                columnNumber: 25
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/signup-view/signup-view.jsx",
+                        lineNumber: 92,
+                        columnNumber: 21
+                    }, undefined)
+                }, void 0, false, {
+                    fileName: "src/components/signup-view/signup-view.jsx",
+                    lineNumber: 91,
+                    columnNumber: 17
+                }, undefined)
+            }, void 0, false, {
+                fileName: "src/components/signup-view/signup-view.jsx",
+                lineNumber: 90,
+                columnNumber: 13
             }, undefined)
-        }, void 0, false, {
-            fileName: "src/components/signup-view/signup-view.jsx",
-            lineNumber: 69,
-            columnNumber: 13
-        }, undefined)
-    }, void 0, false, {
+        ]
+    }, void 0, true, {
         fileName: "src/components/signup-view/signup-view.jsx",
-        lineNumber: 68,
+        lineNumber: 70,
         columnNumber: 9
     }, undefined);
 };
@@ -41632,7 +41768,7 @@ $RefreshReg$(_c, "SignupView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","formik":"aefoQ","react-bootstrap":"3AD9A","../form-validation/form-validation":"kfKh8","react-router-dom":"9xmpe"}],"aefoQ":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","formik":"aefoQ","react-bootstrap":"3AD9A","../form-validation/form-validation":"kfKh8","react-router-dom":"9xmpe","./signup-view.scss":"6Z19M","../../assets/bestflix_075.png":"lXOO7"}],"aefoQ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ErrorMessage", ()=>ErrorMessage);
@@ -48812,7 +48948,7 @@ function makeNodesHash(arr) {
     return res;
 }
 
-},{}],"2vVqf":[function(require,module,exports) {
+},{}],"6Z19M":[function() {},{}],"2vVqf":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$3c12 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;

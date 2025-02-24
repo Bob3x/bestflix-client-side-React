@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 // prettier-ignore
 import { Button, Container, Row, Col, Card, Form as BootstrapForm, Alert, Spinner } from "react-bootstrap";
 import { signupSchema } from "../form-validation/form-validation";
+import "./signup-view.scss";
+import logo from "../../assets/bestflix_075.png";
 
 export const SignupView = ({ onLoggedIn }) => {
     // State for managing form-level messages
@@ -19,9 +21,9 @@ export const SignupView = ({ onLoggedIn }) => {
                 {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(values),
+                    body: JSON.stringify(values)
                 }
             );
 
@@ -35,12 +37,12 @@ export const SignupView = ({ onLoggedIn }) => {
                 {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
                         Username: values.Username,
-                        Password: values.Password,
-                    }),
+                        Password: values.Password
+                    })
                 }
             );
 
@@ -65,24 +67,44 @@ export const SignupView = ({ onLoggedIn }) => {
     };
 
     return (
-        <Container>
+        <Container className="signup-container">
+            <Container className="header-conainer">
+                <Row className="justify-content-center">
+                    <Col xs={12} sm={8} md={6} lg={4}>
+                        <div className="text-end mb-4">
+                            <div className="title-logo-wrapper">
+                                <h2>Welcome to</h2>
+                                <img
+                                    src={logo}
+                                    alt="MyFlix Logo"
+                                    className="logo-image"
+                                    width="250"
+                                    height="auto"
+                                />
+                            </div>
+                            <h6>Still a lot to watch</h6>
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
             <Row className="justify-content-center">
-                <Col md={6}>
-                    <Card className="mt-4">
-                        <Card.Header className="text-center">
+                <Col xs={12} sm={8} md={6} lg={4}>
+                    <Card className="signup-card">
+                        <div className="title-container">
                             <Card.Title>Sign Up</Card.Title>
-                        </Card.Header>
+                            <Card.Subtitle className="text-muted">Create an account</Card.Subtitle>
+                        </div>{" "}
                         <Card.Body>
                             {/* Error message display to client*/}
                             {error && (
-                                <Alert variant="danger" className="mb-3">
+                                <Alert variant="danger" className="mb-3" role="alert">
                                     {error}
                                 </Alert>
                             )}
 
                             {/* Success message display */}
                             {success && (
-                                <Alert variant="success" className="mb-3">
+                                <Alert variant="success" className="mb-3" role="status">
                                     Signup successfull! Redirecting...
                                 </Alert>
                             )}
@@ -93,7 +115,7 @@ export const SignupView = ({ onLoggedIn }) => {
                                     Username: "",
                                     Password: "",
                                     Email: "",
-                                    Birthday: "",
+                                    termsAccepted: false
                                 }}
                                 validationSchema={signupSchema}
                                 onSubmit={(values, actions) => {
@@ -103,7 +125,7 @@ export const SignupView = ({ onLoggedIn }) => {
                             >
                                 {({ isSubmitting, touched, errors }) => (
                                     <Form>
-                                        <BootstrapForm.Group className="mb-3">
+                                        <BootstrapForm.Group className="form-group">
                                             <BootstrapForm.Label htmlFor="Username">
                                                 Username
                                             </BootstrapForm.Label>
@@ -112,34 +134,17 @@ export const SignupView = ({ onLoggedIn }) => {
                                                 id="Username"
                                                 name="Username"
                                                 type="text"
-                                                placeholder="Enter a username"
+                                                aria-describedby="username-error"
                                                 isInvalid={touched.Username && errors.Username}
                                             />
                                             <ErrorMessage
                                                 name="Username"
-                                                component={BootstrapForm.Control.Feedback}
-                                                type="invalid"
+                                                component={BootstrapForm.Text}
+                                                id="username-error"
+                                                className="text-danger"
                                             />
                                         </BootstrapForm.Group>
-                                        <BootstrapForm.Group className="mb-3">
-                                            <BootstrapForm.Label htmlFor="Password">
-                                                Password
-                                            </BootstrapForm.Label>
-                                            <Field
-                                                as={BootstrapForm.Control}
-                                                id="Password"
-                                                name="Password"
-                                                type="password"
-                                                placeholder="At least 8 characters"
-                                                isInvalid={touched.Password && errors.Password}
-                                            />
-                                            <ErrorMessage
-                                                name="Password"
-                                                component={BootstrapForm.Control.Feedback}
-                                                type="invalid"
-                                            />
-                                        </BootstrapForm.Group>
-                                        <BootstrapForm.Group className="mb-3">
+                                        <BootstrapForm.Group className="form-group">
                                             <BootstrapForm.Label htmlFor="Email">
                                                 Email
                                             </BootstrapForm.Label>
@@ -148,37 +153,68 @@ export const SignupView = ({ onLoggedIn }) => {
                                                 id="Email"
                                                 name="Email"
                                                 type="email"
-                                                placeholder="Enter a valid email"
                                                 isInvalid={touched.Email && errors.Email}
                                             />
                                             <ErrorMessage
                                                 name="Email"
-                                                component={BootstrapForm.Control.Feedback}
-                                                type="invalid"
+                                                component={BootstrapForm.Text}
+                                                id="email-error"
+                                                className="text-danger"
                                             />
                                         </BootstrapForm.Group>
-                                        <BootstrapForm.Group className="mb-3">
-                                            <BootstrapForm.Label htmlFor="Birthday">
-                                                Birthday
+                                        <BootstrapForm.Group className="form-group">
+                                            <BootstrapForm.Label htmlFor="Password">
+                                                Password
                                             </BootstrapForm.Label>
                                             <Field
                                                 as={BootstrapForm.Control}
-                                                id="Birthday"
-                                                name="Birthday"
-                                                type="date"
-                                                isInvalid={touched.Birthday && errors.Birthday}
+                                                id="Password"
+                                                name="Password"
+                                                type="password"
+                                                isInvalid={touched.Password && errors.Password}
                                             />
                                             <ErrorMessage
-                                                name="Birthday"
-                                                component={BootstrapForm.Control.Feedback}
-                                                type="invalid"
+                                                name="Password"
+                                                component={BootstrapForm.Text}
+                                                id="password-error"
+                                                className="text-danger"
                                             />
                                         </BootstrapForm.Group>
-                                        <div className="d-grid gap-2">
+                                        <BootstrapForm.Group className="form-group mb-4">
+                                            <div className="terms-checkbox">
+                                                <Field
+                                                    type="checkbox"
+                                                    name="termsAccepted"
+                                                    id="termsAccepted"
+                                                    className={`form-check-input ${
+                                                        touched.termsAccepted &&
+                                                        errors.termsAccepted
+                                                            ? "is-invalid"
+                                                            : ""
+                                                    }`}
+                                                />
+                                                <BootstrapForm.Label
+                                                    htmlFor="termsAccepted"
+                                                    className="form-check-lable ms-2"
+                                                >
+                                                    I Agree to the
+                                                    <Link to="/terms" className="terms-link">
+                                                        Terms & Conditions
+                                                    </Link>
+                                                </BootstrapForm.Label>
+                                                <ErrorMessage
+                                                    name="termsAccepted"
+                                                    component={BootstrapForm.Text}
+                                                    className="text-danger"
+                                                />
+                                            </div>
+                                        </BootstrapForm.Group>
+                                        <div className="d-grid">
                                             <Button
                                                 variant="primary"
                                                 type="submit"
                                                 disabled={isSubmitting}
+                                                className="signup-button"
                                             >
                                                 {isSubmitting ? (
                                                     <>
@@ -198,7 +234,15 @@ export const SignupView = ({ onLoggedIn }) => {
                                                     "Sign Up"
                                                 )}
                                             </Button>
-                                        </div>     
+                                        </div>
+                                        <div className="text-center mt-3">
+                                            <p className="mb-0">
+                                                Already have an account...{" "}
+                                                <Link to="/login" className="login-link">
+                                                    Login
+                                                </Link>
+                                            </p>
+                                        </div>
                                     </Form>
                                 )}
                             </Formik>

@@ -1,0 +1,148 @@
+.signup-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    color: #cfcfcf !important;
+
+    .header-container {
+        margin-bottom: 2rem;
+        width: 100%;
+
+        .text-end {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            width: auto;
+            text-align: left !important;
+
+            .title-logo-wrapper {
+                display: flex;
+                gap: 1rem;
+                width: 100%; // Take full width
+                margin: 0 auto;
+            }
+
+            h2 {
+                text-align: left !important;
+                font-weight: 700;
+                font-size: 1.25rem !important;
+                margin: 0 !important;
+                white-space: nowrap;
+            }
+
+            .logo-image {
+                max-width: 100%;
+                height: auto;
+                margin: 0;
+            }
+
+            h6 {
+                margin: 0 !important;
+                font-size: 0.85rem;
+                font-weight: 700;
+                opacity: 0.8;
+            }
+        }
+    }
+
+    .title-container {
+        color: #cfcfcf !important;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        text-align: center;
+
+        .text-muted {
+            font-size: 0.75rem;
+            color: #ffffffb1 !important;
+        }
+    }
+
+    .signup-card {
+        background-color: #445866 !important;
+        border-radius: 24px !important;
+    }
+
+    .form-group {
+        margin: 0 0 1rem 0;
+        position: relative;
+
+        .form-control {
+            position: relative;
+            padding-right: 30px;
+        }
+
+        .text-danger {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            font-size: 0.75rem;
+            color: rgba(249, 66, 66, 0.685);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .is-invalid {
+            border-color: #ff4d4d !important;
+
+            &:focus {
+                box-shadow: 0 0 0 0.2rem rgba(255, 77, 77, 0.25) !important;
+            }
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #cfcfcf;
+        }
+    }
+
+    .terms-checkbox {
+        display: flex;
+        align-items: flex-start;
+        margin-top: 20px;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        margin-right: 0;
+
+        .form-check-input {
+            margin-top: 0.3rem;
+            cursor: pointer;
+
+            &:checked {
+                background-color: #0d6efd;
+                border-color: #0d6efd;
+            }
+
+            &.is-invalid {
+                border-color: #ff4d4d;
+            }
+        }
+
+        .form-check-label {
+            font-size: 0.85rem;
+            color: #cfcfcf;
+            cursor: pointer;
+        }
+
+        .terms-link {
+            padding-left: 5px;
+            color: #0d6efd;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .text-danger {
+            position: absolute;
+            left: 0;
+            bottom: -20px;
+            font-size: 0.6rem;
+        }
+    }
+
+    .signup-button {
+        margin-top: 5px;
+    }
+}

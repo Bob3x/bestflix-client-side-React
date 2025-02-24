@@ -68,7 +68,7 @@ export const SignupView = ({ onLoggedIn }) => {
 
     return (
         <Container className="signup-container">
-            <Container className="header-conainer">
+            <Container className="header-container">
                 <Row className="justify-content-center">
                     <Col xs={12} sm={8} md={6} lg={4}>
                         <div className="text-end mb-4">
@@ -82,7 +82,7 @@ export const SignupView = ({ onLoggedIn }) => {
                                     height="auto"
                                 />
                             </div>
-                            <h6>Still a lot to watch</h6>
+                            <h6>still a lot to watch</h6>
                         </div>
                     </Col>
                 </Row>
@@ -237,7 +237,7 @@ export const SignupView = ({ onLoggedIn }) => {
                                         </div>
                                         <div className="text-center mt-3">
                                             <p className="mb-0">
-                                                Already have an account...{" "}
+                                                Already have an account -{" "}
                                                 <Link to="/login" className="login-link">
                                                     Login
                                                 </Link>

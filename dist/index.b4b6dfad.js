@@ -41339,7 +41339,7 @@ const SignupView = ({ onLoggedIn })=>{
         className: "signup-container",
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Container), {
-                className: "header-conainer",
+                className: "header-container",
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Row), {
                     className: "justify-content-center",
                     children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Col), {
@@ -41378,7 +41378,7 @@ const SignupView = ({ onLoggedIn })=>{
                                     columnNumber: 29
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h6", {
-                                    children: "Still a lot to watch"
+                                    children: "still a lot to watch"
                                 }, void 0, false, {
                                     fileName: "src/components/signup-view/signup-view.jsx",
                                     lineNumber: 85,
@@ -41692,7 +41692,7 @@ const SignupView = ({ onLoggedIn })=>{
                                                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                                                             className: "mb-0",
                                                             children: [
-                                                                "Already have an account...",
+                                                                "Already have an account -",
                                                                 " ",
                                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
                                                                     to: "/login",

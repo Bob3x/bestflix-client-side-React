@@ -1,11 +1,12 @@
 .header-container {
     margin-bottom: 2rem;
+    margin-top: 1rem;
 
     .text-end {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 1rem;
+        gap: 0.25rem;
 
         .title-logo-wrapper {
             display: flex;
@@ -51,8 +52,8 @@
     text-align: center;
 
     .text-muted {
-        font-size: 0.75rem;
-        color: #ffffffb1 !important;
+        font-size: 0.85rem;
+        color: rgba(40, 40, 40, 0.658) !important;
     }
 }
 
@@ -76,17 +77,19 @@
     height: 46px !important;
     background-color: #353b3d !important;
     border-radius: 16px !important;
-    border: none !important;
+    border-color: transparent !important;
     padding: 0.75rem;
 
     &:focus {
-        border-color: #b69651 !important;
+        border-color: rgba(182, 150, 81, 0.681) !important;
+        box-shadow: 0 0 0 0.2rem #fdcd0d40 !important;
     }
 }
 
 .btn-primary {
     background-color: #b69651 !important;
     border-radius: 16px !important;
+    border-color: transparent !important;
     width: 100%;
     padding: 0.75rem;
     font-weight: 700;
@@ -100,16 +103,16 @@
     }
 }
 
+p {
+    color: rgba(205, 205, 205, 0.3);
+}
+
 .signup-link {
     text-align: center;
     margin-top: 1.5rem;
-
-    a {
-        color: #007bff;
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: none;
-        }
+    color: #007bff;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
     }
 }

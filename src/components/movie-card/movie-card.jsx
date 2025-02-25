@@ -6,17 +6,18 @@ import { Link } from "react-router-dom";
 export const MovieCard = ({ movie }) => {
     return (
         <Row>
-            <Col md={10}>
-                <Card>
+            <Col md={12}>
+                <Card className="movie-card-container">
                     <Card.Img variant="top" src={movie.image} alt={movie.title} />
+                    <Card.Text>
+                        <p>Genre: {movie.genre.name}</p>
+                    </Card.Text>
+
+                    <Card.Title>
+                        <strong>{movie.title}</strong>
+                    </Card.Title>
+                    <Card.Text>{movie.description}</Card.Text>
                     <Card.Body>
-                        <Card.Title>
-                            <strong>{movie.title}</strong>
-                        </Card.Title>
-                        <Card.Text>
-                            <p>Genre: {movie.genre.name}</p>
-                            {movie.description}
-                        </Card.Text>
                         <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
                             <Button variant="link">Open</Button>
                         </Link>
@@ -34,16 +35,15 @@ MovieCard.propTypes = {
         description: PropTypes.string.isRequired,
         genre: PropTypes.shape({
             name: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired
         }).isRequired,
         director: PropTypes.shape({
             name: PropTypes.string.isRequired,
             bio: PropTypes.string.isRequired,
             birth: PropTypes.string,
-            death: PropTypes.string,
+            death: PropTypes.string
         }).isRequired,
         image: PropTypes.string.isRequired,
-        featured: PropTypes.bool.isRequired,
-    }),
+        featured: PropTypes.bool.isRequired
+    })
 };
-

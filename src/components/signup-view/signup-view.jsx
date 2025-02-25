@@ -49,7 +49,7 @@ export const SignupView = ({ onLoggedIn }) => {
             if (!loginResponse.ok) {
                 throw new Error("Auto-login failed");
             }
-
+            setError("");
             const data = await loginResponse.json();
             onLoggedIn(data.user, data.token);
 
@@ -122,6 +122,7 @@ export const SignupView = ({ onLoggedIn }) => {
                                     console.log("Form submitted with values:", values);
                                     handleSubmit(values, actions);
                                 }}
+                                key="signup-form"
                             >
                                 {({ isSubmitting, touched, errors }) => (
                                     <Form>

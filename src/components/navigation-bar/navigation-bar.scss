@@ -1,0 +1,34 @@
+.navbar {
+    margin-bottom: 2rem !important; // Adds space below navbar
+    background-color: #0e2e4d !important;
+    max-height: 80px;
+}
+
+.profile-link {
+    color: #cfcfcf;
+    transition: transform 0.2s ease;
+
+    &:hover {
+        color: rgba(182, 150, 81, 0.681);
+        transform: scale(1.1);
+    }
+
+    .profile-icon {
+        transition: transform 0.2s ease;
+    }
+}
+
+.nav-link {
+    color: rgb(253, 253, 253) !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    span {
+        color: #cfcfcf;
+
+        &:hover {
+            color: rgba(182, 150, 81, 0.681);
+        }
+    }
+}

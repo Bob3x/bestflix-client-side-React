@@ -83,6 +83,7 @@
         .form-control {
             position: relative;
             padding-right: 30px;
+            color: #cfcfcf;
         }
 
         .text-danger {
@@ -93,6 +94,7 @@
             color: rgba(249, 66, 66, 0.685);
             z-index: 2;
             pointer-events: none;
+            animation: fadeIn 0.2s ease-in;
         }
 
         .is-invalid {
@@ -172,5 +174,14 @@
         &:hover {
             text-decoration: underline;
         }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

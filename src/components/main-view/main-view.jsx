@@ -7,6 +7,9 @@ import { MovieCard } from "../movie-card/movie-card";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { useFavoriteMovie } from "../hooks/useFavoriteMovie";
+import { ToastContainer, Toast } from "react-bootstrap";
+import "./main-view.scss";
 
 export const MainView = () => {
     const storedUser = (() => {
@@ -25,6 +28,12 @@ export const MainView = () => {
     const [token, setToken] = useState(storedToken ? storedToken : null);
     const [movies, setMovies] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
+
+    const { toggleFavorite, isLoading, toastState, setToastState } = useFavoriteMovie(
+        user,
+        token,
+        setUser
+    );
 
     useEffect(() => {
         if (!token) return;
@@ -104,87 +113,101 @@ export const MainView = () => {
             {user && (
                 <NavigationBar user={user} onLoggedOut={onLoggedOut} onSearch={handleSearch} />
             )}
-            <Container>
-                <Row className="justify-content-md-center">
-                    <Routes>
-                        {/* Show login if no user */}
-                        <Route
-                            path="/login"
-                            element={
-                                !user ? <LoginView onLoggedIn={onLoggedIn} /> : <Navigate to="/" />
-                            }
-                        />
-                        <Route
-                            path="/signup"
-                            element={
-                                !user ? <SignupView onLoggedIn={onLoggedIn} /> : <Navigate to="/" />
-                            }
-                        />
+            <Routes>
+                {/* Show login if no user */}
+                <Route
+                    path="/login"
+                    element={!user ? <LoginView onLoggedIn={onLoggedIn} /> : <Navigate to="/" />}
+                />
+                <Route
+                    path="/signup"
+                    element={!user ? <SignupView onLoggedIn={onLoggedIn} /> : <Navigate to="/" />}
+                />
 
-                        <Route
-                            path="/movies/:movieId"
-                            element={
-                                !user ? (
-                                    <Navigate to="/login" replace />
-                                ) : (
-                                    <MovieView
-                                        movies={movies}
-                                        user={user}
-                                        token={token}
-                                        setUser={setUser}
-                                    />
-                                )
-                            }
-                        />
+                <Route
+                    path="/movies/:movieId"
+                    element={
+                        !user ? (
+                            <Navigate to="/login" replace />
+                        ) : (
+                            <MovieView
+                                movies={movies}
+                                user={user}
+                                token={token}
+                                setUser={setUser}
+                            />
+                        )
+                    }
+                />
 
-                        <Route
-                            path="/users/:Username"
-                            element={
-                                !user ? (
-                                    <Navigate to="/login" replace />
-                                ) : (
-                                    <ProfileView
-                                        user={user}
-                                        setUser={setUser}
-                                        token={token}
-                                        movies={movies}
-                                        onLoggedOut={onLoggedOut}
-                                    />
-                                )
-                            }
-                        />
-                        <Route
-                            path="/"
-                            element={
-                                !user ? (
-                                    <Navigate to="/login" replace />
-                                ) : filteredMovies.length > 0 ? (
-                                    <Row className="justify-content-md-center">
+                <Route
+                    path="/users/:Username"
+                    element={
+                        !user ? (
+                            <Navigate to="/login" replace />
+                        ) : (
+                            <ProfileView
+                                user={user}
+                                setUser={setUser}
+                                token={token}
+                                movies={movies}
+                                onLoggedOut={onLoggedOut}
+                            />
+                        )
+                    }
+                />
+                <Route
+                    path="/"
+                    element={
+                        !user ? (
+                            <Navigate to="/login" replace />
+                        ) : filteredMovies.length > 0 ? (
+                            <Container fluid className="movies-container">
+                                <Container className="content-wrapper">
+                                    <Row className="justify-content-md-center g-2">
                                         {filteredMovies.map((movie) => (
                                             <Col
                                                 className="mb-4"
                                                 key={movie._id}
                                                 xs={12}
                                                 sm={6}
-                                                md={4}
+                                                md={3}
                                                 lg={3}
                                             >
-                                                <MovieCard movie={movie} />
+                                                <MovieCard
+                                                    movie={movie}
+                                                    user={user}
+                                                    token={token}
+                                                    setUser={setUser}
+                                                    toggleFavorite={toggleFavorite}
+                                                    isLoadeing={isLoading}
+                                                />
                                             </Col>
                                         ))}
                                     </Row>
-                                ) : (
-                                    <Row className="justify-content-md-center">
-                                        <Col>
-                                            <p>No movies found</p>
-                                        </Col>
-                                    </Row>
-                                )
-                            }
-                        />
-                    </Routes>
-                </Row>
-            </Container>
+                                </Container>
+                            </Container>
+                        ) : (
+                            <Row className="justify-content-md-center">
+                                <Col>
+                                    <p>No movies found</p>
+                                </Col>
+                            </Row>
+                        )
+                    }
+                />
+            </Routes>
+            <ToastContainer position="bottom-end" className="p-3">
+                <Toast
+                    show={toastState.show}
+                    onClose={() => setToastState((prev) => ({ ...prev, show: false }))}
+                    delay={3000}
+                    autohide
+                    bg={toastState.variant}
+                >
+                    <Toast.Body className="text-white">{toastState.message}</Toast.Body>
+                </Toast>
+            </ToastContainer>
         </BrowserRouter>
     );
 };

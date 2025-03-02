@@ -1,30 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Card, Row, Col } from "react-bootstrap";
+import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { Heart, HeartFill } from "react-bootstrap-icons";
+import { useFavoriteMovie } from "../hooks/useFavoriteMovie";
+import "./movie-card.scss";
 
-export const MovieCard = ({ movie }) => {
+export const MovieCard = ({ movie, user, token, setUser }) => {
+    const [showTooltip, setShowTooltip] = useState(false);
+    const { toggleFavorite, isLoading } = useFavoriteMovie(user, token, setUser);
+    const isFavorite = user.FavoriteMovies.includes(movie._id);
+
+    const handleFavoriteClick = (e) => {
+        e.preventDefault();
+        toggleFavorite(movie._id, isFavorite);
+    };
+
     return (
-        <Row>
-            <Col md={12}>
-                <Card className="movie-card-container">
-                    <Card.Img variant="top" src={movie.image} alt={movie.title} />
-                    <Card.Text>
-                        <p>Genre: {movie.genre.name}</p>
-                    </Card.Text>
-
-                    <Card.Title>
+        <Card className="movie-card">
+            <Link
+                to={`/movies/${encodeURIComponent(movie._id)}`}
+                className="movie-card__image-link"
+            >
+                <Card.Img
+                    variant="top"
+                    src={movie.image}
+                    alt={movie.title}
+                    className="movie-card__image"
+                />
+            </Link>
+            <Card.Body className="movie-card__content">
+                <div className="movie-card__title-wrapper">
+                    <Card.Title className="movie-card__title">
                         <strong>{movie.title}</strong>
                     </Card.Title>
-                    <Card.Text>{movie.description}</Card.Text>
-                    <Card.Body>
-                        <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
-                            <Button variant="link">Open</Button>
-                        </Link>
-                    </Card.Body>
-                </Card>
-            </Col>
-        </Row>
+                    <button
+                        className="movie-card__favorite-btn"
+                        onClick={handleFavoriteClick}
+                        disabled={isLoading}
+                        aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                    >
+                        {isFavorite ? (
+                            <HeartFill className="heart-icon filled" />
+                        ) : (
+                            <Heart className="heart-icon" />
+                        )}
+                    </button>
+                </div>
+                <Card.Text className="movie-card__genre">{movie.genre.name}</Card.Text>
+                <OverlayTrigger
+                    placement="top"
+                    overlay={
+                        <Tooltip className="movie-card__description-tooltip">
+                            {movie.description}
+                        </Tooltip>
+                    }
+                >
+                    <Card.Text className="movie-card__description">{movie.description}</Card.Text>
+                </OverlayTrigger>
+            </Card.Body>
+        </Card>
     );
 };
 
@@ -37,6 +72,12 @@ MovieCard.propTypes = {
             name: PropTypes.string.isRequired,
             description: PropTypes.string.isRequired
         }).isRequired,
+        user: PropTypes.shape({
+            Username: PropTypes.string.isRequired,
+            FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired
+        }).isRequired,
+        token: PropTypes.string.isRequired,
+        setUser: PropTypes.func.isRequired,
         director: PropTypes.shape({
             name: PropTypes.string.isRequired,
             bio: PropTypes.string.isRequired,

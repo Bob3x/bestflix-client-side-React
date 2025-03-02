@@ -4,94 +4,19 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col, Card, Stack, Button } from "react-bootstrap";
 import { Toast, ToastContainer } from "react-bootstrap";
 import PropTypes from "prop-types";
+import { useFavoriteMovie } from "../hooks/useFavoriteMovie";
+import "./movie-view.scss";
 
 export const MovieView = ({ movies, user, token, setUser }) => {
     const { movieId } = useParams();
-    const [isLoading, setIsLoading] = useState(false);
-
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState("");
-    const [toastVariant, setToastVariant] = useState("success");
+    const { toggleFavorite, isLoading, toastState, setToastState } = useFavoriteMovie(
+        user,
+        token,
+        setUser
+    );
 
     const movie = movies.find((m) => m._id === movieId);
     const isFavorite = user.FavoriteMovies.includes(movieId);
-
-    const addFavorite = () => {
-        setIsLoading(true);
-        fetch(
-            `https://my-movies-flix-app-56f9661dc035.herokuapp.com/users/${user.Username}/movies/${movieId}`,
-            {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            }
-        )
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to add favorite movie");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setUser(data);
-                localStorage.setItem("user", JSON.stringify(data));
-                setToastVariant("success");
-                setToastMessage("Movie added to favorites!");
-                setShowToast(true);
-            })
-            .catch((err) => {
-                console.error("Error adding movie:", err);
-                setToastVariant("danger");
-                setToastMessage(err.message);
-                setShowToast(true);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    };
-
-    const removeFavorite = () => {
-        setIsLoading(true);
-        fetch(
-            `https://my-movies-flix-app-56f9661dc035.herokuapp.com/users/${user.Username}/movies/${movieId}`,
-            {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            }
-        )
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to remove favorite movie");
-                }
-                const updatedUser = {
-                    ...user,
-                    FavoriteMovies: user.FavoriteMovies.filter((_id) => _id !== movieId)
-                };
-                setUser(updatedUser);
-                localStorage.setItem("user", JSON.stringify(updatedUser));
-                setToastVariant("success");
-                setToastMessage("Movie removed from favorites!");
-                setShowToast(true);
-            })
-            .catch((err) => {
-                console.error("Error removing movie:", err);
-                setToastVariant("danger");
-                setToastMessage(err.message);
-                setShowToast(true);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    };
-
-    if (!movie) {
-        return <div>Movie not found</div>;
-    }
 
     return (
         <Container>
@@ -144,7 +69,7 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                             <div className="mt-2 mb-2 d-flex gap-2">
                                 <Button
                                     variant="secondary"
-                                    onClick={isFavorite ? removeFavorite : addFavorite}
+                                    onClick={isFavorite}
                                     disabled={isLoading}
                                 >
                                     {isLoading
@@ -161,15 +86,27 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                     </Card>
                 </Col>
             </Row>
+            {/* ...existing code... */}
+            <Button
+                variant="secondary"
+                onClick={() => toggleFavorite(movieId, isFavorite)}
+                disabled={isLoading}
+            >
+                {isLoading
+                    ? "Processing..."
+                    : isFavorite
+                    ? "Remove from favorites"
+                    : "Add to favorites"}
+            </Button>
             <ToastContainer position="bottom-end" className="p-3">
                 <Toast
-                    show={showToast}
-                    onClose={() => setShowToast(false)}
+                    show={showToast.show}
+                    onClose={() => setToastState((prev) => ({ ...prev, show: false }))}
                     delay={3000}
                     autohide
-                    bg={toastVariant}
+                    bg={toastState.variant}
                 >
-                    <Toast.Body className="text-white">{toastMessage}</Toast.Body>
+                    <Toast.Body className="text-white">{toastState.message}</Toast.Body>
                 </Toast>
             </ToastContainer>
         </Container>

@@ -30,6 +30,7 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
                 />
             </Link>
             <Card.Body className="movie-card__content">
+                <Card.Text className="movie-card__genre">{movie.genre.name}</Card.Text>
                 <div className="movie-card__title-wrapper">
                     <Card.Title className="movie-card__title">
                         <strong>{movie.title}</strong>
@@ -47,7 +48,7 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
                         )}
                     </button>
                 </div>
-                <Card.Text className="movie-card__genre">{movie.genre.name}</Card.Text>
+
                 <OverlayTrigger
                     placement="top"
                     overlay={

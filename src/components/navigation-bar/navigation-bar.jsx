@@ -1,6 +1,7 @@
-import { Navbar, Container, Nav, Button } from "react-bootstrap";
+import { Navbar, Container, Nav, Button, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { PersonCircle, BoxArrowLeft } from "react-bootstrap-icons";
+import { CaretDownFill } from "react-bootstrap-icons";
 import { SearchBar } from "../search-bar/search-bar";
 import logo from "../../assets/bestflix_075.png";
 import "./navigation-bar.scss";
@@ -20,22 +21,19 @@ export const NavigationBar = ({ user, onLoggedOut, onSearch, searchQuery }) => {
                 </Navbar.Brand>
                 <Navbar.Toggle area-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
+                    <Nav className="nav-section nav-section--left">
                         {!user && (
-                            <>
+                            <div className="nav-section nav-section--left">
                                 <Nav.Link as={Link} to="/login">
                                     Login
                                 </Nav.Link>
                                 <Nav.Link as={Link} to="/signup">
                                     Signup
                                 </Nav.Link>
-                            </>
+                            </div>
                         )}
                         {user && (
-                            <>
-                                <Nav.Link as={Link} to="/">
-                                    Home
-                                </Nav.Link>
+                            <div className="nav-section nav-section--left">
                                 <Nav.Link as={Link} to="/">
                                     Movies
                                 </Nav.Link>
@@ -45,18 +43,36 @@ export const NavigationBar = ({ user, onLoggedOut, onSearch, searchQuery }) => {
                                 <Nav.Link as={Link} to="/">
                                     SurpriseMe
                                 </Nav.Link>
-                                <Nav.Link as={Link} to={`/users/${user.Username}`}>
-                                    <PersonCircle size={24} className="profile-icon" />
-                                    <span className="d-none d-md-inlin ms-2">Profile</span>
-                                </Nav.Link>
-                                <Nav.Link onClick={onLoggedOut} className="logout-link">
-                                    <BoxArrowLeft size={20} className="logout-icon" />
-                                    <span className="d-none d-md-inline ms-2">Logout</span>
-                                </Nav.Link>
-                            </>
+                            </div>
                         )}
                     </Nav>
-                    <SearchBar searchQuery={searchQuery} onSearch={onSearch} />
+                    <div className="nav-section nav-section--center">
+                        <SearchBar searchQuery={searchQuery} onSearch={onSearch} />
+                    </div>
+                    {user && (
+                        <Nav className="nav-section nav-section--right">
+                            <NavDropdown
+                                title={
+                                    <div className="user-avatar-wrapper">
+                                        <div className="user-avatar">
+                                            {user.Username.charAt(0).toUpperCase()}
+                                        </div>
+                                        <CaretDownFill size={12} className="dropdown-caret" />
+                                    </div>
+                                }
+                                id="basic-nav-dropdown"
+                            >
+                                <NavDropdown.Item as={Link} to={`/users/${user.Username}`}>
+                                    Profile
+                                </NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to={`/users/favorites`}>
+                                    Fovorites
+                                </NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={onLoggedOut}>Logout</NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>
+                    )}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

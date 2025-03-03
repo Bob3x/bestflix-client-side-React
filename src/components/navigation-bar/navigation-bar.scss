@@ -1,34 +1,105 @@
 .navbar {
-    margin-bottom: 2rem !important; // Adds space below navbar
-    background-color: #0e2e4d !important;
+    margin-top: 1rem;
+    margin-bottom: 1rem !important; // Adds space below navbar
+    background-color: transparent !important;
     max-height: 80px;
-}
 
-.profile-link {
-    color: #cfcfcf;
-    transition: transform 0.2s ease;
-
-    &:hover {
-        color: rgba(182, 150, 81, 0.681);
-        transform: scale(1.1);
+    .navbar-collapse {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
-    .profile-icon {
-        transition: transform 0.2s ease;
+    .nav-section {
+        display: flex;
+        align-items: center;
+
+        &--left {
+            margin-left: 2.5rem;
+            gap: 2.75rem;
+            font-size: 16pt;
+        }
+
+        &--center {
+            flex: 1;
+            justify-content: center;
+            padding: 0 2rem;
+        }
+
+        &--right {
+            margin-left: auto;
+        }
     }
-}
 
-.nav-link {
-    color: rgb(253, 253, 253) !important;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-
-    span {
-        color: #cfcfcf;
+    .nav-link {
+        color: #cfcfcf !important;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: color 0.2s ease;
 
         &:hover {
-            color: rgba(182, 150, 81, 0.681);
+            color: rgba(182, 150, 81, 0.681) !important;
+        }
+    }
+
+    .dropdown-toggle::after {
+        display: none;
+    }
+
+    .user-avatar-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.25rem;
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #b69651;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #cfcfcf;
+            background-color: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-caret {
+            color: #cfcfcf;
+            transition: transform 0.2s ease;
+        }
+
+        &:hover {
+            .user-avatar {
+                border-color: #836c3a;
+                transform: scale(1.05);
+            }
+
+            .dropdown-caret {
+                transform: translateY(2px);
+            }
+        }
+    }
+
+    .dropdown-menu {
+        background-color: #0e2e4d;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        .dropdown-item {
+            color: #cfcfcf;
+
+            &:hover {
+                background-color: rgba(182, 150, 81, 0.1);
+                color: #b69651;
+            }
+        }
+
+        .dropdown-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
     }
 }

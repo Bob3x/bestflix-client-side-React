@@ -53,7 +53,7 @@
         display: flex;
         justify-content: start;
         align-items: center;
-        padding: 4px;
+        padding: 2px;
     }
 
     &__favorite-btn {
@@ -92,8 +92,10 @@
     &__genre {
         color: rgba(173, 173, 173, 0.795);
         font-size: 11pt;
+        padding: 0;
+        padding-left: 4px;
+        padding-bottom: 8px;
         margin: 0;
-        margin-top: 2px;
     }
 
     &__description {
@@ -123,15 +125,15 @@
         .tooltip-inner {
             max-width: 300px;
             padding: 1rem;
-            background-color: rgba(8, 27, 47, 0.705);
-            border: 1px solid rgba(206, 206, 206, 0.301);
+            background-color: rgba(8, 27, 47, 0.938);
+            border: 1px solid rgba(182, 150, 81, 0.842);
             font-size: 0.875rem;
             line-height: 1.4;
             color: #dadada;
         }
 
         &.bs-tooltip-top .tooltip-arrow::before {
-            border-top-color: rgba(8, 27, 47, 0.9);
+            border-top-color: rgba(8, 27, 47, 0.945);
         }
 
         &[data-proper-placement="top"] {

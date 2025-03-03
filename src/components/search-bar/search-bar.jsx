@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./search-bar.scss";
 
 export const SearchBar = ({ searchQuery, onSearch }) => {
     return (

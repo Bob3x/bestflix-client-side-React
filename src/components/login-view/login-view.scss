@@ -1,3 +1,5 @@
+@import "../../index.scss";
+
 .header-container {
     margin-bottom: 2rem;
     margin-top: 1rem;
@@ -18,6 +20,7 @@
     }
 
     h2 {
+        opacity: 0.8;
         font-weight: 700;
         font-size: 1.25rem !important;
         margin: 0 !important;
@@ -29,25 +32,25 @@
         height: auto;
         margin: 0;
     }
+}
 
-    h6 {
-        margin: 0 !important;
-        font-size: 0.85rem;
-        font-weight: 700;
-        opacity: 0.8;
-        align-self: center;
-    }
+h6 {
+    margin: 0 !important;
+    padding-left: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    opacity: 0.8;
+    align-self: center;
 }
 
 .login-container {
     max-width: 400px;
     margin: 2rem auto;
     padding: 2rem;
-    color: #cfcfcf !important;
 }
 
 .title-container {
-    color: #cfcfcf !important;
+    color: $font-color-white;
     margin-top: 10px;
     text-align: center;
 
@@ -69,33 +72,40 @@
 
 .form-label {
     font-weight: 500;
-    color: #cfcfcf;
+    color: $font-color-white;
 }
 
 .form-control {
-    max-width: 380px !important;
+    width: 100%;
     height: 46px !important;
     background-color: #353b3d !important;
     border-radius: 16px !important;
     border-color: transparent !important;
     padding: 0.75rem;
-    color: #cfcfcf !important;
+    color: $font-color-dark;
 
     &:focus {
-        border-color: rgba(182, 150, 81, 0.681) !important;
-        box-shadow: 0 0 0 0.2rem #fdcd0d40 !important;
+        border: transparent;
+        // border-color: rgba(182, 150, 81, 0.419) !important;
+        box-shadow: 0 0 0 0.15rem rgba(182, 150, 81, 0.751) !important;
     }
 }
 
-.btn-primary {
-    background-color: #b69651 !important;
+.button-container {
+    width: 100%;
+    justify-content: center;
+}
+
+.login-button.btn-primary {
+    box-sizing: border-box;
+    background-color: $color-gold !important;
     border-radius: 16px !important;
     border-color: transparent !important;
-    width: 100%;
-    padding: 0.75rem;
+    width: 360px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    margin: 0;
     margin-top: 1rem;
 
     &:hover {
@@ -111,8 +121,9 @@ p {
 .signup-link {
     text-align: center;
     margin-top: 1.5rem;
-    color: #007bff;
+    color: $color-blue;
     text-decoration: none;
+
     &:hover {
         text-decoration: underline;
     }

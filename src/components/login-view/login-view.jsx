@@ -121,7 +121,7 @@ export const LoginView = ({ onLoggedIn }) => {
                                         minLength="3"
                                     />
                                 </Form.Group>
-                                <div className="d-grid gap-2">
+                                <div className="button-container">
                                     <Button
                                         variant="primary"
                                         type="submit"

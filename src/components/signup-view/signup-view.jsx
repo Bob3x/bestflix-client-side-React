@@ -196,7 +196,7 @@ export const SignupView = ({ onLoggedIn }) => {
                                                 />
                                                 <BootstrapForm.Label
                                                     htmlFor="termsAccepted"
-                                                    className="form-check-lable ms-2"
+                                                    className="form-check-label ms-2"
                                                 >
                                                     I Agree to the
                                                     <Link to="/terms" className="terms-link">
@@ -210,7 +210,7 @@ export const SignupView = ({ onLoggedIn }) => {
                                                 />
                                             </div>
                                         </BootstrapForm.Group>
-                                        <div className="d-grid">
+                                        <div className="button-container">
                                             <Button
                                                 variant="primary"
                                                 type="submit"
@@ -238,7 +238,7 @@ export const SignupView = ({ onLoggedIn }) => {
                                         </div>
                                         <div className="text-center mt-3">
                                             <p className="mb-0">
-                                                Already have an account -{" "}
+                                                Already have an account?{" "}
                                                 <Link to="/login" className="login-link">
                                                     Login
                                                 </Link>

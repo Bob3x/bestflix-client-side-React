@@ -11,6 +11,16 @@
     justify-content: center;
     color: #cfcfcf !important;
 
+    @media (max-width: $breakpoint-md) {
+        max-width: 300px; // Adjust width for medium screens
+        padding: 1.5rem;
+    }
+
+    @media (max-width: $breakpoint-sm) {
+        max-width: 100%; // Full width for small screens
+        padding: 1rem;
+    }
+
     .header-container {
         margin-top: -5px;
         margin-bottom: 0.25rem;

@@ -51,16 +51,16 @@
     @media (max-width: $breakpoint-sm) {
         max-width: 80%;
     }
-}
 
-h6 {
-    margin: 0 !important;
-    padding-left: 0.5rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    opacity: 0.8;
-    text-align: center;
-    align-self: center;
+    h6 {
+        margin: 0 !important;
+        padding-left: 2rem;
+        font-size: 1rem;
+        font-weight: 500;
+        opacity: 0.8;
+        text-align: center;
+        align-self: center;
+    }
 }
 
 .login-container {

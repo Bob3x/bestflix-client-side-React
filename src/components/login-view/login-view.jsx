@@ -73,7 +73,7 @@ export const LoginView = ({ onLoggedIn }) => {
                                 <h2>Welcome to</h2>
                                 <img
                                     src={logo}
-                                    alt="MyFlix Logo"
+                                    alt="bestflix Logo"
                                     className="logo-image"
                                     width="250"
                                     height="auto"
@@ -149,7 +149,7 @@ export const LoginView = ({ onLoggedIn }) => {
                                 <div className="text-center mt-3">
                                     <p className="mb-0">
                                         Don't have an account?{" "}
-                                        <Link to="/signup" className="signup-link">
+                                        <Link to="/api/signup" className="signup-link">
                                             Sign up
                                         </Link>
                                     </p>

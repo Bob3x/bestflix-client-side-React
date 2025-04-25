@@ -22,7 +22,7 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
         try {
             setIsDeleting(true);
             const response = await fetch(
-                `https://my-movies-flix-app-56f9661dc035.herokuapp.com/users/${user.Username}`,
+                `https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/users/${user.Username}`,
                 {
                     method: "DELETE",
                     headers: {
@@ -37,7 +37,7 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
                 onLoggedOut();
                 localStorage.clear();
                 alert("Your account has been successfully deleted.");
-                navigate("/login", { replace: true });
+                navigate("/api/login", { replace: true });
             } else {
                 throw new Error("Failed to delete account");
             }

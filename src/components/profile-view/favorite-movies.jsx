@@ -19,7 +19,7 @@ export const FavoriteMovies = ({ favoriteMovieList }) => {
                                     className="img-fluid"
                                     style={{ width: "100px", height: "150px", objectFit: "cover" }}
                                 />
-                                <Link to={`/movies/${movie._id}`}>
+                                <Link to={`/api/movies/${movie._id}`}>
                                     <h4 style={{ fontSize: "1rem" }}>{movie.title}</h4>
                                 </Link>
                             </div>

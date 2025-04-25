@@ -12,7 +12,7 @@ export const useFavoriteMovie = (user, token, setUser) => {
         setIsLoading(true);
         try {
             const response = await fetch(
-                `https://my-movies-flix-app-56f9661dc035.herokuapp.com/users/${user.Username}/movies/${movieId}`,
+                `https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/users/${user.Username}/movies/${movieId}`,
                 {
                     method: isFavorite ? "DELETE" : "POST",
                     headers: {

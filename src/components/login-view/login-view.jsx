@@ -23,7 +23,7 @@ export const LoginView = ({ onLoggedIn }) => {
         try {
             console.log("Attempting login with:", data);
             const response = await fetch(
-                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/login",
+                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/login",
                 {
                     method: "POST",
                     headers: {

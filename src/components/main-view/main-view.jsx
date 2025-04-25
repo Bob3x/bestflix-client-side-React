@@ -38,7 +38,7 @@ export const MainView = () => {
     useEffect(() => {
         if (!token) return;
 
-        fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies", {
+        fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/movies", {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`
@@ -116,19 +116,23 @@ export const MainView = () => {
             <Routes>
                 {/* Show login if no user */}
                 <Route
-                    path="/login"
-                    element={!user ? <LoginView onLoggedIn={onLoggedIn} /> : <Navigate to="/" />}
+                    path="/api/login"
+                    element={
+                        !user ? <LoginView onLoggedIn={onLoggedIn} /> : <Navigate to="/api/" />
+                    }
                 />
                 <Route
-                    path="/signup"
-                    element={!user ? <SignupView onLoggedIn={onLoggedIn} /> : <Navigate to="/" />}
+                    path="/api/signup"
+                    element={
+                        !user ? <SignupView onLoggedIn={onLoggedIn} /> : <Navigate to="/api/" />
+                    }
                 />
 
                 <Route
-                    path="/movies/:movieId"
+                    path="/api/movies/:movieId"
                     element={
                         !user ? (
-                            <Navigate to="/login" replace />
+                            <Navigate to="/api/login" replace />
                         ) : (
                             <MovieView
                                 movies={movies}
@@ -141,10 +145,10 @@ export const MainView = () => {
                 />
 
                 <Route
-                    path="/users/:Username"
+                    path="/api/users/:Username"
                     element={
                         !user ? (
-                            <Navigate to="/login" replace />
+                            <Navigate to="/api/login" replace />
                         ) : (
                             <ProfileView
                                 user={user}
@@ -157,10 +161,10 @@ export const MainView = () => {
                     }
                 />
                 <Route
-                    path="/"
+                    path="/api/"
                     element={
                         !user ? (
-                            <Navigate to="/login" replace />
+                            <Navigate to="/api/login" replace />
                         ) : filteredMovies.length > 0 ? (
                             <Container fluid className="movies-container">
                                 <Container className="content-wrapper">
@@ -196,6 +200,7 @@ export const MainView = () => {
                         )
                     }
                 />
+                <Route path="*" element={<Navigate to="/api/" replace />} />
             </Routes>
             <ToastContainer position="bottom-end" className="p-3">
                 <Toast

@@ -17,7 +17,7 @@ export const SignupView = ({ onLoggedIn }) => {
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
             const response = await fetch(
-                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/users",
+                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/users",
                 {
                     method: "POST",
                     headers: {
@@ -33,7 +33,7 @@ export const SignupView = ({ onLoggedIn }) => {
 
             // Auto login after signup
             const loginResponse = await fetch(
-                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/login",
+                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/login",
                 {
                     method: "POST",
                     headers: {
@@ -239,7 +239,7 @@ export const SignupView = ({ onLoggedIn }) => {
                                         <div className="text-center mt-3">
                                             <p className="mb-0">
                                                 Already have an account?{" "}
-                                                <Link to="/login" className="login-link">
+                                                <Link to="/api/login" className="login-link">
                                                     Login
                                                 </Link>
                                             </p>

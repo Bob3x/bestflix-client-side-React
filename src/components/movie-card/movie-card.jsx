@@ -19,7 +19,7 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
     return (
         <Card className="movie-card">
             <Link
-                to={`/movies/${encodeURIComponent(movie._id)}`}
+                to={`/api/movies/${encodeURIComponent(movie._id)}`}
                 className="movie-card__image-link"
             >
                 <Card.Img

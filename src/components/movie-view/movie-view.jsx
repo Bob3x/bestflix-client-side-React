@@ -118,7 +118,7 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                                         <Heart className="heart-icon" />
                                     )}
                                 </button>
-                                <Link to={`/`}>
+                                <Link to={`/api/`}>
                                     <Button variant="secondary">Back</Button>
                                 </Link>
                             </div>

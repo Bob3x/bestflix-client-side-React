@@ -20,7 +20,7 @@ export const UpdateUser = ({ user, token, setUser, onUpdateSuccess }) => {
             console.log("Request body:", requestBody);
 
             const response = await fetch(
-                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/users",
+                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/users",
                 {
                     method: "PUT",
                     body: JSON.stringify(values),

@@ -10,7 +10,7 @@ export const NavigationBar = ({ user, onLoggedOut, onSearch, searchQuery }) => {
     return (
         <Navbar className="navbar">
             <Container>
-                <Navbar.Brand as={Link} to="/">
+                <Navbar.Brand as={Link} to="/api/">
                     <img
                         src={logo}
                         alt="bestflix-logo"
@@ -24,23 +24,23 @@ export const NavigationBar = ({ user, onLoggedOut, onSearch, searchQuery }) => {
                     <Nav className="nav-section nav-section--left">
                         {!user && (
                             <div className="nav-section nav-section--left">
-                                <Nav.Link as={Link} to="/login">
+                                <Nav.Link as={Link} to="/api/login">
                                     Login
                                 </Nav.Link>
-                                <Nav.Link as={Link} to="/signup">
+                                <Nav.Link as={Link} to="/api/signup">
                                     Signup
                                 </Nav.Link>
                             </div>
                         )}
                         {user && (
                             <div className="nav-section nav-section--left">
-                                <Nav.Link as={Link} to="/">
+                                <Nav.Link as={Link} to="/api/">
                                     Movies
                                 </Nav.Link>
-                                <Nav.Link as={Link} to="/">
+                                <Nav.Link as={Link} to="/api/">
                                     Similar
                                 </Nav.Link>
-                                <Nav.Link as={Link} to="/">
+                                <Nav.Link as={Link} to="/api/">
                                     SurpriseMe
                                 </Nav.Link>
                             </div>
@@ -62,10 +62,10 @@ export const NavigationBar = ({ user, onLoggedOut, onSearch, searchQuery }) => {
                                 }
                                 id="basic-nav-dropdown"
                             >
-                                <NavDropdown.Item as={Link} to={`/users/${user.Username}`}>
+                                <NavDropdown.Item as={Link} to={`/api/users/${user.Username}`}>
                                     Profile
                                 </NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to={`/users/favorites`}>
+                                <NavDropdown.Item as={Link} to={`/api/users/favorites`}>
                                     Fovorites
                                 </NavDropdown.Item>
                                 <NavDropdown.Divider />

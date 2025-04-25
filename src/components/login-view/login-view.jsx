@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col, Card, Alert, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import logo from "../../assets/bestflix_075.png";
+import logo from "../../assets/bestflix_logotype.svg";
 import "./login-view.scss";
 
 export const LoginView = ({ onLoggedIn }) => {
@@ -79,7 +79,7 @@ export const LoginView = ({ onLoggedIn }) => {
                                     height="auto"
                                 />
                             </div>
-                            <h6>Still a lot to watch</h6>
+                            <h6>still a lot to watch</h6>
                         </div>
                     </Col>
                 </Row>

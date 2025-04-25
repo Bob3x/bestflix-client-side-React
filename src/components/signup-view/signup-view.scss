@@ -46,9 +46,15 @@
 
             h2 {
                 font-weight: 700;
-                font-size: 1.25rem !important;
+                font-size: 1.5rem !important;
+                text-align: start;
                 margin: 0 !important;
                 white-space: nowrap;
+                opacity: 0.8;
+
+                @media (max-width: $breakpoint-sm) {
+                    font-size: 1.25rem;
+                }
             }
 
             .logo-image {
@@ -58,14 +64,12 @@
             }
 
             h6 {
-                margin: 0;
-                margin-top: 0;
-                margin-left: 10px;
+                margin: 0 !important;
                 margin-bottom: 5px;
-                font-size: 1.15rem;
+                font-size: 1rem;
                 font-weight: 500;
                 opacity: 0.8;
-                padding-left: 1rem;
+                padding-left: 2rem;
             }
         }
     }

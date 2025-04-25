@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { PersonCircle, BoxArrowLeft } from "react-bootstrap-icons";
 import { CaretDownFill } from "react-bootstrap-icons";
 import { SearchBar } from "../search-bar/search-bar";
-import logo from "../../assets/bestflix_075.png";
+import logo from "../../assets/bestflix_logotype.svg";
 import "./navigation-bar.scss";
 
 export const NavigationBar = ({ user, onLoggedOut, onSearch, searchQuery }) => {

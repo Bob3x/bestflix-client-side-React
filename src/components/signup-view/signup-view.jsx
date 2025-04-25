@@ -5,7 +5,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import { Button, Container, Row, Col, Card, Form as BootstrapForm, Alert, Spinner } from "react-bootstrap";
 import { signupSchema } from "../form-validation/form-validation";
 import "./signup-view.scss";
-import logo from "../../assets/bestflix_075.png";
+import logo from "../../assets/bestflix_logotype.svg";
 
 export const SignupView = ({ onLoggedIn }) => {
     // State for managing form-level messages

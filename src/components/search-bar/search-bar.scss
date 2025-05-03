@@ -1,6 +1,14 @@
-input.form-control {
+@import "../../index.scss";
+
+.form__searchbar,
+input.form-control__searchbar {
+    color: $font-color-dark;
     background-color: #cfcfcf !important;
     height: 36px !important;
-    width: 360px;
-    border-radius: 10px;
+    width: 360px !important;
+    border-radius: 16px;
+}
+
+.form-control__searchbar:focus {
+    box-shadow: none !important;
 }

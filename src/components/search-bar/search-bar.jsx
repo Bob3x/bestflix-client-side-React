@@ -4,13 +4,13 @@ import "./search-bar.scss";
 
 export const SearchBar = ({ searchQuery, onSearch }) => {
     return (
-        <form>
+        <form className="form__searchbar">
             <input
                 type="text"
                 placeholder="Search here"
                 value={searchQuery}
                 onChange={(e) => onSearch(e.target.value)}
-                className="form-control"
+                className="form-control__searchbar"
             />
         </form>
     );

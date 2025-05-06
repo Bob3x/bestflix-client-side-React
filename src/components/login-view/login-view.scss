@@ -91,7 +91,7 @@
 }
 
 .login-card.card {
-    max-width: 100%;
+    width: 400px;
     background-color: #445866 !important;
     border-radius: 24px !important;
     margin: 0 auto;
@@ -123,17 +123,19 @@
 .form-control {
     box-sizing: border-box;
     width: 100% !important;
-    height: 46px !important;
-    background-color: #353b3d !important;
+    height: 36px !important;
+    background-color: #2a3f46 !important;
     border-radius: 16px !important;
     border-color: transparent !important;
     padding: 0.75rem;
-    color: $font-color-dark;
+    color: $font-color-white !important;
 
     &:focus {
         border: transparent;
         // border-color: rgba(182, 150, 81, 0.419) !important;
-        box-shadow: 0 0 0 0.15rem rgba(182, 150, 81, 0.751) !important;
+        box-shadow: none !important;
+        border-color: transparent !important;
+        color: $font-color-white !important;
     }
 }
 

@@ -9,6 +9,7 @@ input.form-control__searchbar {
     border-radius: 16px;
 }
 
-.form-control__searchbar:focus {
+.form-control__searchbar:focus.form__searchbar:focus {
     box-shadow: none !important;
+    outline: none;
 }

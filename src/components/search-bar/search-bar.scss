@@ -1,15 +1,33 @@
 @import "../../index.scss";
 
 .form__searchbar,
-input.form-control__searchbar {
+.form-control__searchbar {
     color: $font-color-dark;
+    font-size: 11pt;
     background-color: #cfcfcf !important;
-    height: 36px !important;
+    height: 30px !important;
     width: 360px !important;
     border-radius: 16px;
+    border-color: transparent;
+    border-width: 0;
+    border-style: none;
+    padding-left: 0.5rem;
 }
 
-.form-control__searchbar:focus.form__searchbar:focus {
+.form__searchbar:focus,
+.form-control__searchbar:focus {
     box-shadow: none !important;
-    outline: none;
+    outline: none !important;
+    border-color: transparent;
+    border-width: 0;
+    border-style: none;
+}
+
+.form__searchbar:focus-visible,
+.form-control__searchbar:focus-visible {
+    box-shadow: none !important;
+    outline: none !important;
+    border-color: transparent;
+    border-width: 0;
+    border-style: none;
 }

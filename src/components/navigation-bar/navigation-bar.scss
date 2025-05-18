@@ -1,8 +1,8 @@
 @import "../../index.scss";
 
 .navbar {
-    margin-top: 1rem;
-    margin-bottom: 1rem !important; // Adds space below navbar
+    margin-top: 2rem;
+    margin-bottom: 2rem !important; // Adds space below navbar
     background-color: transparent !important;
     max-height: 40px;
 
@@ -25,6 +25,7 @@
 
         &--left {
             margin-left: 2.5rem;
+            margin-right: auto;
             gap: 2.5rem;
             font-size: 16pt;
         }
@@ -32,8 +33,14 @@
         &--center {
             flex: 1;
             justify-content: center;
+            margin-left: auto;
             padding: 0 2rem;
             max-width: 300px;
+        }
+
+        &--center:focus-visible {
+            outline: none;
+            box-shadow: none;
         }
 
         &--right {

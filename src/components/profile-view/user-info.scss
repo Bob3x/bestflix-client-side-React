@@ -1,0 +1,52 @@
+@import "../../index.scss";
+
+.user-info-card.card {
+    background-color: $body-bg;
+    border: none;
+    color: $font-color-white;
+    width: 600px;
+
+    .card-header {
+        background-color: transparent;
+        outline: none;
+        border: none;
+    }
+
+    .user-info-body {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem;
+        text-align: left;
+    }
+
+    .user-avatar-container {
+        margin-bottom: 1.5rem;
+    }
+
+    .user-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #b69651;
+        background-color: transparent;
+        color: $font-color-white;
+        font-size: 2rem;
+        font-weight: 700;
+        box-shadow: none;
+    }
+
+    .card-text {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: $font-color-white;
+
+        span {
+            font-weight: bold;
+            color: #b69651;
+        }
+    }
+}

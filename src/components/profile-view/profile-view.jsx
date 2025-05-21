@@ -5,6 +5,7 @@ import { UserInfo } from "./user-info";
 import { UpdateUser } from "./update-user";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { FavoriteMovies } from "./favorite-movies";
+import "./profile-view.scss";
 
 export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
     const navigate = useNavigate();
@@ -60,8 +61,8 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
 
     return (
         <Container>
-            <Row className="justify-content-md-center">
-                <Col md={6}>
+            <Row className="justify-content-md-left mt-4">
+                <Col md={6} className="user-details">
                     <UserInfo user={user.Username} email={user.Email} />
 
                     <UpdateUser
@@ -71,8 +72,6 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
                         onUpdateSuccess={onUpdateSuccess}
                     />
 
-                    <FavoriteMovies favoriteMovieList={favoriteMovies} />
-
                     <Button
                         variant="danger"
                         onClick={handleUserRemove}
@@ -81,6 +80,10 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
                     >
                         {isDeleting ? "Deleting Account..." : "Delete Account"}
                     </Button>
+
+                    <Col md={6} className="favorite-movies">
+                        <FavoriteMovies favoriteMovieList={favoriteMovies} />
+                    </Col>
                 </Col>
             </Row>
         </Container>

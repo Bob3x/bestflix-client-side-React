@@ -1,16 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card } from "react-bootstrap";
+import { Row, Col, Card } from "react-bootstrap";
+import "./user-info.scss";
 
 export const UserInfo = ({ user, email }) => {
+    const userInitial = user ? user.charAt(0).toUpperCase() : "?";
+
     return (
-        <Card className="mb-4">
-            <Card.Header>
-                <Card.Title>User Information</Card.Title>
+        <Card className="user-info-card">
+            <Card.Header className="card-header">
+                <Card.Title>My Profile</Card.Title>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className="user-info-body">
+                <div className="user-avatar-container">
+                    <div className="user-avatar">{userInitial}</div>
+                </div>
                 <Card.Text>
-                    <span>Name:</span> {user}
+                    <span>Username:</span> {user}
                 </Card.Text>
                 <Card.Text>
                     <span>Email:</span> {email}

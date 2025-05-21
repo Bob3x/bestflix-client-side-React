@@ -4,6 +4,7 @@ import { Button, Container, Row, Col, Card, Form as BootstrapForm, Alert, Spinne
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { updateSchema } from "../form-validation/form-validation";
 import PropTypes from "prop-types";
+import "./update-user.scss";
 
 export const UpdateUser = ({ user, token, setUser, onUpdateSuccess }) => {
     const [error, setError] = useState("");
@@ -55,13 +56,13 @@ export const UpdateUser = ({ user, token, setUser, onUpdateSuccess }) => {
 
     return (
         <Container>
-            <Row className="justify-content-center">
+            <Row className="justify-content-md-left mt-4">
                 <Col md={10}>
-                    <Card className="mt-4">
-                        <Card.Header className="text-center">
+                    <Card className="user-update-card">
+                        <Card.Header className="card-header">
                             <Card.Title>Update your info</Card.Title>
                         </Card.Header>
-                        <Card.Body>
+                        <Card.Body className="user-update-body">
                             {/* Error message display to client*/}
                             {error && (
                                 <Alert variant="danger" className="mb-3">
@@ -86,7 +87,7 @@ export const UpdateUser = ({ user, token, setUser, onUpdateSuccess }) => {
                                 onSubmit={handleSubmit}
                             >
                                 {({ isSubmitting, touched, errors }) => (
-                                    <Form>
+                                    <Form className="update-form">
                                         <BootstrapForm.Group className="mb-3">
                                             <BootstrapForm.Label htmlFor="Username">
                                                 Username
@@ -141,7 +142,11 @@ export const UpdateUser = ({ user, token, setUser, onUpdateSuccess }) => {
                                                 type="invalid"
                                             />
                                         </BootstrapForm.Group>
-                                        <Button type="submit" disabled={isSubmitting || loading}>
+                                        <Button
+                                            className="update-user-button"
+                                            type="submit"
+                                            disabled={isSubmitting || loading}
+                                        >
                                             {loading ? (
                                                 <Spinner animation="border" size="sm" />
                                             ) : (

@@ -1,0 +1,68 @@
+@import "../../index.scss";
+
+.user-update-card.card {
+    background-color: $body-bg;
+    border: none;
+    color: $font-color-white;
+    width: 600px;
+
+    .card-header {
+        background-color: transparent;
+        outline: none;
+        border: none;
+    }
+
+    .user-update-body {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem;
+        text-align: left;
+    }
+
+    .form-control {
+        box-sizing: border-box;
+        width: 100% !important;
+        height: 36px !important;
+        background-color: #2a3f46 !important;
+        border-radius: 16px !important;
+        border-color: transparent !important;
+        padding: 0.75rem;
+        color: $font-color-white !important;
+
+        &:focus {
+            border: transparent;
+            box-shadow: none !important;
+            border-color: transparent !important;
+            color: $font-color-white !important;
+            background-color: #2a3f46;
+        }
+
+        .update-user-button.btn-primary {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            border-color: transparent;
+            background-color: $color-gold !important;
+            color: $font-color-white;
+            border-radius: 16px !important;
+            padding: 0.75rem;
+            font-weight: bold;
+            text-align: center;
+
+            &:active,
+            &:disabled {
+                background-color: $color-gold, 10%;
+                border-color: transparent;
+            }
+
+            &:hover {
+                border-color: transparent;
+                background-color: $color-gold, 10%;
+                cursor: pointer;
+            }
+        }
+    }
+}

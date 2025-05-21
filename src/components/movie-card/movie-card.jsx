@@ -73,12 +73,6 @@ MovieCard.propTypes = {
             name: PropTypes.string.isRequired,
             description: PropTypes.string.isRequired
         }).isRequired,
-        user: PropTypes.shape({
-            Username: PropTypes.string.isRequired,
-            FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired
-        }).isRequired,
-        token: PropTypes.string.isRequired,
-        setUser: PropTypes.func.isRequired,
         director: PropTypes.shape({
             name: PropTypes.string.isRequired,
             bio: PropTypes.string.isRequired,
@@ -87,5 +81,11 @@ MovieCard.propTypes = {
         }).isRequired,
         image: PropTypes.string.isRequired,
         featured: PropTypes.bool.isRequired
-    })
+    }).isRequired,
+    user: PropTypes.shape({
+        Username: PropTypes.string.isRequired,
+        FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired
+    }).isRequired,
+    token: PropTypes.string.isRequired,
+    setUser: PropTypes.func.isRequired
 };

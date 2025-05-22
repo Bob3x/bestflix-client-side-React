@@ -12,6 +12,11 @@
     border-width: 0;
     border-style: none;
     padding-left: 0.5rem;
+
+    @media (max-width: $breakpoint-sm) {
+        width: auto !important;
+        padding: 0 1rem;
+    }
 }
 
 .form__searchbar:focus,

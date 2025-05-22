@@ -8,8 +8,8 @@ import "./navigation-bar.scss";
 
 export const NavigationBar = ({ user, onLoggedOut, onSearch, searchQuery }) => {
     return (
-        <Navbar className="navbar">
-            <Container>
+        <Container>
+            <Navbar className="navbar">
                 <Navbar.Brand as={Link} to="/api/">
                     <img
                         src={logo}
@@ -74,7 +74,7 @@ export const NavigationBar = ({ user, onLoggedOut, onSearch, searchQuery }) => {
                         </Nav>
                     )}
                 </Navbar.Collapse>
-            </Container>
-        </Navbar>
+            </Navbar>
+        </Container>
     );
 };

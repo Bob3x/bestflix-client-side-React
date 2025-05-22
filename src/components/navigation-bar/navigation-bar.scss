@@ -1,10 +1,10 @@
 @import "../../index.scss";
 
 .navbar {
-    margin-top: 2rem;
+    margin-top: 1rem;
     margin-bottom: 2rem !important; // Adds space below navbar
     background-color: transparent !important;
-    max-height: 40px;
+    max-height: unset;
 
     .navbar-collapse {
         display: flex;
@@ -14,7 +14,8 @@
         @media (max-width: $breakpoint-sm) {
             width: 100%;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
+            padding-top: 1rem;
             gap: 1rem;
         }
     }
@@ -24,18 +25,50 @@
         align-items: center;
 
         &--left {
-            margin-left: 2.5rem;
+            margin-left: 1rem;
             margin-right: auto;
-            gap: 2.5rem;
-            font-size: 16pt;
+            gap: 1.5rem;
+            font-size: 14pt;
+
+            @media (min-width: $breakpoint-md) {
+                margin-left: 2.5rem;
+                gap: 2.5rem;
+                font-size: 16pt;
+            }
         }
 
         &--center {
             flex: 1;
             justify-content: center;
             margin-left: auto;
-            padding: 0 2rem;
-            max-width: 300px;
+            padding: 0 1rem;
+            max-width: none;
+            width: 100%;
+
+            @media (min-width: $breakpoint-md) {
+                margin-left: auto;
+                padding: 0 2rem;
+                max-width: 300px;
+            }
+
+            .form-control {
+                width: 100%;
+                background-color: #cfcfcf !important;
+                color: $font-color-dark;
+
+                &::placeholder {
+                    font-size: 11pt;
+                    opacity: 0.5;
+                }
+
+                &:focus {
+                    box-shadow: none !important;
+                    outline: none !important;
+                    border-color: transparent;
+                    border-width: 0;
+                    border-style: none;
+                }
+            }
         }
 
         &--center:focus-visible {
@@ -46,14 +79,22 @@
         &--right {
             margin-left: auto;
         }
+
         @media (max-width: $breakpoint-sm) {
+            .nav-section {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
             &--left {
+                width: 100%;
                 font-size: 8pt;
                 gap: 1rem; /* Apply font size only on smaller screens */
             }
 
             &--center {
-                max-width: 100%;
+                width: 100%;
                 padding: 0 1rem;
             }
         }
@@ -117,8 +158,17 @@
         background-color: #0e2e4d;
         border: 1px solid rgba(255, 255, 255, 0.1);
 
+        @media (max-width: $breakpoint-md) {
+            position: static !important;
+            width: 100%;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: none !important;
+        }
+
         .dropdown-item {
             color: #cfcfcf;
+            padding: 0.5rem 1rem;
 
             &:hover {
                 background-color: rgba(182, 150, 81, 0.1);

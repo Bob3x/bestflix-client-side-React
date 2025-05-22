@@ -56,110 +56,103 @@ export const UpdateUser = ({ user, token, setUser, onUpdateSuccess }) => {
 
     return (
         <Container>
-            <Row className="justify-content-md-left mt-4">
-                <Col md={10}>
-                    <Card className="user-update-card">
-                        <Card.Header className="card-header">
-                            <Card.Title>Update your info</Card.Title>
-                        </Card.Header>
-                        <Card.Body className="user-update-body">
-                            {/* Error message display to client*/}
-                            {error && (
-                                <Alert variant="danger" className="mb-3">
-                                    {error}
-                                </Alert>
-                            )}
-                            {/* Success message display */}
-                            {success && (
-                                <Alert variant="success" className="mb-3">
-                                    Update successfull!
-                                </Alert>
-                            )}
+            <Card className="user-update-card">
+                <Card.Header className="card-header">
+                    <Card.Title>Update your info</Card.Title>
+                </Card.Header>
+                <Card.Body className="user-update-body">
+                    {/* Error message display to client*/}
+                    {error && (
+                        <Alert variant="danger" className="mb-3">
+                            {error}
+                        </Alert>
+                    )}
+                    {/* Success message display */}
+                    {success && (
+                        <Alert variant="success" className="mb-3">
+                            Update successfull!
+                        </Alert>
+                    )}
 
-                            {/* Formik form handling */}
-                            <Formik
-                                initialValues={{
-                                    Username: "",
-                                    Password: "",
-                                    Email: ""
-                                }}
-                                validationSchema={updateSchema}
-                                onSubmit={handleSubmit}
-                            >
-                                {({ isSubmitting, touched, errors }) => (
-                                    <Form className="update-form">
-                                        <BootstrapForm.Group className="mb-3">
-                                            <BootstrapForm.Label htmlFor="Username">
-                                                Username
-                                            </BootstrapForm.Label>
-                                            <Field
-                                                as={BootstrapForm.Control}
-                                                id="Username"
-                                                name="Username"
-                                                type="text"
-                                                placeholder="Enter new username"
-                                                isInvalid={touched.Username && errors.Username}
-                                            />
-                                            <ErrorMessage
-                                                name="Username"
-                                                component={BootstrapForm.Control.Feedback}
-                                                type="invalid"
-                                            />
-                                        </BootstrapForm.Group>
-                                        <BootstrapForm.Group className="mb-3">
-                                            <BootstrapForm.Label htmlFor="Password">
-                                                Password
-                                            </BootstrapForm.Label>
-                                            <Field
-                                                as={BootstrapForm.Control}
-                                                id="Password"
-                                                name="Password"
-                                                type="password"
-                                                placeholder="At least 8 characters or more"
-                                                isInvalid={touched.Password && errors.Password}
-                                            />
-                                            <ErrorMessage
-                                                name="Password"
-                                                component={BootstrapForm.Control.Feedback}
-                                                type="invalid"
-                                            />
-                                        </BootstrapForm.Group>
-                                        <BootstrapForm.Group className="mb-3">
-                                            <BootstrapForm.Label htmlFor="Email">
-                                                Email
-                                            </BootstrapForm.Label>
-                                            <Field
-                                                as={BootstrapForm.Control}
-                                                id="Email"
-                                                name="Email"
-                                                type="email"
-                                                placeholder="Enter a new email"
-                                                isInvalid={touched.Email && errors.Email}
-                                            />
-                                            <ErrorMessage
-                                                name="Email"
-                                                component={BootstrapForm.Control.Feedback}
-                                                type="invalid"
-                                            />
-                                        </BootstrapForm.Group>
-                                        <Button
-                                            className="update-user-button"
-                                            type="submit"
-                                            disabled={isSubmitting || loading}
-                                        >
-                                            {loading ? (
-                                                <Spinner animation="border" size="sm" />
-                                            ) : (
-                                                "Update"
-                                            )}
-                                        </Button>
-                                    </Form>
-                                )}
-                            </Formik>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
+                    {/* Formik form handling */}
+                    <Formik
+                        initialValues={{
+                            Username: "",
+                            Password: "",
+                            Email: ""
+                        }}
+                        validationSchema={updateSchema}
+                        onSubmit={handleSubmit}
+                    >
+                        {({ isSubmitting, touched, errors }) => (
+                            <Form className="update-form">
+                                <BootstrapForm.Group className="mb-3">
+                                    <BootstrapForm.Label htmlFor="Username">
+                                        Username
+                                    </BootstrapForm.Label>
+                                    <Field
+                                        as={BootstrapForm.Control}
+                                        id="Username"
+                                        name="Username"
+                                        type="text"
+                                        placeholder="Enter new username"
+                                        isInvalid={touched.Username && errors.Username}
+                                        autoComplete="off"
+                                    />
+                                    <ErrorMessage
+                                        name="Username"
+                                        component={BootstrapForm.Control.Feedback}
+                                        type="invalid"
+                                    />
+                                </BootstrapForm.Group>
+                                <BootstrapForm.Group className="mb-3">
+                                    <BootstrapForm.Label htmlFor="Password">
+                                        Password
+                                    </BootstrapForm.Label>
+                                    <Field
+                                        as={BootstrapForm.Control}
+                                        id="Password"
+                                        name="Password"
+                                        type="password"
+                                        placeholder="At least 8 characters or more"
+                                        isInvalid={touched.Password && errors.Password}
+                                        autoComplete="off"
+                                    />
+                                    <ErrorMessage
+                                        name="Password"
+                                        component={BootstrapForm.Control.Feedback}
+                                        type="invalid"
+                                    />
+                                </BootstrapForm.Group>
+                                <BootstrapForm.Group className="mb-3">
+                                    <BootstrapForm.Label htmlFor="Email">Email</BootstrapForm.Label>
+                                    <Field
+                                        as={BootstrapForm.Control}
+                                        id="Email"
+                                        name="Email"
+                                        type="text"
+                                        placeholder="Enter a new email"
+                                        isInvalid={touched.Email && errors.Email}
+                                        autoComplete="off"
+                                    />
+                                    <ErrorMessage
+                                        name="Email"
+                                        component={BootstrapForm.Control.Feedback}
+                                        type="invalid"
+                                    />
+                                </BootstrapForm.Group>
+                                <Button
+                                    className="update-user-button btn-primary"
+                                    type="submit"
+                                    disabled={isSubmitting || loading}
+                                >
+                                    {loading ? <Spinner animation="border" size="sm" /> : "Update"}
+                                </Button>
+                            </Form>
+                        )}
+                    </Formik>
+                </Card.Body>
+            </Card>
         </Container>
     );
 };

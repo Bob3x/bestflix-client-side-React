@@ -60,18 +60,20 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
     );
 
     return (
-        <Container>
+        <Container className="profile-view">
             <Row className="justify-content-md-left mt-4">
-                <Col md={6} className="user-details">
+                <Col md={6} className="user-info">
                     <UserInfo user={user.Username} email={user.Email} />
-
+                </Col>
+                <Col md={6} className="user-update">
                     <UpdateUser
                         user={user}
                         token={token}
                         setUser={setUser}
                         onUpdateSuccess={onUpdateSuccess}
                     />
-
+                </Col>
+                <Col md={6} className="user-delete-button">
                     <Button
                         variant="danger"
                         onClick={handleUserRemove}
@@ -80,10 +82,10 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
                     >
                         {isDeleting ? "Deleting Account..." : "Delete Account"}
                     </Button>
+                </Col>
 
-                    <Col md={6} className="favorite-movies">
-                        <FavoriteMovies favoriteMovieList={favoriteMovies} />
-                    </Col>
+                <Col md={6} className="favorite-movies">
+                    <FavoriteMovies favoriteMovieList={favoriteMovies} />
                 </Col>
             </Row>
         </Container>

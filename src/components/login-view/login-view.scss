@@ -132,8 +132,7 @@
     color: $font-color-white !important;
 
     &:focus {
-        border: transparent;
-        // border-color: rgba(182, 150, 81, 0.419) !important;
+        border: none;
         box-shadow: none !important;
         border-color: transparent !important;
         color: $font-color-white !important;

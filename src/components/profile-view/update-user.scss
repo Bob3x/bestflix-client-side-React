@@ -4,7 +4,8 @@
     background-color: $body-bg;
     border: none;
     color: $font-color-white;
-    width: 600px;
+    max-width: 600px;
+    margin: 0;
 
     .card-header {
         background-color: transparent;
@@ -20,7 +21,12 @@
         text-align: left;
     }
 
-    .form-control {
+    input.form-control,
+    textarea.form-control,
+    input.form-control,
+    textarea.form-control.is-invalid,
+    input.form-control.is-valid,
+    textarea.form-control.is-valid {
         box-sizing: border-box;
         width: 100% !important;
         height: 36px !important;
@@ -30,39 +36,75 @@
         padding: 0.75rem;
         color: $font-color-white !important;
 
-        &:focus {
-            border: transparent;
+        &::placeholder {
+            font-size: 10pt;
+            color: rgba(224, 224, 224, 0.26);
+        }
+
+        &:active,
+        &:focus,
+        &:focus-visible {
+            border: none;
             box-shadow: none !important;
             border-color: transparent !important;
             color: $font-color-white !important;
-            background-color: #2a3f46;
+            background-color: #2a3f46 !important;
+            outline: none !important;
         }
 
-        .update-user-button.btn-primary {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: none;
+        input.form-control.is-invalid,
+        textarea.form-control.is-invalid {
+            background-image: none !important; // Remove the validation icon
+            border: 1px solid #dc3545 !important; // Red border for invalid
+        }
+
+        // Specific styles for valid state
+        input.form-control.is-valid,
+        textarea.form-control.is-valid {
+            background-image: none !important; // Remove the validation icon
+            border: 1px solid #28a745 !important; // Optional: green border for valid
+        }
+
+        .invalid-feedback {
+            color: #ff6b6b; // Brighter red for better contrast
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 30px #2a3f46 inset !important;
+            -webkit-text-fill-color: white !important;
+        }
+    }
+
+    .update-user-button.btn-primary,
+    button.btn-primary {
+        width: 100%;
+        height: 36px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-color: transparent;
+        background-color: $color-gold !important;
+        color: $font-color-white;
+        border-radius: 16px !important;
+        padding: 0.75rem;
+        font-weight: bold;
+        text-align: center;
+
+        &:active,
+        &:disabled {
+            background-color: rgba($color-gold, 0.7) !important;
             border-color: transparent;
-            background-color: $color-gold !important;
-            color: $font-color-white;
-            border-radius: 16px !important;
-            padding: 0.75rem;
-            font-weight: bold;
-            text-align: center;
+        }
 
-            &:active,
-            &:disabled {
-                background-color: $color-gold, 10%;
-                border-color: transparent;
-            }
-
-            &:hover {
-                border-color: transparent;
-                background-color: $color-gold, 10%;
-                cursor: pointer;
-            }
+        &:hover {
+            border-color: transparent;
+            background-color: rgba($color-gold, 0.9) !important;
+            cursor: pointer;
         }
     }
 }

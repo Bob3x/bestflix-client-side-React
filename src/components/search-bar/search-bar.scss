@@ -6,16 +6,23 @@
     font-size: 11pt;
     background-color: #cfcfcf !important;
     height: 30px !important;
-    width: 360px !important;
+    max-width: 300px;
     border-radius: 16px;
     border-color: transparent;
-    border-width: 0;
-    border-style: none;
+    border: none;
     padding-left: 0.5rem;
+    padding-bottom: 0.25rem;
+    flex-grow: 1;
+    flex-shrink: 1;
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-md) {
         width: auto !important;
         padding: 0 1rem;
+    }
+
+    &::placeholder {
+        font-size: 10pt;
+        color: rgba(64, 64, 64, 0.589);
     }
 }
 

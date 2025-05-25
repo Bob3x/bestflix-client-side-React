@@ -9,6 +9,7 @@ import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { useFavoriteMovie } from "../hooks/useFavoriteMovie";
 import { ToastContainer, Toast } from "react-bootstrap";
+import "./main-view.scss";
 
 export const MainView = () => {
     const storedUser = (() => {
@@ -165,30 +166,21 @@ export const MainView = () => {
                         !user ? (
                             <Navigate to="/api/login" replace />
                         ) : filteredMovies.length > 0 ? (
-                            <Container fluid className="movies-container">
-                                <Container className="content-wrapper">
-                                    <Row className="justify-content-md-center g-2">
-                                        {filteredMovies.map((movie) => (
-                                            <Col
-                                                className="mb-4"
-                                                key={movie._id}
-                                                xs={12}
-                                                sm={6}
-                                                md={3}
-                                                lg={3}
-                                            >
-                                                <MovieCard
-                                                    movie={movie}
-                                                    user={user}
-                                                    token={token}
-                                                    setUser={setUser}
-                                                    toggleFavorite={toggleFavorite}
-                                                    isLoadeing={isLoading}
-                                                />
-                                            </Col>
-                                        ))}
-                                    </Row>
-                                </Container>
+                            <Container className="content-wrapper">
+                                <div className="movie-grid-container">
+                                    {filteredMovies.map((movie) => (
+                                        <div className="movie-grid-item" key={movie._id}>
+                                            <MovieCard
+                                                movie={movie}
+                                                user={user}
+                                                token={token}
+                                                setUser={setUser}
+                                                toggleFavorite={toggleFavorite}
+                                                isLoading={isLoading}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
                             </Container>
                         ) : (
                             <Row className="justify-content-md-center">
@@ -206,7 +198,7 @@ export const MainView = () => {
                     show={toastState.show}
                     onClose={() => setToastState((prev) => ({ ...prev, show: false }))}
                     delay={3000}
-                    autohide
+                    autohide={true}
                     bg={toastState.variant}
                 >
                     <Toast.Body className="text-white">{toastState.message}</Toast.Body>

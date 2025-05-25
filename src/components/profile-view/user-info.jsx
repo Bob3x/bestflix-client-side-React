@@ -8,19 +8,19 @@ export const UserInfo = ({ user, email }) => {
 
     return (
         <Card className="user-info-card">
-            <Card.Header className="card-header">
-                <Card.Title>My Profile</Card.Title>
+            <Card.Header className="user-info-header">
+                <Card.Title>
+                    <span>My Profile</span>
+                </Card.Title>
             </Card.Header>
             <Card.Body className="user-info-body">
                 <div className="user-avatar-container">
                     <div className="user-avatar">{userInitial}</div>
                 </div>
-                <Card.Text>
-                    <span>Username:</span> {user}
-                </Card.Text>
-                <Card.Text>
-                    <span>Email:</span> {email}
-                </Card.Text>
+                <div className="user-info-text">
+                    <Card.Text className="card-text-user">{user}</Card.Text>
+                    <Card.Text className="card-text-email">{email}</Card.Text>
+                </div>
             </Card.Body>
         </Card>
     );

@@ -1,33 +1,44 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { Card } from "react-bootstrap";
+import "./favorite-movies.scss";
 
 export const FavoriteMovies = ({ favoriteMovieList }) => {
     return (
-        <div>
-            {!favoriteMovieList || favoriteMovieList.length === 0 ? (
-                <p>No favorite movies</p>
-            ) : (
-                <>
-                    <h2>Favorite Movies</h2>
-                    <div className="d-flex flex-wrap">
+        <Card className="favorite-movies-card">
+            <Card.Header>
+                <h4>Favorite Movies</h4>
+            </Card.Header>
+            <Card.Body className="favorite-movies-body">
+                {!favoriteMovieList || favoriteMovieList.length === 0 ? (
+                    <div className="no-favorites-message">
+                        <p>No favorite movies</p>
+                    </div>
+                ) : (
+                    <div className="favorite-movies-grid">
                         {favoriteMovieList.map((movie) => (
-                            <div key={movie._id} className="p-2">
-                                <img
-                                    src={movie.image}
-                                    alt={movie.title}
-                                    className="img-fluid"
-                                    style={{ width: "100px", height: "150px", objectFit: "cover" }}
-                                />
-                                <Link to={`/api/movies/${movie._id}`}>
-                                    <h4 style={{ fontSize: "1rem" }}>{movie.title}</h4>
-                                </Link>
+                            <div key={movie._id} className="favorite-movie-col">
+                                <div className="favorite-movie-item">
+                                    <Link to={`/api/movies/${movie._id}`} className="movie-link">
+                                        <div className="movie-poster-wrapper">
+                                            <img
+                                                src={movie.image}
+                                                alt={movie.title}
+                                                className="movie-poster"
+                                            />
+                                        </div>
+                                        <div className="movie-title-wrapper">
+                                            <h6 className="movie-title">{movie.title}</h6>
+                                        </div>
+                                    </Link>
+                                </div>
                             </div>
                         ))}
                     </div>
-                </>
-            )}
-        </div>
+                )}
+            </Card.Body>
+        </Card>
     );
 };
 

@@ -3,99 +3,106 @@
 .navbar {
     margin-top: 1rem;
     margin-bottom: 2rem !important; // Adds space below navbar
+    margin-left: 0.5rem;
     background-color: transparent !important;
-    max-height: unset;
 
-    .navbar-collapse {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .navbar-brand {
+        margin-right: 4rem;
+    }
 
-        @media (max-width: $breakpoint-sm) {
-            width: 100%;
-            flex-direction: column;
-            align-items: flex-start;
-            padding-top: 1rem;
-            gap: 1rem;
+    // Hamburger menu button styling
+    .navbar-toggler {
+        padding: 0.25rem 0.5rem;
+        margin-top: 0.5rem;
+        margin-left: 3rem;
+        border: none;
+
+        &:focus {
+            box-shadow: none;
+            border: none;
+        }
+
+        .navbar-toggler-icon {
+            justify-self: flex-end;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28207, 207, 207, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
     }
 
+    .navbar-content {
+        align-items: center;
+        padding-top: 0.5rem;
+
+        @media (max-width: $breakpoint-md) {
+            padding-top: 1rem;
+        }
+
+        @media (min-width: $breakpoint-md) {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+    }
+
+    // Nav sections layout
     .nav-section {
         display: flex;
         align-items: center;
 
+        // Left section (logo & main nav links)
         &--left {
-            margin-left: 1rem;
-            margin-right: auto;
-            gap: 1.5rem;
-            font-size: 14pt;
+            gap: 1rem;
+            flex-shrink: 0;
 
             @media (min-width: $breakpoint-md) {
-                margin-left: 2.5rem;
-                gap: 2.5rem;
-                font-size: 16pt;
+                margin-right: 2rem; // Space between logo and search bar
+            }
+
+            @media (max-width: $breakpoint-md) {
+                width: 100%;
+                padding-bottom: 0.75rem;
+                margin-bottom: 1rem;
+                flex-flow: row wrap;
+                gap: 0.25rem;
+                margin-right: 0;
             }
         }
 
+        // Center section (search bar)
         &--center {
-            flex: 1;
-            justify-content: center;
-            margin-left: auto;
-            padding: 0 1rem;
-            max-width: none;
-            width: 100%;
+            flex-grow: 1;
+            flex-shrink: 1;
+            margin-left: 2rem;
+
+            @media (max-width: $breakpoint-md) {
+                width: 100%;
+                margin: 0 0 0.75rem 0;
+                order: -1; // Move search to top on mobile
+            }
+
+            // Search form
+            .search-form {
+                width: 100%;
+
+                .form-control {
+                    display: flex;
+                    width: 100%;
+                }
+            }
+        }
+
+        // Right section (user menu)
+        &--right {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: row;
 
             @media (min-width: $breakpoint-md) {
                 margin-left: auto;
-                padding: 0 2rem;
-                max-width: 300px;
             }
 
-            .form-control {
+            @media (max-width: $breakpoint-md) {
+                margin-left: 0;
                 width: 100%;
-                background-color: #cfcfcf !important;
-                color: $font-color-dark;
-
-                &::placeholder {
-                    font-size: 11pt;
-                    opacity: 0.5;
-                }
-
-                &:focus {
-                    box-shadow: none !important;
-                    outline: none !important;
-                    border-color: transparent;
-                    border-width: 0;
-                    border-style: none;
-                }
-            }
-        }
-
-        &--center:focus-visible {
-            outline: none;
-            box-shadow: none;
-        }
-
-        &--right {
-            margin-left: auto;
-        }
-
-        @media (max-width: $breakpoint-sm) {
-            .nav-section {
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
-
-            &--left {
-                width: 100%;
-                font-size: 8pt;
-                gap: 1rem; /* Apply font size only on smaller screens */
-            }
-
-            &--center {
-                width: 100%;
-                padding: 0 1rem;
             }
         }
     }
@@ -104,11 +111,13 @@
         color: #cfcfcf !important;
         display: flex;
         align-items: center;
-        gap: 0.25rem;
+        padding: 0.4rem 0.75rem;
+        font-size: 1.15rem;
         transition: color 0.2s ease;
+        white-space: nowrap;
 
         &:hover {
-            color: rgba(182, 150, 81, 0.681) !important;
+            color: $font-color-gold !important;
         }
     }
 

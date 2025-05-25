@@ -63,11 +63,6 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                 </Col>
                 <Col md={4} lg={4} className="mt-3 mb-2">
                     <Card className="movie-view__poster-card">
-                        <Card.Img
-                            src={movie.image}
-                            alt={movie.title}
-                            className="movie-view__poster-image"
-                        />
                         <Card.Header className="movie-view__header">
                             <Card.Title className="movie-view__title">{movie.title}</Card.Title>
                             <div className="movie-view__actions">
@@ -87,6 +82,11 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                                 </button>
                             </div>
                         </Card.Header>
+                        <Card.Img
+                            src={movie.image}
+                            alt={movie.title}
+                            className="movie-view__poster-image"
+                        />
                     </Card>
                 </Col>
                 <Col md={8} lg={8} className="movie-vew__details">

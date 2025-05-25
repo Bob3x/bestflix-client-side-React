@@ -6,47 +6,86 @@
     color: $font-color-white;
     max-width: 600px;
 
-    .card-header {
+    .user-info-header.card-header {
         background-color: transparent;
         outline: none;
         border: none;
+        margin-bottom: 2rem;
+
+        span {
+            font-size: 2rem;
+            font-weight: 700;
+            color: $font-color-white;
+            text-align: left;
+            display: block;
+        }
     }
 
     .user-info-body {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: flex-start;
+        justify-content: flex-start;
+        gap: 2rem;
         padding: 1.5rem;
-        text-align: left;
     }
 
     .user-avatar-container {
-        margin-bottom: 1.5rem;
+        margin-bottom: 0;
+        flex-shrink: 0;
     }
 
     .user-avatar {
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         border: 2px solid #b69651;
         background-color: transparent;
-        color: $font-color-white;
+        color: $font-color-gold;
         font-size: 2rem;
         font-weight: 700;
         box-shadow: none;
     }
 
-    .card-text {
-        width: 100%;
+    .user-info-text {
         margin-bottom: 1rem;
-        color: $font-color-white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 1;
 
+        .card-text-user {
+            font-size: 2rem;
+            font-weight: 500;
+            width: 100%;
+            color: $font-color-white;
+            display: block;
+        }
+        .card-text-email {
+            font-size: 1rem;
+            color: $font-color-white;
+            opacity: 0.5;
+            margin: 0;
+            padding-top: 0.25rem;
+            display: block;
+        }
         span {
             font-weight: bold;
-            color: #b69651;
+            color: $font-color-gold;
+        }
+    }
+
+    @media (max-width: $breakpoint-sm) {
+        .user-info-body {
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .user-avatar-container {
+            margin-bottom: 1rem;
         }
     }
 }

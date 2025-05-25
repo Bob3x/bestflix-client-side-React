@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { UserInfo } from "./user-info";
@@ -10,6 +10,16 @@ import "./profile-view.scss";
 export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
     const navigate = useNavigate();
     const [isDeleting, setIsDeleting] = useState(false);
+    const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+    useEffect(() => {
+        if (user && user.FavoriteMovies && movies) {
+            const userFavorites = movies.filter((movie) => user.FavoriteMovies.includes(movie._id));
+            setFavoriteMovies(userFavorites);
+        } else {
+            setFavoriteMovies([]);
+        }
+    }, [user, movies]);
 
     const handleUserRemove = async () => {
         if (
@@ -55,13 +65,9 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
         localStorage.setItem("user", JSON.stringify(updatedUser));
     };
 
-    const favoriteMovies = user.FavoriteMovies.map((movieId) =>
-        movies.find((movie) => movie._id === movieId)
-    );
-
     return (
         <Container className="profile-view">
-            <Row className="justify-content-md-left mt-4">
+            <Row className="justify-content-center mt-4">
                 <Col md={6} className="user-info">
                     <UserInfo user={user.Username} email={user.Email} />
                 </Col>
@@ -71,20 +77,13 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
                         token={token}
                         setUser={setUser}
                         onUpdateSuccess={onUpdateSuccess}
+                        onDeleteAccount={handleUserRemove}
+                        isDeleting={isDeleting}
                     />
                 </Col>
-                <Col md={6} className="user-delete-button">
-                    <Button
-                        variant="danger"
-                        onClick={handleUserRemove}
-                        disabled={isDeleting}
-                        className="mt-3"
-                    >
-                        {isDeleting ? "Deleting Account..." : "Delete Account"}
-                    </Button>
-                </Col>
-
-                <Col md={6} className="favorite-movies">
+            </Row>
+            <Row>
+                <Col md={12} className="favorite-movies">
                     <FavoriteMovies favoriteMovieList={favoriteMovies} />
                 </Col>
             </Row>

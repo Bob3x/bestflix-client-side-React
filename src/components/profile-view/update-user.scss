@@ -4,21 +4,66 @@
     background-color: $body-bg;
     border: none;
     color: $font-color-white;
-    max-width: 600px;
+    max-width: 400px;
     margin: 0;
 
-    .card-header {
+    @media (max-width: $breakpoint-md) {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+    }
+
+    .card-footer {
+        display: flex;
         background-color: transparent;
         outline: none;
         border: none;
+        justify-content: center;
+
+        .toggle-form-btn {
+            color: $font-color-gold;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background-color: transparent;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
     }
 
-    .user-update-body {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1.5rem;
-        text-align: left;
+    .card-header {
+        border-bottom: 0.75px solid rgba(105, 105, 105, 0.555);
+        padding-left: 0.25rem;
+    }
+
+    .collapse {
+        transition: height 0.35s ease;
+
+        .user-update-body {
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            text-align: left;
+
+            .delete-account-btn {
+                color: $color-danger;
+                border: none;
+                background-color: transparent;
+                padding: 0.35rem 1rem;
+                font-size: 1rem;
+                text-decoration: none;
+
+                &:hover {
+                    background-color: transparent;
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+            }
+        }
     }
 
     input.form-control,

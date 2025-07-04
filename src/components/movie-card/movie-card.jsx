@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Heart, HeartFill } from "react-bootstrap-icons";
-import { useFavoriteMovie } from "../hooks/useFavoriteMovie";
+import { useFavoriteMovie } from "../../hooks/useFavoriteMovie";
 import "./movie-card.scss";
 
 export const MovieCard = ({ movie, user, token, setUser }) => {

@@ -1,7 +1,326 @@
 @import "../../index.scss";
 
+.auth-background {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
 .auth-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media (max-width: $breakpoint-md) {
+        max-width: 300px;
+        padding: 1.5rem;
+    }
+
+    @media (max-width: $breakpoint-sm) {
+        max-width: 100%;
+        padding: 1rem;
+    }
+}
+
+.auth-header {
+    margin-bottom: 1.5rem;
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: $breakpoint-md) {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .auth-welcome {
+        color: $font-color-white;
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 0;
+
+        @media (max-width: $breakpoint-sm) {
+            font-size: 1.5rem;
+        }
+    }
+
+    .auth-logo-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .auth-logo {
+            width: 220px;
+            max-width: 225px;
+            height: auto;
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+
+        .auth-slogan {
+            font-size: 1rem;
+            color: $font-color-white;
+            opacity: 0.8;
+            margin-top: 0;
+            text-align: left;
+        }
+    }
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 400px;
+    background-color: #445866 !important;
+    border-radius: 24px !important;
+    margin: 0 auto;
+    padding: 1.5rem;
+
+    @media (max-width: 768px) {
+        max-width: 90vw;
+        padding: 1.25rem;
+        border-radius: 20px !important;
+    }
+
+    @media (max-width: 480px) {
+        max-width: 95vw;
+        padding: 1rem;
+        border-radius: 16px !important;
+    }
+
+    // Form styling for auth pages
+
+    .form-group {
+        margin: 0 0 1rem 0;
+        position: relative;
+        width: 100%;
+
+        .form-control {
+            width: 100% !important;
+            position: relative;
+            height: 36px !important;
+            padding: 0.75rem 1rem !important;
+            color: #ffffff !important;
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 16px !important;
+            box-sizing: border-box !important;
+
+            @media (max-width: $breakpoint-md) {
+                height: 24px !important;
+            }
+
+            &:focus {
+                color: #ffffff !important;
+                background-color: rgba(255, 255, 255, 0.15) !important;
+                border-color: rgba(255, 255, 255, 0.3) !important;
+                box-shadow: none !important;
+                outline: none !important;
+            }
+
+            // Fix autofill styling - use transition delay trick
+            &:-webkit-autofill,
+            &:-webkit-autofill:hover,
+            &:-webkit-autofill:focus,
+            &:-webkit-autofill:active {
+                transition: background-color 5000s ease-in-out 0s !important;
+                -webkit-text-fill-color: #cecece !important;
+            }
+
+            // Only show red border when field is invalid AND touched (not just empty)
+            &.is-invalid {
+                border-color: #ff4d4d !important;
+                box-shadow: none !important;
+                background-color: rgba(255, 255, 255, 0.1) !important;
+
+                &:focus {
+                    border-color: #ff4d4d !important;
+                    box-shadow: none !important;
+                    background-color: rgba(255, 255, 255, 0.15) !important;
+                }
+
+                // Fix autofill with invalid state
+                &:-webkit-autofill,
+                &:-webkit-autofill:hover,
+                &:-webkit-autofill:focus {
+                    transition: background-color 5000s ease-in-out 0s !important;
+                    -webkit-text-fill-color: #ffffff !important;
+                    border: 1px solid #ff4d4d !important;
+                }
+            }
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #cfcfcf;
+            margin-bottom: 0.5rem;
+        }
+
+        .text-danger {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 0.75rem;
+            color: #ff4d4d;
+            z-index: 2;
+            pointer-events: none;
+            animation: fadeIn 0.2s ease-in;
+        }
+    }
+
+    // Terms checkbox styling
+    .terms-checkbox {
+        display: flex;
+        align-items: flex-start;
+        margin-top: 0.1rem;
+        margin-bottom: 0px;
+        margin-left: 5px;
+
+        .form-check-input {
+            background-color: #646464;
+            border-color: transparent;
+            margin-top: 0.3rem;
+            cursor: pointer;
+            width: 1rem !important;
+            height: 1rem !important;
+            min-height: 1rem !important;
+            min-width: 1rem !important;
+
+            &:checked {
+                background-color: $color-blue;
+                border-color: transparent;
+                box-shadow: none;
+            }
+
+            &:active,
+            &:focus {
+                box-shadow: none;
+                border: none;
+            }
+
+            &.is-invalid {
+                border-color: #ff4d4d;
+            }
+        }
+
+        .form-check-label {
+            font-size: 0.85rem;
+            color: #cfcfcf;
+            cursor: pointer;
+        }
+
+        .terms-link {
+            padding-left: 5px;
+            color: $color-blue;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .text-danger {
+            position: absolute;
+            left: 0;
+            bottom: -20px;
+            font-size: 0.6rem;
+        }
+    }
+
+    // Button styling
+    .btn-primary {
+        width: 100% !important;
+        min-height: 34px !important;
+        height: 36px !important;
+        background-color: $color-gold !important;
+        border-radius: 16px !important;
+        border: transparent !important;
+        margin-top: 1.5rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        box-shadow: none !important;
+        padding: 0.75rem 1rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+
+        &:hover {
+            transform: translateY(-1px);
+            border: none !important;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+            background-color: $color-gold !important;
+        }
+
+        &:focus {
+            background-color: $color-gold !important;
+            border: transparent !important;
+            box-shadow: none !important;
+        }
+
+        &:active {
+            background-color: $color-gold !important;
+            border: transparent !important;
+            box-shadow: none !important;
+        }
+    }
+
+    // Link styling
+    .login-link,
+    .signup-link {
+        color: $color-blue;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    // Text styling
+    p {
+        color: rgba(207, 207, 207, 0.8);
+        margin-bottom: 0;
+    }
+
+    // Auth card body responsive spacing
+    .auth-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0;
+
+        @media (max-width: 768px) {
+            gap: 0.875rem;
+        }
+
+        @media (max-width: 480px) {
+            gap: 0.75rem;
+        }
+    }
+
+    .auth-title {
+        font-size: 1.4rem;
+        text-align: center;
+        color: $font-color-white;
+        margin-bottom: 0.25rem;
+
+        @media (max-width: 480px) {
+            font-size: 1.25rem;
+        }
+    }
+
+    .auth-subtitle {
+        opacity: 0.7;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

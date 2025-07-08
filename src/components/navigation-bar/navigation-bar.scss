@@ -1,0 +1,192 @@
+@import "../../index.scss";
+
+.navbar {
+    margin-top: 1rem;
+    margin-bottom: 2rem !important; // Adds space below navbar
+    margin-left: 0.5rem;
+    background-color: transparent !important;
+
+    .navbar-brand {
+        margin-right: 4rem;
+    }
+
+    // Hamburger menu button styling
+    .navbar-toggler {
+        padding: 0.25rem 0.5rem;
+        margin-top: 0.5rem;
+        margin-left: 3rem;
+        border: none;
+
+        &:focus {
+            box-shadow: none;
+            border: none;
+        }
+
+        .navbar-toggler-icon {
+            justify-self: flex-end;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28207, 207, 207, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+    }
+
+    .navbar-content {
+        align-items: center;
+        padding-top: 0.5rem;
+
+        @media (max-width: $breakpoint-md) {
+            padding-top: 1rem;
+        }
+
+        @media (min-width: $breakpoint-md) {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+    }
+
+    // Nav sections layout
+    .nav-section {
+        display: flex;
+        align-items: center;
+
+        // Left section (logo & main nav links)
+        &--left {
+            gap: 1rem;
+            flex-shrink: 0;
+
+            @media (min-width: $breakpoint-md) {
+                margin-right: 2rem; // Space between logo and search bar
+            }
+
+            @media (max-width: $breakpoint-md) {
+                width: 100%;
+                padding-bottom: 0.75rem;
+                margin-bottom: 1rem;
+                flex-flow: row wrap;
+                gap: 0.25rem;
+                margin-right: 0;
+            }
+        }
+
+        // Center section (search bar)
+        &--center {
+            flex-grow: 1;
+            flex-shrink: 1;
+            margin-left: 2rem;
+
+            @media (max-width: $breakpoint-md) {
+                width: 100%;
+                margin: 0 0 0.75rem 0;
+                order: -1; // Move search to top on mobile
+            }
+
+            // Search form
+            .search-form {
+                width: 100%;
+
+                .form-control {
+                    display: flex;
+                    width: 100%;
+                }
+            }
+        }
+
+        // Right section (user menu)
+        &--right {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: row;
+
+            @media (min-width: $breakpoint-md) {
+                margin-left: auto;
+            }
+
+            @media (max-width: $breakpoint-md) {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    }
+
+    .nav-link {
+        color: #cfcfcf !important;
+        display: flex;
+        align-items: center;
+        padding: 0.4rem 0.75rem;
+        font-size: 1.15rem;
+        transition: color 0.2s ease;
+        white-space: nowrap;
+
+        &:hover {
+            color: $font-color-gold !important;
+        }
+    }
+
+    .dropdown-toggle::after {
+        display: none;
+    }
+
+    .user-avatar-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.25rem;
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #b69651;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #cfcfcf;
+            background-color: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-caret {
+            color: #cfcfcf;
+            transition: transform 0.2s ease;
+        }
+
+        &:hover {
+            .user-avatar {
+                border-color: #836c3a;
+                transform: scale(1.05);
+            }
+
+            .dropdown-caret {
+                transform: translateY(2px);
+            }
+        }
+    }
+
+    .dropdown-menu {
+        background-color: #0e2e4d;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        @media (max-width: $breakpoint-md) {
+            position: static !important;
+            width: 100%;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: none !important;
+        }
+
+        .dropdown-item {
+            color: #cfcfcf;
+            padding: 0.5rem 1rem;
+
+            &:hover {
+                background-color: rgba(182, 150, 81, 0.1);
+                color: #b69651;
+            }
+        }
+
+        .dropdown-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    }
+}

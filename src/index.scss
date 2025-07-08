@@ -1,7 +1,40 @@
-$color: steelblue;
+// Variables
+$body-bg: #0e2e4d;
+$body-color: #ecececee;
+$font-color-white: #cfcfcf;
+$font-color-dark: #404040;
+$font-color-gold: #b69651;
+$color-gold: #b69651;
+$color-blue: #4682b4;
+$color-danger: rgba(249, 66, 66, 0.685);
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+body {
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    // Responsive font size
+    font-size: 16px;
+
+    @media (max-width: $breakpoint-md) {
+        font-size: 14px;
+    }
+
+    @media (max-width: $breakpoint-sm) {
+        font-size: 12px;
+    }
+}
 
 .my-flix {
-    color: $color;
+    color: $color-blue;
 }
 
 .FrontViewText {
@@ -10,17 +43,7 @@ $color: steelblue;
     font-size: 24px;
 }
 
-.SignUpCard {
-    align-items: center;
+// .Card-Login {
+//     align-items: center;
 
-}
-
-.Input-Fields {
-    border-radius: 2px;
-    border-style: solid;
-}
-
-.Card-Login {
-    align-items: center;
-    box-sizing: none;
-}
+// }

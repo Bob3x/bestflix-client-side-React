@@ -1,138 +1,171 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { Container, Row, Col, Card, Stack, Button } from "react-bootstrap";
+import { Toast, ToastContainer } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { useFavoriteMovie } from "../hooks/useFavoriteMovie";
+import { Heart, HeartFill } from "react-bootstrap-icons";
+import "./movie-view.scss";
 
 export const MovieView = ({ movies, user, token, setUser }) => {
-  const { movieId } = useParams();
-  const [isFavorite, setIsFavorite] = useState(false);
+    const { movieId } = useParams();
+    const { toggleFavorite, isLoading, toastState, setToastState } = useFavoriteMovie(
+        user,
+        token,
+        setUser
+    );
 
-  const movie = movies.find((m) => m._id === movieId);
+    const movie = movies.find((m) => m._id === movieId);
 
-  useEffect(() => {
-    if (user && user.FavoriteMovies) {
-      const isFavorite = user.FavoriteMovies.includes(movieId);
-      setIsFavorite(isFavorite);
+    if (!movies.length) {
+        return (
+            <Container>
+                <div className="text-center mt-5">
+                    <div className="spinner-border text-light" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </Container>
+        );
     }
-  }, [movieId, user]);
 
-  const addFavorite = () => {
-    fetch(
-      "https://my-movies-flix-app-56f9661dc035.herokuapp.com/users/${user.Username}/${movieId}",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        setUser(data);
-        localStorage.setItem("user", JSON.stringify(data));
-        setIsFavorite(true);
-        console.log("Added movie:", response, data);
-      })
-      .catch((err) => {
-        console.error("Error adding movie:", err);
-      });
-  };
+    if (!movie) {
+        return (
+            <Container>
+                <div className="text-center mt-5">
+                    <h2 className="text-light">Movie not found</h2>
+                    <Link to="/">
+                        <Button variant="primary" className="mt-3">
+                            Back to Movies
+                        </Button>
+                    </Link>
+                </div>
+            </Container>
+        );
+    }
 
-  const removeFavorite = () => {
-    fetch(
-      "https://my-movies-flix-app-56f9661dc035.herokuapp.com/users/${user.Username}/${movieId}",
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        setUser(data);
-        localStorage.setItem("user".JSON.stringify(data));
-        setIsFavorite(false);
-        console.log("Added favorite movie:", data);
-      })
-      .catch((err) => {
-        console.error("Error deleting movie:", err);
-      });
-  };
+    const isFavorite = user.FavoriteMovies.includes(movieId);
+    const handleFavoriteClick = (e) => {
+        e.preventDefault();
+        toggleFavorite(movie._id, isFavorite);
+    };
 
-  return (
-    <Container>
-      <Row>
-        <Col md={5}>
-          <Card className="mt-3 mb-2">
-            <Card.Img src={movie.image} alt={movie.title} />
-            <Card.Body>
-              <Card.Header>
-                <Card.Title>
-                  <strong>{movie.title}</strong>
-                </Card.Title>
-              </Card.Header>
-              <Card.Text>
-                <h5>Genre:</h5>
-                <p>{movie.genre.name}</p>
-                <h5>Description:</h5>
-                <p>{movie.description}</p>
-                <h5>Director: </h5>
-                <span>{movie.director.name}</span>
-                <p>Birth year: {movie.director.birth}</p>
-                <h5>Bio: </h5>
-                <p>{movie.director.bio}</p>
-              </Card.Text>
-              <Link to={`/`}>
-                <Button variant="secondary">Back</Button>
-              </Link>
-              <div className="mt-2">
-                {isFavorite ? (
-                  <Button variant="danger" onClick={removeFavorite}>
-                    Remove
-                  </Button>
-                ) : (
-                  <Button variant="primary" onClick={addFavorite}>
-                    Add to favorites
-                  </Button>
-                )}
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
-  );
+    return (
+        <Container className="movie-view">
+            <Row className="justify-content-center">
+                <Col md={12} lg={12} className="movie-back-button">
+                    <Link to={`/api/`}>
+                        <Button variant="secondary" className="back-button">
+                            Back
+                        </Button>
+                    </Link>
+                </Col>
+                <Col md={4} lg={4} className="mt-3 mb-2">
+                    <Card className="movie-view__poster-card">
+                        <Card.Header className="movie-view__header">
+                            <Card.Title className="movie-view__title">{movie.title}</Card.Title>
+                            <div className="movie-view__actions">
+                                <button
+                                    className="movie-card__favorite-btn"
+                                    onClick={handleFavoriteClick}
+                                    disabled={isLoading}
+                                    aria-label={
+                                        isFavorite ? "Remove from favorites" : "Add to favorites"
+                                    }
+                                >
+                                    {isFavorite ? (
+                                        <HeartFill className="heart-icon filled" />
+                                    ) : (
+                                        <Heart className="heart-icon" />
+                                    )}
+                                </button>
+                            </div>
+                        </Card.Header>
+                        <Card.Img
+                            src={movie.image}
+                            alt={movie.title}
+                            className="movie-view__poster-image"
+                        />
+                    </Card>
+                </Col>
+                <Col md={8} lg={8} className="movie-vew__details">
+                    <Card className="movie-view__details-card">
+                        <Card.Body className="movie-view__body">
+                            <Stack gap={4}>
+                                <div className="movie-view__info-section">
+                                    <Card.Subtitle className="movie-view__subtitle">
+                                        Description
+                                    </Card.Subtitle>
+                                    <div className="movie-view__text">{movie.description}</div>
+                                </div>
+
+                                <hr />
+
+                                <div className="movie-view__info-section">
+                                    <Card.Subtitle className="movie-view__subtitle">
+                                        Director
+                                    </Card.Subtitle>
+                                    <div className="movie-view__director">
+                                        <h4 className="movie-view__director-name">
+                                            {movie.director.name}
+                                        </h4>
+                                        <p className="movie-view__director-birth">
+                                            Birth year: {movie.director.birth}
+                                        </p>
+                                        <p className="movie-view__director-bio">
+                                            {movie.director.bio}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="movie-view__info-section">
+                                    <Card.Subtitle className="movie-view__subtitle">
+                                        Genre
+                                    </Card.Subtitle>
+                                    <div className="movie-view__text">{movie.genre.name}</div>
+                                </div>
+                            </Stack>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+            <ToastContainer position="bottom-end" className="p-3">
+                <Toast
+                    show={toastState.show}
+                    onClose={() => setToastState((prev) => ({ ...prev, show: false }))}
+                    delay={3000}
+                    autohide
+                    bg={toastState.variant}
+                >
+                    <Toast.Body className="text-white">{toastState.message}</Toast.Body>
+                </Toast>
+            </ToastContainer>
+        </Container>
+    );
 };
 
 MovieView.propTypes = {
-  movie: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    genre: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-    }).isRequired,
-    director: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      bio: PropTypes.string.isRequired,
-      birth: PropTypes.string,
-      death: PropTypes.string
-    }).isRequired,
-    image: PropTypes.string.isRequired,
-    featured: PropTypes.bool.isRequired,
-  }).isRequired,
-  onBackClick: PropTypes.func.isRequired,
+    movies: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+            genre: PropTypes.shape({
+                name: PropTypes.string.isRequired,
+                description: PropTypes.string.isRequired
+            }).isRequired,
+            director: PropTypes.shape({
+                name: PropTypes.string.isRequired,
+                bio: PropTypes.string.isRequired,
+                birth: PropTypes.string,
+                death: PropTypes.string
+            }).isRequired,
+            image: PropTypes.string.isRequired,
+            featured: PropTypes.bool.isRequired
+        })
+    ).isRequired,
+    user: PropTypes.shape({
+        Username: PropTypes.string.isRequired,
+        FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired
+    })
 };

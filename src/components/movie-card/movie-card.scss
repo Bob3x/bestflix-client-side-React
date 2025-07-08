@@ -1,0 +1,146 @@
+@import "../../index.scss";
+
+.movie-card {
+    height: 100% !important;
+    background-color: #0e2e4d !important;
+    color: #dadada !important;
+    display: flex !important;
+    flex-direction: column !important;
+    border: none !important;
+    width: 100% !important;
+
+    &__image-link {
+        display: block;
+        transition: all 0.3s ease;
+        position: relative;
+        margin: 5px;
+
+        &:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid transparent;
+            transition: all 0.1s ease;
+        }
+
+        &:hover {
+            opacity: 0.8;
+            cursor: pointer;
+
+            &:before {
+                border-color: rgba(255, 255, 255, 0.6);
+                border-radius: 14px;
+            }
+        }
+    }
+
+    &__image {
+        border-radius: 14px !important;
+        width: 100% !important;
+        aspect-ratio: 2/3 !important;
+        object-fit: cover !important;
+        background-color: #081b2f !important;
+        padding: 0;
+    }
+
+    &__content {
+        padding: 0;
+        margin: 0;
+        background-color: #0e2e4d;
+    }
+
+    &__title-wrapper {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        padding: 2px;
+    }
+
+    &__favorite-btn {
+        background: none;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        .heart-icon {
+            width: 24px;
+            height: 24px;
+            color: #b69651;
+
+            &.filled {
+                color: #b69651;
+            }
+        }
+    }
+
+    .card-title.movie-card__title {
+        color: #eeeeee;
+        font-size: 14pt;
+        padding: 0;
+        margin: 0;
+
+        strong {
+            font-weight: 500;
+        }
+    }
+
+    &__genre {
+        color: rgba(173, 173, 173, 0.795);
+        font-size: 11pt;
+        padding: 0;
+        padding-left: 4px;
+        padding-bottom: 8px;
+        margin: 0;
+    }
+
+    &__description {
+        margin-top: 2px;
+        color: #9b9b9b;
+        font-size: 10pt;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: rgba(87, 87, 87, 0.651);
+            position: static;
+        }
+    }
+}
+
+.tooltip {
+    &.movie-card__description-tooltip {
+        opacity: 1 !important;
+        margin-bottom: 8px !important;
+
+        .tooltip-inner {
+            max-width: 300px;
+            padding: 1rem;
+            background-color: rgba(8, 27, 47, 0.938);
+            border: 1px solid rgba(182, 150, 81, 0.842);
+            font-size: 0.875rem;
+            line-height: 1.4;
+            color: #dadada;
+        }
+
+        &.bs-tooltip-top .tooltip-arrow::before {
+            border-top-color: rgba(8, 27, 47, 0.945);
+        }
+
+        &[data-proper-placement="top"] {
+            transform: translate(0, -8px) !important;
+        }
+    }
+}

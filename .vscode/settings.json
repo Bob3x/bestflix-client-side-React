@@ -1,3 +1,12 @@
 {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "prettier.printWidth": 100,
+    "prettier.tabWidth": 4,
+    "editor.inlayHints.maximumLength": 72,
+    "github.copilot.editor.enableAutoCompletions": false,
+    "cSpell.ignoreWords": ["autohide"]
 }

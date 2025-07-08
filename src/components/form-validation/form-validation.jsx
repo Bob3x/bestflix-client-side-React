@@ -13,16 +13,15 @@ const validationSchema = {
         ),
     Email: Yup.string().email("Please enter valid email"),
 
-    Birthday: Yup.date(),
+    Birthday: Yup.date()
 };
 
 // required for singup form etc.
 export const signupSchema = Yup.object({
     ...validationSchema,
-    Username: validationSchema.Username.required("Username is required!"),
-    Pasword: validationSchema.Password.required("Password is required!"),
-    Email: validationSchema.Email.required("Email is required!"),
-    Birthday: validationSchema.Birthday.required("Birthday is required!"),
+    Username: validationSchema.Username.required(" "),
+    Email: validationSchema.Email.required(" "),
+    Password: validationSchema.Password.required(" ")
 });
 
 // again optional for update-user form or...

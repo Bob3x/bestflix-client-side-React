@@ -1,4 +1,8 @@
 node_modules
 .cache
 .parcel-cache
+<<<<<<< HEAD
 /dist
+=======
+/dist
+>>>>>>> final_update

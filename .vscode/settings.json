@@ -7,5 +7,6 @@
     "prettier.printWidth": 100,
     "prettier.tabWidth": 4,
     "editor.inlayHints.maximumLength": 72,
-    "github.copilot.editor.enableAutoCompletions": false
+    "github.copilot.editor.enableAutoCompletions": false,
+    "cSpell.ignoreWords": ["autohide"]
 }

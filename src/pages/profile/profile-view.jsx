@@ -1,14 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { UserInfo } from "./user-info";
-import { UpdateUser } from "./update-user";
+import { UpdateUser } from "../../pages/UpdateUser/update-user";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { FavoriteMovies } from "./favorite-movies";
+import "./profile-view.scss";
 
 export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
     const navigate = useNavigate();
     const [isDeleting, setIsDeleting] = useState(false);
+    const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+    useEffect(() => {
+        if (user && user.FavoriteMovies && movies) {
+            const userFavorites = movies.filter((movie) => user.FavoriteMovies.includes(movie._id));
+            setFavoriteMovies(userFavorites);
+        } else {
+            setFavoriteMovies([]);
+        }
+    }, [user, movies]);
 
     const handleUserRemove = async () => {
         if (
@@ -22,13 +33,13 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
         try {
             setIsDeleting(true);
             const response = await fetch(
-                `https://my-movies-flix-app-56f9661dc035.herokuapp.com/users/${user.Username}`,
+                `https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/users/${user.Username}`,
                 {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
+                        Authorization: `Bearer ${token}`
+                    }
                 }
             );
 
@@ -37,7 +48,7 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
                 onLoggedOut();
                 localStorage.clear();
                 alert("Your account has been successfully deleted.");
-                navigate("/login", { replace: true });
+                navigate("/api/login", { replace: true });
             } else {
                 throw new Error("Failed to delete account");
             }
@@ -54,33 +65,26 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
         localStorage.setItem("user", JSON.stringify(updatedUser));
     };
 
-    const favoriteMovies = user.FavoriteMovies.map((movieId) =>
-        movies.find((movie) => movie._id === movieId)
-    );
-
     return (
-        <Container>
-            <Row className="justify-content-md-center">
-                <Col md={6}>
-                    <UserInfo user={user.Username} email={user.Emal} />
-
+        <Container className="profile-view">
+            <Row className="justify-content-center mt-4">
+                <Col md={6} className="user-info">
+                    <UserInfo user={user.Username} email={user.Email} />
+                </Col>
+                <Col md={6} className="user-update">
                     <UpdateUser
                         user={user}
                         token={token}
                         setUser={setUser}
                         onUpdateSuccess={onUpdateSuccess}
+                        onDeleteAccount={handleUserRemove}
+                        isDeleting={isDeleting}
                     />
-
+                </Col>
+            </Row>
+            <Row>
+                <Col md={12} className="favorite-movies">
                     <FavoriteMovies favoriteMovieList={favoriteMovies} />
-
-                    <Button
-                        variant="danger"
-                        onClick={handleUserRemove}
-                        disabled={isDeleting}
-                        className="mt-3"
-                    >
-                        {isDeleting ? "Deleting Account..." : "Delete Account"}
-                    </Button>
                 </Col>
             </Row>
         </Container>
@@ -96,7 +100,7 @@ ProfileView.propTypes = {
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
-            image: PropTypes.string.isRequired,
+            image: PropTypes.string.isRequired
         })
-    ).isRequired,
+    ).isRequired
 };

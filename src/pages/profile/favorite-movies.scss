@@ -1,0 +1,103 @@
+@import "../../index.scss";
+
+.favorite-movies-card {
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: $body-bg !important;
+    border: none !important;
+
+    .card-header {
+        background-color: transparent;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0.5rem 1rem;
+        color: $font-color-white;
+
+        .favorite-movies-title {
+            margin: 0;
+            font-weight: 500;
+            color: $font-color-white;
+        }
+    }
+
+    .favorite-movies-body {
+        padding: 1.5rem;
+
+        .no-favorites-message {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .favorite-movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.25rem;
+            width: 100%;
+
+            @media (max-width: $breakpoint-md) {
+                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            }
+        }
+    }
+
+    .favorite-movie-col {
+        padding: 0.5rem;
+    }
+
+    .favorite-movie-item {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+    }
+
+    .movie-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .movie-poster-wrapper {
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+
+        .movie-poster {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            display: block;
+            transition: all 0.3s ease;
+        }
+    }
+
+    .movie-title-wrapper {
+        padding: 0.5rem 0;
+
+        .movie-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 0;
+            color: $font-color-white;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: center;
+        }
+    }
+
+    // Responsive adjustments
+    @media (max-width: $breakpoint-sm) {
+        .favorite-movie-col {
+            padding: 0.35rem;
+        }
+
+        .movie-title {
+            font-size: 0.8rem;
+        }
+    }
+}

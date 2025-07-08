@@ -1,29 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Card, Row, Col } from "react-bootstrap";
+import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { Heart, HeartFill } from "react-bootstrap-icons";
+import { useFavoriteMovie } from "../../hooks/useFavoriteMovie";
+import "./movie-card.scss";
 
-export const MovieCard = ({ movie }) => {
+export const MovieCard = ({ movie, user, token, setUser }) => {
+    const [showTooltip, setShowTooltip] = useState(false);
+    const { toggleFavorite, isLoading } = useFavoriteMovie(user, token, setUser);
+    const isFavorite = user.FavoriteMovies.includes(movie._id);
+
+    const handleFavoriteClick = (e) => {
+        e.preventDefault();
+        toggleFavorite(movie._id, isFavorite);
+    };
+
     return (
-        <Row>
-            <Col md={10}>
-                <Card>
-                    <Card.Img variant="top" src={movie.image} alt={movie.title} />
-                    <Card.Body>
-                        <Card.Title>
-                            <strong>{movie.title}</strong>
-                        </Card.Title>
-                        <Card.Text>
-                            <p>Genre: {movie.genre.name}</p>
+        <Card className="movie-card">
+            <Link
+                to={`/api/movies/${encodeURIComponent(movie._id)}`}
+                className="movie-card__image-link"
+            >
+                <Card.Img
+                    variant="top"
+                    src={movie.image}
+                    alt={movie.title}
+                    className="movie-card__image"
+                />
+            </Link>
+            <Card.Body className="movie-card__content">
+                <Card.Text className="movie-card__genre">{movie.genre.name}</Card.Text>
+                <div className="movie-card__title-wrapper">
+                    <Card.Title className="movie-card__title">
+                        <strong>{movie.title}</strong>
+                    </Card.Title>
+                    <button
+                        className="movie-card__favorite-btn"
+                        onClick={handleFavoriteClick}
+                        disabled={isLoading}
+                        aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                    >
+                        {isFavorite ? (
+                            <HeartFill className="heart-icon filled" />
+                        ) : (
+                            <Heart className="heart-icon" />
+                        )}
+                    </button>
+                </div>
+
+                <OverlayTrigger
+                    placement="top"
+                    overlay={
+                        <Tooltip className="movie-card__description-tooltip">
                             {movie.description}
-                        </Card.Text>
-                        <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
-                            <Button variant="link">Open</Button>
-                        </Link>
-                    </Card.Body>
-                </Card>
-            </Col>
-        </Row>
+                        </Tooltip>
+                    }
+                >
+                    <Card.Text className="movie-card__description">{movie.description}</Card.Text>
+                </OverlayTrigger>
+            </Card.Body>
+        </Card>
     );
 };
 
@@ -34,16 +71,21 @@ MovieCard.propTypes = {
         description: PropTypes.string.isRequired,
         genre: PropTypes.shape({
             name: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired
         }).isRequired,
         director: PropTypes.shape({
             name: PropTypes.string.isRequired,
             bio: PropTypes.string.isRequired,
             birth: PropTypes.string,
-            death: PropTypes.string,
+            death: PropTypes.string
         }).isRequired,
         image: PropTypes.string.isRequired,
-        featured: PropTypes.bool.isRequired,
-    }),
+        featured: PropTypes.bool.isRequired
+    }).isRequired,
+    user: PropTypes.shape({
+        Username: PropTypes.string.isRequired,
+        FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired
+    }).isRequired,
+    token: PropTypes.string.isRequired,
+    setUser: PropTypes.func.isRequired
 };
-

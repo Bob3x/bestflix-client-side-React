@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { Button, Form as BootstrapForm, Alert, Spinner } from "react-bootstrap";
 import { signupSchema } from "../../components/form-validation/form-validation";
 import AuthLayout from "../../components/auth-layout/auth-layout";
+import { signupUser } from "../../services/userService";
+import { login } from "../../features/user/userSlice";
 
-export const SignupView = ({ onLoggedIn }) => {
-    // State for managing form-level messages
+export const SignupView = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
@@ -14,43 +17,13 @@ export const SignupView = ({ onLoggedIn }) => {
     // Form submission handler
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
-            const response = await fetch(
-                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/users",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(values)
-                }
-            );
+            // 1. Register the user
+            await signupUser(values);
 
-            if (!response.ok) {
-                throw new Error("Signup failed");
-            }
+            // 2. Auto-login after signup using Redux thunk
+            dispatch(login({ Username: values.Username, Password: values.Password }));
 
-            // Auto login after signup
-            const loginResponse = await fetch(
-                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/login",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        Username: values.Username,
-                        Password: values.Password
-                    })
-                }
-            );
-
-            if (!loginResponse.ok) {
-                throw new Error("Auto-login failed");
-            }
             setError("");
-            const data = await loginResponse.json();
-            onLoggedIn(data.user, data.token);
-
             setSuccess(true);
             resetForm();
 
@@ -90,7 +63,6 @@ export const SignupView = ({ onLoggedIn }) => {
                 }}
                 validationSchema={signupSchema}
                 onSubmit={(values, actions) => {
-                    console.log("Form submitted with values:", values);
                     handleSubmit(values, actions);
                 }}
                 key="signup-form"
@@ -201,7 +173,7 @@ export const SignupView = ({ onLoggedIn }) => {
                         <div className="text-center mt-3">
                             <p className="mb-0">
                                 Already have an account?{" "}
-                                <Link to="/api/login" className="login-link">
+                                <Link to="/login" className="login-link">
                                     Login
                                 </Link>
                             </p>

@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../features/user/userSlice";
 import { Container, Row, Col } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ProfileView } from "../profile-view/profile-view";
@@ -7,112 +9,38 @@ import { MovieCard } from "../movie-card/movie-card";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { fetchMoviesThunk } from "../../features/movies/moviesSlice";
 
 export const MainView = () => {
-    const storedUser = (() => {
-        try {
-            const user = localStorage.getItem("user");
-            return user ? JSON.parse(user) : null;
-        } catch (e) {
-            console.error("Error parsing stored user:", e);
-            localStorage.removeItem("user");
-            return null;
-        }
-    })();
-
-    const storedToken = localStorage.getItem("token");
-    const [user, setUser] = useState(storedUser ? storedUser : null);
-    const [token, setToken] = useState(storedToken ? storedToken : null);
-    const [movies, setMovies] = useState([]);
+    const dispatch = useDispatch();
+    const { user, token } = useSelector((state) => state.user);
+    const { movies } = useSelector((state) => state.movies);
 
     useEffect(() => {
         if (!token) return;
-
-        fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies", {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    if (response.status === 401) {
-                        // Token expired
-                        setUser(null);
-                        setToken(null);
-                        localStorage.clear();
-                        throw new Error("Token expired - please login again");
-                    }
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log("Fetched movies data:", data);
-                const moviesAPI = data.map((movie) => {
-                    return {
-                        _id: movie._id,
-                        title: movie.Title,
-                        description: movie.Description,
-                        genre: {
-                            name: movie.Genre.Name,
-                            description: movie.Genre.Description,
-                        },
-                        director: {
-                            name: movie.Director.Name,
-                            bio: movie.Director.Bio,
-                            birth: movie.Director.Birth,
-                            death: movie.Director.Death,
-                        },
-                        image: movie.ImagePath,
-                        featured: movie.Featured,
-                    };
-                });
-                setMovies(moviesAPI);
-            })
-            .catch((error) => console.error("Error fetching movies:", error));
-    }, [token]);
-
-    const onLoggedIn = (user, token) => {
-        console.log("User logged in:", user);
-        console.log("Token received:", token);
-        setUser(user);
-        setToken(token);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("token", token);
-    };
-
-    const onLoggedOut = () => {
-        console.log("User logged out");
-        setUser(null);
-        setToken(null);
-        localStorage.clear();
-    };
-
-    /* const handleFilter = (filteredMovies) => {
-        console.log("Setting Filtered Movies:", filteredMovies);
-        setFilteredMovies(filteredMovies);
-    }; 
-    */
+        dispatch(fetchMoviesThunk(token));
+    }, [token, dispatch]);
 
     return (
         <BrowserRouter>
-            <NavigationBar user={user} onLoggedOut={onLoggedOut} />
+            <NavigationBar
+                user={user}
+                onLoggedOut={() => {
+                    dispatch(logout());
+                    localStorage.clear();
+                }}
+            />
             <Container>
                 <Row className="justify-content-md-center">
                     <Routes>
                         {/* Show login if no user */}
                         <Route
                             path="/login"
-                            element={
-                                !user ? <LoginView onLoggedIn={onLoggedIn} /> : <Navigate to="/" />
-                            }
+                            element={!user ? <LoginView /> : <Navigate to="/" />}
                         />
                         <Route
                             path="/signup"
-                            element={
-                                !user ? <SignupView onLoggedIn={onLoggedIn} /> : <Navigate to="/" />
-                            }
+                            element={!user ? <SignupView /> : <Navigate to="/" />}
                         />
 
                         <Route
@@ -121,12 +49,7 @@ export const MainView = () => {
                                 !user ? (
                                     <Navigate to="/login" replace />
                                 ) : (
-                                    <MovieView
-                                        movies={movies}
-                                        user={user}
-                                        token={token}
-                                        setUser={setUser}
-                                    />
+                                    <MovieView movies={movies} user={user} token={token} />
                                 )
                             }
                         />
@@ -139,10 +62,12 @@ export const MainView = () => {
                                 ) : (
                                     <ProfileView
                                         user={user}
-                                        setUser={setUser}
                                         token={token}
                                         movies={movies}
-                                        onLogout={onLoggedOut}
+                                        onLogout={() => {
+                                            dispatch(logout());
+                                            localStorage.clear();
+                                        }}
                                     />
                                 )
                             }

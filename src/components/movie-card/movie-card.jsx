@@ -9,7 +9,10 @@ import "./movie-card.scss";
 export const MovieCard = ({ movie, user, token, setUser }) => {
     const [showTooltip, setShowTooltip] = useState(false);
     const { toggleFavorite, isLoading } = useFavoriteMovie(user, token, setUser);
-    const isFavorite = user.FavoriteMovies.includes(movie._id);
+    const isFavorite =
+        user && Array.isArray(user.FavoriteMovies)
+            ? user.FavoriteMovies.includes(movie._id)
+            : false;
 
     const handleFavoriteClick = (e) => {
         e.preventDefault();
@@ -30,7 +33,7 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
                 />
             </Link>
             <Card.Body className="movie-card__content">
-                <Card.Text className="movie-card__genre">{movie.genre.name}</Card.Text>
+                <Card.Text className="movie-card__genre">{movie.genre?.name || ""}</Card.Text>
                 <div className="movie-card__title-wrapper">
                     <Card.Title className="movie-card__title">
                         <strong>{movie.title}</strong>

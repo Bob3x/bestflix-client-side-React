@@ -4,7 +4,9 @@
     "scripts": {
         "start": "parcel src/index.html",
         "build": "parcel build src/index.html --dist-dir dist",
-        "test": "react-scripts test"
+        "test": "react-scripts test",
+        "test:coverage": "react-scripts test --coverage",
+        "cypress": "cypress open"
     },
     "author": "",
     "license": "ISC",

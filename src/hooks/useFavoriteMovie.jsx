@@ -37,7 +37,7 @@ export const useFavoriteMovie = (user, token, setUser) => {
             localStorage.setItem("user", JSON.stringify(updatedUser));
             setToastState({
                 show: true,
-                message: `Movie ${isFavorite ? "removed from" : "added to"} fovorites`,
+                message: `Movie ${isFavorite ? "removed from" : "added to"} favorites`,
                 variant: "success"
             });
         } catch (error) {

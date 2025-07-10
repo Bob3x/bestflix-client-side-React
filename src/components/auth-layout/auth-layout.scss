@@ -158,15 +158,23 @@
             margin-bottom: 0.5rem;
         }
 
+        .form-group .text-danger {
+            margin-top: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
         .text-danger {
-            position: absolute;
+            position: relative;
             right: 0;
-            top: 0;
+            top: 100%;
             font-size: 0.75rem;
             color: #ff4d4d;
             z-index: 2;
             pointer-events: none;
             animation: fadeIn 0.2s ease-in;
+            white-space: pre-line; /* or normal */
+            word-break: break-word;
+            display: block;
         }
     }
 

@@ -5,14 +5,28 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import store from "../app/store";
 import { MovieCard } from "../components/movie-card/movie-card";
+import "@testing-library/jest-dom";
 
 // Mock props
+
+const mockUser = {
+    Username: "testUser",
+    FavoriteMovies: ["123", "456"]
+};
+const mockToken = "testToken";
+const mockSetUser = jest.fn();
+
 const mockMovie = {
-    id: "123",
+    _id: "123",
     title: "Inception",
-    description: "Mind-bending thriller",
-    genre: { name: "Sci-Fi" },
-    director: { name: "Christopher Nolan", bio: "Bio", birth: "1970", death: "" },
+    description: "A thief who steals corporate secrets through the use of dream-sharing technology",
+    genre: { name: "Thriller", description: "" },
+    director: {
+        name: "Christopher Nolan",
+        bio: "Best known for his cerebral...",
+        birth: "1970",
+        death: ""
+    },
     image: "inception.jpg",
     featured: true
 };
@@ -22,20 +36,30 @@ describe("MovieCard", () => {
         render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <MovieCard movie={mockMovie} />
+                    <MovieCard
+                        movie={mockMovie}
+                        user={mockUser}
+                        token={mockToken}
+                        setUser={mockSetUser}
+                    />
                 </MemoryRouter>
             </Provider>
         );
 
         expect(screen.getByText(/Inception/i)).toBeInTheDocument();
-        expect(screen.getByText(/Sci-Fi/i).toBeInTheDocument());
+        expect(screen.getByText(/Thriller/i)).toBeInTheDocument();
     });
 
     test("calls favorite button clicked (if it exists)", () => {
         render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <MovieCard movie={mockMovie} />
+                    <MovieCard
+                        movie={mockMovie}
+                        user={mockUser}
+                        token={mockToken}
+                        setUser={mockSetUser}
+                    />
                 </MemoryRouter>
             </Provider>
         );

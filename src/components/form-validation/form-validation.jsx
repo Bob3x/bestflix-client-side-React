@@ -9,19 +9,18 @@ const validationSchema = {
         .min(8, "Must be at least 8 characters")
         .matches(
             /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{4,}$/,
-            "Password must contain atleast 1 lowercase, 1 uppercase, 1 number and 1 special character."
+            "Password must contain at least 1 lowercase, 1 uppercase, 1 number and 1 special character."
         ),
-    Email: Yup.string().email("Please enter valid email"),
-
+    Email: Yup.string().email("Please enter valid email").required("Email is required"),
     Birthday: Yup.date()
 };
 
-// required for singup form etc.
+// required for signup form etc.
 export const signupSchema = Yup.object({
     ...validationSchema,
-    Username: validationSchema.Username.required(" "),
-    Email: validationSchema.Email.required(" "),
-    Password: validationSchema.Password.required(" ")
+    Username: validationSchema.Username.required("Username is required"),
+    Email: validationSchema.Email.required("Email is required"),
+    Password: validationSchema.Password.required("Password is required")
 });
 
 // again optional for update-user form or...

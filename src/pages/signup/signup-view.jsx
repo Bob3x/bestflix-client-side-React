@@ -100,6 +100,8 @@ export const SignupView = () => {
                                 component={BootstrapForm.Text}
                                 id="email-error"
                                 className="text-danger"
+                                data-testid="email-error"
+                                style={{ minHeight: 20 }}
                             />
                         </BootstrapForm.Group>
                         <BootstrapForm.Group className="form-group">
@@ -116,6 +118,7 @@ export const SignupView = () => {
                                 component={BootstrapForm.Text}
                                 id="password-error"
                                 className="text-danger"
+                                data-testid="password-error"
                             />
                         </BootstrapForm.Group>
                         <BootstrapForm.Group className="form-group mb-4">

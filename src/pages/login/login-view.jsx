@@ -2,25 +2,27 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../features/user/userSlice";
 import { Form, Button, Alert, Spinner } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/auth-layout/auth-layout";
 
-export const LoginView = ({ onLoggedIn }) => {
+export const LoginView = () => {
     const dispatch = useDispatch();
     const { user, token, status, error } = useSelector((state) => state.user);
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    // Call onLoggedIn when login is successful
+    const navigate = useNavigate();
+    // Redirect to main page after successful login
     useEffect(() => {
-        if (user && token && typeof onLoggedIn === "function") {
-            onLoggedIn(user, token);
+        if (user && token) {
+            navigate("/");
         }
-    }, [user, token, onLoggedIn]);
+    }, [user, token, navigate]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
         dispatch(login({ Username: username, Password: password }));
     };
 
@@ -86,7 +88,13 @@ export const LoginView = ({ onLoggedIn }) => {
                     <div className="text-center mt-3">
                         <p className="mb-0">
                             Don't have an account?{" "}
-                            <Link to="/signup" className="signup-link">
+                            <Link
+                                to="/signup"
+                                className="signup-link"
+                                onClick={() => {
+                                    console.log("[LoginView] Sign up link clicked");
+                                }}
+                            >
                                 Sign up
                             </Link>
                         </p>

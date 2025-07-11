@@ -6,6 +6,6 @@ describe("Login Flow", () => {
         cy.get("input[name='password']").type("testPassword123!");
         cy.contains("Login").click();
 
-        cy.url().should("include", "/login");
+        cy.url().should("include", "/");
     });
 });

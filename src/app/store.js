@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "../features/user/userSlice";
+import moviesReducer from "../features/movies/moviesSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
@@ -12,7 +13,8 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-    user: userReducer
+    user: userReducer,
+    movies: moviesReducer
     // other features slices here (e.g. movies, favorites)
 });
 

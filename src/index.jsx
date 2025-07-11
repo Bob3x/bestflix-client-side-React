@@ -1,6 +1,7 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
-import { MainView } from "./pages/main/main-view";
+import { MainView } from "./components/main-view/main-view";
 import Container from "react-bootstrap/Container";
 import { Provider } from "react-redux";
 import store, { persistor } from "./app/store";
@@ -23,7 +24,9 @@ root.render(
     <React.StrictMode>
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <BestflixApp />
+                <BrowserRouter>
+                    <BestflixApp />
+                </BrowserRouter>
             </PersistGate>
         </Provider>
     </React.StrictMode>

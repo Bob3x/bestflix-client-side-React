@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/user/userSlice";
 import { Container, Row, Col } from "react-bootstrap";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { ProfileView } from "../profile-view/profile-view";
-import { MovieView } from "../movie-view/movie-view";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { ProfileView } from "../../pages/profile/profile-view";
+import { MovieView } from "../../pages/movie/movie-view";
 import { MovieCard } from "../movie-card/movie-card";
-import { LoginView } from "../login-view/login-view";
-import { SignupView } from "../signup-view/signup-view";
+import { LoginView } from "../../pages/login/login-view";
+import { SignupView } from "../../pages/signup/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { fetchMoviesThunk } from "../../features/movies/moviesSlice";
 
@@ -15,32 +15,34 @@ export const MainView = () => {
     const dispatch = useDispatch();
     const { user, token } = useSelector((state) => state.user);
     const { movies } = useSelector((state) => state.movies);
-
+    console.log("Movies state:", movies);
     useEffect(() => {
         if (!token) return;
         dispatch(fetchMoviesThunk(token));
     }, [token, dispatch]);
 
     return (
-        <BrowserRouter>
-            <NavigationBar
-                user={user}
-                onLoggedOut={() => {
-                    dispatch(logout());
-                    localStorage.clear();
-                }}
-            />
+        <>
+            {user && (
+                <NavigationBar
+                    user={user}
+                    onLoggedOut={() => {
+                        dispatch(logout());
+                        localStorage.clear();
+                    }}
+                />
+            )}
             <Container>
                 <Row className="justify-content-md-center">
                     <Routes>
                         {/* Show login if no user */}
                         <Route
                             path="/login"
-                            element={!user ? <LoginView /> : <Navigate to="/" />}
+                            element={!user?.username ? <LoginView /> : <Navigate to="/" />}
                         />
                         <Route
                             path="/signup"
-                            element={!user ? <SignupView /> : <Navigate to="/" />}
+                            element={!user?.username ? <SignupView /> : <Navigate to="/" />}
                         />
 
                         <Route
@@ -68,6 +70,7 @@ export const MainView = () => {
                                             dispatch(logout());
                                             localStorage.clear();
                                         }}
+                                        setUser={user}
                                     />
                                 )
                             }
@@ -98,6 +101,6 @@ export const MainView = () => {
                     </Routes>
                 </Row>
             </Container>
-        </BrowserRouter>
+        </>
     );
 };

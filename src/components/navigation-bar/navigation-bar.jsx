@@ -10,7 +10,7 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
         <Navbar expand="md" className="navbar">
             <Container fluid>
                 <div className="d-flex align-items-center">
-                    <Navbar.Brand as={Link} to="/api/">
+                    <Navbar.Brand as={Link} to="/">
                         <img
                             src={logo}
                             alt="bestflix-logo"
@@ -27,22 +27,22 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
                         <Nav className="nav-section nav-section--left">
                             {!user ? (
                                 <>
-                                    <Nav.Link as={Link} to="/api/login">
+                                    <Nav.Link as={Link} to="/login">
                                         Login
                                     </Nav.Link>
-                                    <Nav.Link as={Link} to="/api/signup">
+                                    <Nav.Link as={Link} to="/signup">
                                         Signup
                                     </Nav.Link>
                                 </>
                             ) : (
                                 <>
-                                    <Nav.Link as={Link} to="/api/">
+                                    <Nav.Link as={Link} to="/">
                                         Movies
                                     </Nav.Link>
-                                    <Nav.Link as={Link} to="/api/">
+                                    <Nav.Link as={Link} to="/">
                                         Similar
                                     </Nav.Link>
-                                    <Nav.Link as={Link} to="/api/">
+                                    <Nav.Link as={Link} to="/">
                                         SurpriseMe
                                     </Nav.Link>
                                 </>
@@ -66,10 +66,10 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
                                     id="user-dropdown"
                                     align="end"
                                 >
-                                    <NavDropdown.Item as={Link} to={`/api/users/${user.Username}`}>
+                                    <NavDropdown.Item as={Link} to={`/users/${user.Username}`}>
                                         Profile
                                     </NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to={`/api/users/favorites`}>
+                                    <NavDropdown.Item as={Link} to={`/users/favorites`}>
                                         Favorites
                                     </NavDropdown.Item>
                                     <NavDropdown.Divider />

@@ -8,12 +8,15 @@
  */
 
 export async function fetchMovies(token) {
-    const response = await fetch("https://my-movies-flix-app-56f9661dc035.herokuapp.com/movies", {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${token}`
+    const response = await fetch(
+        "https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/movies",
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         }
-    });
+    );
 
     if (!response.ok) {
         // Let the caller handle 401 or other errors

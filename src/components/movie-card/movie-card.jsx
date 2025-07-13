@@ -22,7 +22,7 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
     return (
         <Card className="movie-card">
             <Link
-                to={`/api/movies/${encodeURIComponent(movie._id)}`}
+                to={`/movies/${encodeURIComponent(movie._id)}`}
                 className="movie-card__image-link"
             >
                 <Card.Img
@@ -88,7 +88,13 @@ MovieCard.propTypes = {
     user: PropTypes.shape({
         Username: PropTypes.string.isRequired,
         FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired
-    }).isRequired,
-    token: PropTypes.string.isRequired,
-    setUser: PropTypes.func.isRequired
+    }),
+    token: PropTypes.string,
+    setUser: PropTypes.func
+};
+
+MovieCard.defaultProps = {
+    user: null,
+    token: "",
+    setUser: () => {}
 };

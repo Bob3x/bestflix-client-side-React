@@ -25,20 +25,17 @@ export async function fetchMovies(token) {
     }
 
     const data = await response.json();
+    console.log("Fetched movies raw data:", data);
     // Expecting data to be an array of movie objects
     return data.map((movie) => ({
         _id: movie._id,
         title: movie.Title,
         description: movie.Description,
-        genre: {
-            name: movie.Genre.Name,
-            description: movie.Genre.Description
-        },
+        genre: movie.Genre.Name,
+        description: movie.Genre.Description,
         director: {
-            name: movie.Director.Name,
-            bio: movie.Director.Bio,
-            birth: movie.Director.Birth,
-            death: movie.Director.Death
+            name: movie.DirectorName,
+            bio: movie.DirectorBio
         },
         image: movie.ImagePath,
         featured: movie.Featured

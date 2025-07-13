@@ -6,8 +6,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { ProfileView } from "../../pages/profile/profile-view";
 import { MovieView } from "../../pages/movie/movie-view";
 import { MovieCard } from "../movie-card/movie-card";
-import { LoginView } from "../../pages/login/login-view";
-import { SignupView } from "../../pages/signup/signup-view";
+import LoginTest from "../../lab/LoginTest";
+import SignUpTest from "../../lab/SignUpTest";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { fetchMoviesThunk } from "../../features/movies/moviesSlice";
 
@@ -38,11 +38,11 @@ export const MainView = () => {
                         {/* Show login if no user */}
                         <Route
                             path="/login"
-                            element={!user?.username ? <LoginView /> : <Navigate to="/" />}
+                            element={!user?.email ? <LoginTest /> : <Navigate to="/" />}
                         />
                         <Route
                             path="/signup"
-                            element={!user?.username ? <SignupView /> : <Navigate to="/" />}
+                            element={!user?.email ? <SignUpTest /> : <Navigate to="/" />}
                         />
 
                         <Route

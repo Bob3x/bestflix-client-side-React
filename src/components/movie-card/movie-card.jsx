@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { Heart, HeartFill } from "react-bootstrap-icons";
 import { useFavoriteMovie } from "../../hooks/useFavoriteMovie";
 import "./movie-card.scss";
+import { addFavoriteThunk } from "../../features/favorites/favoritesSlice";
+import { useDispatch } from "react-redux";
 
 export const MovieCard = ({ movie, user, token, setUser }) => {
     const [showTooltip, setShowTooltip] = useState(false);
@@ -14,9 +16,12 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
             ? user.FavoriteMovies.includes(movie._id)
             : false;
 
+    const dispatch = useDispatch();
     const handleFavoriteClick = (e) => {
         e.preventDefault();
-        toggleFavorite(movie._id, isFavorite);
+        if (!isFavorite) {
+            dispatch(addFavoriteThunk({ userId: user.id, movieId: movie._id }));
+        }
     };
 
     return (

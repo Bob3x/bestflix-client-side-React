@@ -8,5 +8,6 @@
     "prettier.tabWidth": 4,
     "editor.inlayHints.maximumLength": 72,
     "github.copilot.editor.enableAutoCompletions": false,
-    "cSpell.ignoreWords": ["autohide"]
+    "cSpell.ignoreWords": ["autohide"],
+    "editor.cursorStyle": "line"
 }

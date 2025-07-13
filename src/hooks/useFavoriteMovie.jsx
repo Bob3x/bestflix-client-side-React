@@ -1,12 +1,18 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchFavoritesThunk } from "../features/favorites/favoritesSlice";
+import { setUser } from "../features/user/userSlice";
 
-export const useFavoriteMovie = (user, token, setUser) => {
+export const useFavoriteMovie = (token) => {
     const [isLoading, setIsLoading] = useState(false);
     const [toastState, setToastState] = useState({
         show: false,
         message: "",
         variant: "success"
     });
+    const user = useSelector((state) => state.user);
+    const favoriteMovies = useSelector((state) => state.favorites.items);
+    const dispatch = useDispatch();
 
     const toggleFavorite = async (movieId, isFavorite) => {
         setIsLoading(true);
@@ -33,8 +39,9 @@ export const useFavoriteMovie = (user, token, setUser) => {
                   }
                 : await response.json();
 
-            setUser(updatedUser);
-            localStorage.setItem("user", JSON.stringify(updatedUser));
+            dispatch(setUser(updatedUser));
+            dispatch(fetchFavoritesThunk(token));
+
             setToastState({
                 show: true,
                 message: `Movie ${isFavorite ? "removed from" : "added to"} favorites`,
@@ -52,5 +59,5 @@ export const useFavoriteMovie = (user, token, setUser) => {
         }
     };
 
-    return { isLoading, toastState, setToastState, toggleFavorite };
+    return { isLoading, toastState, setToastState, toggleFavorite, favoriteMovies };
 };

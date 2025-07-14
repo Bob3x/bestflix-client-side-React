@@ -3,24 +3,42 @@ import PropTypes from "prop-types";
 import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Heart, HeartFill } from "react-bootstrap-icons";
-import { useFavoriteMovie } from "../../hooks/useFavoriteMovie";
 import "./movie-card.scss";
+import { useSelector } from "react-redux";
 import { addFavoriteThunk } from "../../features/favorites/favoritesSlice";
+import { removeFavoriteThunk } from "../../features/favorites/favoritesSlice";
 import { useDispatch } from "react-redux";
 
-export const MovieCard = ({ movie, user, token, setUser }) => {
-    const [showTooltip, setShowTooltip] = useState(false);
-    const { toggleFavorite, isLoading } = useFavoriteMovie(user, token, setUser);
-    const isFavorite =
-        user && Array.isArray(user.FavoriteMovies)
-            ? user.FavoriteMovies.includes(movie._id)
-            : false;
-
+export const MovieCard = ({ movie }) => {
     const dispatch = useDispatch();
-    const handleFavoriteClick = (e) => {
-        e.preventDefault();
-        if (!isFavorite) {
-            dispatch(addFavoriteThunk({ userId: user.id, movieId: movie._id }));
+    const user = useSelector((state) => state.user.user);
+    const favorites = useSelector((state) => state.favorites.items);
+
+    const [showTooltip, setShowTooltip] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const isFavorite = favorites.some((fav) => fav.movie_id === movie.id);
+
+    const toggleFavorite = async (movieId) => {
+        if (!user?.id) {
+            console.warn("⚠️ Must be logged in");
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            if (isFavorite) {
+                await dispatch(removeFavoriteThunk({ userId: user.id, movieId })).unwrap();
+            } else {
+                await dispatch(addFavoriteThunk({ userId: user.id, movieId })).unwrap();
+            }
+            setShowTooltip(false); // Hide tooltip after action
+            // optional: refresh favorites or show toast here
+        } catch (error) {
+            console.error("❌ Favorite toggle failed:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -45,7 +63,7 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
                     </Card.Title>
                     <button
                         className="movie-card__favorite-btn"
-                        onClick={handleFavoriteClick}
+                        onClick={() => toggleFavorite(movie.id)}
                         disabled={isLoading}
                         aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
                     >

@@ -4,13 +4,16 @@ import { fetchMovies } from "../../services/movieService";
 // Async thunk for fetch movies from the API
 export const fetchMoviesThunk = createAsyncThunk(
     "movies/fetchMovies",
-    async (token, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
+        console.log("📦 fetchMoviesThunk called");
+
         try {
-            const movies = await fetchMovies(token);
+            const movies = await fetchMovies(); // <- service call
+            console.log("🎬 Movies from service:", movies);
             return movies;
-        } catch (error) {
-            // Handle errors and return a rejected value
-            return rejectWithValue(error.message || "Failed to fetch movies");
+        } catch (err) {
+            console.error("❌ Thunk error:", err.message);
+            return rejectWithValue(err.message);
         }
     }
 );

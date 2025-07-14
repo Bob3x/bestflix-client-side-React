@@ -17,9 +17,10 @@ export const MainView = () => {
     const { movies } = useSelector((state) => state.movies);
     console.log("Movies state:", movies);
     useEffect(() => {
-        if (!token) return;
-        dispatch(fetchMoviesThunk(token));
-    }, [token, dispatch]);
+        console.log("🚀 Dispatching fetchMoviesThunk");
+        dispatch(fetchMoviesThunk());
+    }, [dispatch]);
+    console.log("🧩 MainView is rendering...");
 
     return (
         <>

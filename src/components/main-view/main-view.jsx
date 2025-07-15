@@ -59,22 +59,7 @@ export const MainView = () => {
 
                         <Route
                             path="/users/:Username"
-                            element={
-                                !user ? (
-                                    <Navigate to="/login" replace />
-                                ) : (
-                                    <ProfileView
-                                        user={user}
-                                        token={token}
-                                        movies={movies}
-                                        onLogout={() => {
-                                            dispatch(logout());
-                                            localStorage.clear();
-                                        }}
-                                        setUser={user}
-                                    />
-                                )
-                            }
+                            element={!user ? <Navigate to="/login" replace /> : <ProfileView />}
                         />
                         <Route
                             path="/"
@@ -86,7 +71,7 @@ export const MainView = () => {
                                         {movies.map((movie) => (
                                             <Col
                                                 className="mb-4"
-                                                key={movie._id}
+                                                key={movie.id}
                                                 xs={12}
                                                 sm={6}
                                                 md={4}

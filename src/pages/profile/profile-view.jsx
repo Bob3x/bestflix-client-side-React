@@ -1,25 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { UserInfo } from "./user-info";
 import { UpdateUser } from "../../pages/UpdateUser/update-user";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { FavoriteMovies } from "./favorite-movies";
+import { useSelector } from "react-redux";
 import "./profile-view.scss";
 
-export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
+export const ProfileView = ({ setUser, onLoggedOut }) => {
+    const user = useSelector((state) => state.user.user);
+    const favoriteMovies = useSelector((state) => state.favorites.items);
     const navigate = useNavigate();
     const [isDeleting, setIsDeleting] = useState(false);
-    const [favoriteMovies, setFavoriteMovies] = useState([]);
-
-    useEffect(() => {
-        if (user && user.FavoriteMovies && movies) {
-            const userFavorites = movies.filter((movie) => user.FavoriteMovies.includes(movie._id));
-            setFavoriteMovies(userFavorites);
-        } else {
-            setFavoriteMovies([]);
-        }
-    }, [user, movies]);
 
     const handleUserRemove = async () => {
         if (
@@ -48,7 +41,7 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
                 onLoggedOut();
                 localStorage.clear();
                 alert("Your account has been successfully deleted.");
-                navigate("/api/login", { replace: true });
+                navigate("/login", { replace: true });
             } else {
                 throw new Error("Failed to delete account");
             }
@@ -74,7 +67,6 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
                 <Col md={6} className="user-update">
                     <UpdateUser
                         user={user}
-                        token={token}
                         setUser={setUser}
                         onUpdateSuccess={onUpdateSuccess}
                         onDeleteAccount={handleUserRemove}
@@ -84,7 +76,7 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
             </Row>
             <Row>
                 <Col md={12} className="favorite-movies">
-                    <FavoriteMovies favoriteMovieList={favoriteMovies} />
+                    <FavoriteMovies favoriteMovies={favoriteMovies} />
                 </Col>
             </Row>
         </Container>
@@ -93,7 +85,6 @@ export const ProfileView = ({ user, token, setUser, onLoggedOut, movies }) => {
 
 ProfileView.propTypes = {
     user: PropTypes.object.isRequired,
-    token: PropTypes.string.isRequired,
     setUser: PropTypes.func.isRequired,
     onLoggedOut: PropTypes.func.isRequired,
     movies: PropTypes.arrayOf(

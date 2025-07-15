@@ -4,10 +4,8 @@ import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Heart, HeartFill } from "react-bootstrap-icons";
 import "./movie-card.scss";
-import { useSelector } from "react-redux";
-import { addFavoriteThunk } from "../../features/favorites/favoritesSlice";
-import { removeFavoriteThunk } from "../../features/favorites/favoritesSlice";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addFavoriteThunk, removeFavoriteThunk } from "../../features/favorites/favoritesSlice";
 
 export const MovieCard = ({ movie }) => {
     const dispatch = useDispatch();
@@ -22,6 +20,7 @@ export const MovieCard = ({ movie }) => {
     const toggleFavorite = async (movieId) => {
         if (!user?.id) {
             console.warn("⚠️ Must be logged in");
+            setShowTooltip(true);
             return;
         }
 
@@ -44,10 +43,7 @@ export const MovieCard = ({ movie }) => {
 
     return (
         <Card className="movie-card">
-            <Link
-                to={`/movies/${encodeURIComponent(movie._id)}`}
-                className="movie-card__image-link"
-            >
+            <Link to={`/movies/${encodeURIComponent(movie.id)}`} className="movie-card__image-link">
                 <Card.Img
                     variant="top"
                     src={movie.image}
@@ -88,32 +84,6 @@ export const MovieCard = ({ movie }) => {
             </Card.Body>
         </Card>
     );
-};
-
-MovieCard.propTypes = {
-    movie: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-        genre: PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired
-        }).isRequired,
-        director: PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            bio: PropTypes.string.isRequired,
-            birth: PropTypes.string,
-            death: PropTypes.string
-        }).isRequired,
-        image: PropTypes.string.isRequired,
-        featured: PropTypes.bool.isRequired
-    }).isRequired,
-    user: PropTypes.shape({
-        Username: PropTypes.string.isRequired,
-        FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired
-    }),
-    token: PropTypes.string,
-    setUser: PropTypes.func
 };
 
 MovieCard.defaultProps = {

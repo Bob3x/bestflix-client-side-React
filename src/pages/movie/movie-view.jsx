@@ -3,20 +3,52 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Card, Stack, Button } from "react-bootstrap";
 import { Toast, ToastContainer } from "react-bootstrap";
-import PropTypes from "prop-types";
-import { useFavoriteMovie } from "../../hooks/useFavoriteMovie";
+import { useSelector, useDispatch } from "react-redux";
+import { addFavoriteThunk, removeFavoriteThunk } from "../../features/favorites/favoritesSlice";
 import { Heart, HeartFill } from "react-bootstrap-icons";
 import "./movie-view.scss";
 
-export const MovieView = ({ movies, user, token, setUser }) => {
+export const MovieView = () => {
     const { movieId } = useParams();
-    const { toggleFavorite, isLoading, toastState, setToastState } = useFavoriteMovie(
-        user,
-        token,
-        setUser
-    );
+    const dispatch = useDispatch();
 
-    const movie = movies.find((m) => m._id === movieId);
+    const user = useSelector((state) => state.user.user);
+    const movies = useSelector((state) => state.movies.movies);
+    const favorites = useSelector((state) => state.favorites.items);
+
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [toastState, setToastState] = React.useState({
+        show: false,
+        message: "",
+        type: "success"
+    });
+
+    const movie = movies.find((m) => m.id === movieId);
+
+    const isFavorite = favorites.some((fav) => fav.movie_id === movieId);
+
+    const handleFavoriteClick = async (e) => {
+        e.preventDefault();
+        if (!user?.id) return;
+
+        setIsLoading(true);
+        try {
+            if (isFavorite) {
+                await dispatch(removeFavoriteThunk({ userId: user.id, movieId }));
+            } else {
+                await dispatch(addFavoriteThunk({ userId: user.id, movieId }));
+            }
+        } catch (error) {
+            console.error("Error toggling favorite:", error);
+            setToastState({
+                show: true,
+                message: "Failed to update favorite status.",
+                type: "error"
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     if (!movies.length) {
         return (
@@ -45,17 +77,11 @@ export const MovieView = ({ movies, user, token, setUser }) => {
         );
     }
 
-    const isFavorite = user.FavoriteMovies.includes(movieId);
-    const handleFavoriteClick = (e) => {
-        e.preventDefault();
-        toggleFavorite(movie._id, isFavorite);
-    };
-
     return (
         <Container className="movie-view">
             <Row className="justify-content-center">
                 <Col md={12} lg={12} className="movie-back-button">
-                    <Link to={`/api/`}>
+                    <Link to={`/`}>
                         <Button variant="secondary" className="back-button">
                             Back
                         </Button>
@@ -83,13 +109,13 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                             </div>
                         </Card.Header>
                         <Card.Img
-                            src={movie.image}
+                            src={movie.image || "https://placehold.co/300x450?text=No+Image"}
                             alt={movie.title}
                             className="movie-view__poster-image"
                         />
                     </Card>
                 </Col>
-                <Col md={8} lg={8} className="movie-vew__details">
+                <Col md={8} lg={8} className="movie-view__details">
                     <Card className="movie-view__details-card">
                         <Card.Body className="movie-view__body">
                             <Stack gap={4}>
@@ -108,13 +134,13 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                                     </Card.Subtitle>
                                     <div className="movie-view__director">
                                         <h4 className="movie-view__director-name">
-                                            {movie.director.name}
+                                            {movie.directorName}
                                         </h4>
                                         <p className="movie-view__director-birth">
-                                            Birth year: {movie.director.birth}
+                                            Birth year: {movie.directorBirth}
                                         </p>
                                         <p className="movie-view__director-bio">
-                                            {movie.director.bio}
+                                            {movie.directorBio}
                                         </p>
                                     </div>
                                 </div>
@@ -122,7 +148,7 @@ export const MovieView = ({ movies, user, token, setUser }) => {
                                     <Card.Subtitle className="movie-view__subtitle">
                                         Genre
                                     </Card.Subtitle>
-                                    <div className="movie-view__text">{movie.genre.name}</div>
+                                    <div className="movie-view__text">{movie.genre}</div>
                                 </div>
                             </Stack>
                         </Card.Body>
@@ -142,30 +168,4 @@ export const MovieView = ({ movies, user, token, setUser }) => {
             </ToastContainer>
         </Container>
     );
-};
-
-MovieView.propTypes = {
-    movies: PropTypes.arrayOf(
-        PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
-            genre: PropTypes.shape({
-                name: PropTypes.string.isRequired,
-                description: PropTypes.string.isRequired
-            }).isRequired,
-            director: PropTypes.shape({
-                name: PropTypes.string.isRequired,
-                bio: PropTypes.string.isRequired,
-                birth: PropTypes.string,
-                death: PropTypes.string
-            }).isRequired,
-            image: PropTypes.string.isRequired,
-            featured: PropTypes.bool.isRequired
-        })
-    ).isRequired,
-    user: PropTypes.shape({
-        Username: PropTypes.string.isRequired,
-        FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired
-    })
 };

@@ -4,10 +4,35 @@ import { supabase } from "../../supabaseClient";
 // Fetch favorites by user ID
 export const fetchFavoritesThunk = createAsyncThunk(
     "favorites/fetchFavorites",
-    async (_, { rejectWithValue }) => {
-        const { data, error } = await supabase.from("movies").select("*");
+    async (userId, { rejectWithValue }) => {
+        const { data, error } = await supabase
+            .from("favorites")
+            .select(
+                `
+           id, 
+           movie_id,
+           user_id, 
+           movies (
+               id,
+               title,
+               image,
+               genre
+            )  
+            `
+            )
+            .eq("user_id", userId);
+
         if (error) return rejectWithValue(error.message);
-        return data;
+
+        const favorites = data.map((fav) => ({
+            id: fav.id,
+            movie_id: fav.movie_id,
+            user_id: fav.user_id,
+            title: fav.movies?.title,
+            ...fav.movies
+        }));
+
+        return favorites;
     }
 );
 

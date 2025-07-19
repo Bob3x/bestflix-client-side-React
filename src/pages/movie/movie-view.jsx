@@ -8,7 +8,7 @@ import { addFavoriteThunk, removeFavoriteThunk } from "../../features/favorites/
 import { Heart, HeartFill } from "react-bootstrap-icons";
 import "./movie-view.scss";
 
-export const MovieView = () => {
+export const MovieView = ({ genres }) => {
     const { movieId } = useParams();
     const dispatch = useDispatch();
 
@@ -23,9 +23,9 @@ export const MovieView = () => {
         type: "success"
     });
 
-    const movie = movies.find((m) => m.id === movieId);
+    const movie = movies.find((m) => m.id === Number(movieId));
 
-    const isFavorite = favorites.some((fav) => fav.movie_id === movieId);
+    const isFavorite = favorites.some((fav) => fav.movie_id === Number(movieId));
 
     const handleFavoriteClick = async (e) => {
         e.preventDefault();
@@ -109,7 +109,11 @@ export const MovieView = () => {
                             </div>
                         </Card.Header>
                         <Card.Img
-                            src={movie.image || "https://placehold.co/300x450?text=No+Image"}
+                            src={
+                                movie.poster_path
+                                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                                    : "https://placehold.co/300x450?text=No+Image"
+                            }
                             alt={movie.title}
                             className="movie-view__poster-image"
                         />
@@ -121,34 +125,41 @@ export const MovieView = () => {
                             <Stack gap={4}>
                                 <div className="movie-view__info-section">
                                     <Card.Subtitle className="movie-view__subtitle">
-                                        Description
+                                        Overview
                                     </Card.Subtitle>
-                                    <div className="movie-view__text">{movie.description}</div>
+                                    <div className="movie-view__text">{movie.overview}</div>
                                 </div>
 
                                 <hr />
-
-                                <div className="movie-view__info-section">
-                                    <Card.Subtitle className="movie-view__subtitle">
-                                        Director
-                                    </Card.Subtitle>
-                                    <div className="movie-view__director">
-                                        <h4 className="movie-view__director-name">
-                                            {movie.directorName}
-                                        </h4>
-                                        <p className="movie-view__director-birth">
-                                            Birth year: {movie.directorBirth}
-                                        </p>
-                                        <p className="movie-view__director-bio">
-                                            {movie.directorBio}
-                                        </p>
-                                    </div>
-                                </div>
                                 <div className="movie-view__info-section">
                                     <Card.Subtitle className="movie-view__subtitle">
                                         Genre
                                     </Card.Subtitle>
-                                    <div className="movie-view__text">{movie.genre}</div>
+                                    <div className="movie-view__text">
+                                        {(() => {
+                                            const firstGenreId = movie.genre_ids[0];
+                                            const genreObj = genres.find(
+                                                (g) => g.id === firstGenreId
+                                            );
+                                            return genreObj ? genreObj.name : "";
+                                        })()}
+                                    </div>
+                                </div>
+                                <div className="movie-view__info-section">
+                                    <Card.Subtitle className="movie-view__subtitle">
+                                        Details...
+                                    </Card.Subtitle>
+                                    <div className="movie-view__movie-details">
+                                        <h4 className="movie-view__movie-details-rating">
+                                            rating: {movie.vote_average}
+                                        </h4>
+                                        <p className="movie-view__movie-details-release-date">
+                                            release date: {movie.releaseDate}
+                                        </p>
+                                        <p className="movie-view__movie-details-bio">
+                                            {movie.directorBio}
+                                        </p>
+                                    </div>
                                 </div>
                             </Stack>
                         </Card.Body>

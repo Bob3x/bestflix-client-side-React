@@ -57,16 +57,16 @@
         padding-left: 0.5rem;
     }
 
-    &__director {
+    &__movie-details {
         padding-left: 0.5rem;
 
-        &-name {
+        &-rating {
             color: #cfcfcf;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: 0.5rem;
         }
 
-        &-birth {
+        &-release-date {
             color: #8b8b8b;
             font-size: 0.9rem;
             margin-bottom: 1rem;

@@ -10,7 +10,7 @@ import {
     removeFavoriteThunk
 } from "../../features/favorites/favoritesSlice";
 
-export const MovieCard = ({ movie, token = "", setUser = () => {} }) => {
+export const MovieCard = ({ movie, genres }) => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
     const favorites = useSelector((state) => state.favorites.items);
@@ -18,7 +18,7 @@ export const MovieCard = ({ movie, token = "", setUser = () => {} }) => {
     const [showTooltip, setShowTooltip] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const isFavorite = favorites.some((fav) => fav.movie_id === movie.id);
+    const isFavorite = favorites.some((fav) => fav.movie_id === Number(movie.id));
 
     const toggleFavorite = async (movieId) => {
         if (!user?.id) {
@@ -45,18 +45,31 @@ export const MovieCard = ({ movie, token = "", setUser = () => {} }) => {
         }
     };
 
+    const getFirstGenreName = () => {
+        if (!movie.genre_ids || !genres) return "";
+        const firstGenreId = movie.genre_ids[0];
+        const genreObj = genres.find((g) => g.id === firstGenreId);
+        return genreObj ? genreObj.name : "";
+    };
+
     return (
         <Card className="movie-card">
             <Link to={`/movies/${encodeURIComponent(movie.id)}`} className="movie-card__image-link">
                 <Card.Img
                     variant="top"
-                    src={movie.image}
+                    src={
+                        movie.poster_path
+                            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                            : "https://placehold.co/300x450?text=No+Image"
+                    }
                     alt={movie.title}
                     className="movie-card__image"
                 />
             </Link>
             <Card.Body className="movie-card__content">
-                <Card.Text className="movie-card__genre">{movie.genre?.name || ""}</Card.Text>
+                <Card.Text className="movie-card__genre">
+                    {genres.length === 0 ? "Loading genre..." : getFirstGenreName()}
+                </Card.Text>
                 <div className="movie-card__title-wrapper">
                     <Card.Title className="movie-card__title">
                         <strong>{movie.title}</strong>
@@ -79,11 +92,11 @@ export const MovieCard = ({ movie, token = "", setUser = () => {} }) => {
                     placement="top"
                     overlay={
                         <Tooltip className="movie-card__description-tooltip">
-                            {movie.description}
+                            {movie.overview}
                         </Tooltip>
                     }
                 >
-                    <Card.Text className="movie-card__description">{movie.description}</Card.Text>
+                    <Card.Text className="movie-card__description">{movie.overview}</Card.Text>
                 </OverlayTrigger>
             </Card.Body>
         </Card>

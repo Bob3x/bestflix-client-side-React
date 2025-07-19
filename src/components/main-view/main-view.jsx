@@ -10,14 +10,17 @@ import { LoginView } from "../../pages/login/login-view";
 import { SignupView } from "../../pages/signup/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { fetchMoviesThunk } from "../../features/movies/moviesSlice";
+import { fetchGenresThunk } from "../../features/genres/genresSlice";
 
 export const MainView = ({ onLoggedOut }) => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.user);
     const { movies } = useSelector((state) => state.movies);
+    const genres = useSelector((state) => state.genres?.genres) || [];
     console.log("Movies state:", movies);
     useEffect(() => {
         dispatch(fetchMoviesThunk());
+        dispatch(fetchGenresThunk());
     }, [dispatch]);
 
     const handleLoggedOut = () => {
@@ -47,7 +50,7 @@ export const MainView = ({ onLoggedOut }) => {
                                 !user ? (
                                     <Navigate to="/login" replace />
                                 ) : (
-                                    <MovieView movies={movies} />
+                                    <MovieView movies={movies} genres={genres} />
                                 )
                             }
                         />
@@ -78,7 +81,7 @@ export const MainView = ({ onLoggedOut }) => {
                                                 md={4}
                                                 lg={3}
                                             >
-                                                <MovieCard movie={movie} />
+                                                <MovieCard movie={movie} genres={genres || []} />
                                             </Col>
                                         ))}
                                     </Row>

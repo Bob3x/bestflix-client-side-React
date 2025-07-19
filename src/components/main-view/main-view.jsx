@@ -6,42 +6,39 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { ProfileView } from "../../pages/profile/profile-view";
 import { MovieView } from "../../pages/movie/movie-view";
 import { MovieCard } from "../movie-card/movie-card";
-import LoginTest from "../../lab/LoginTest";
-import SignUpTest from "../../lab/SignUpTest";
+import { LoginView } from "../../pages/login/login-view";
+import { SignupView } from "../../pages/signup/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { fetchMoviesThunk } from "../../features/movies/moviesSlice";
 
-export const MainView = ({ setUser, onLoggedOut }) => {
+export const MainView = ({ onLoggedOut }) => {
     const dispatch = useDispatch();
-    const { user, token } = useSelector((state) => state.user);
+    const { user } = useSelector((state) => state.user);
     const { movies } = useSelector((state) => state.movies);
     console.log("Movies state:", movies);
     useEffect(() => {
         dispatch(fetchMoviesThunk());
     }, [dispatch]);
 
+    const handleLoggedOut = () => {
+        dispatch(logout());
+        localStorage.clear();
+    };
+
     return (
         <>
-            {user && (
-                <NavigationBar
-                    user={user}
-                    onLoggedOut={() => {
-                        dispatch(logout());
-                        localStorage.clear();
-                    }}
-                />
-            )}
+            {user && <NavigationBar user={user} onLoggedOut={handleLoggedOut} />}
             <Container>
                 <Row className="justify-content-md-center">
                     <Routes>
                         {/* Show login if no user */}
                         <Route
                             path="/login"
-                            element={!user?.email ? <LoginTest /> : <Navigate to="/" />}
+                            element={!user?.email ? <LoginView /> : <Navigate to="/" />}
                         />
                         <Route
                             path="/signup"
-                            element={!user?.email ? <SignUpTest /> : <Navigate to="/" />}
+                            element={!user?.email ? <SignupView /> : <Navigate to="/" />}
                         />
 
                         <Route
@@ -50,7 +47,7 @@ export const MainView = ({ setUser, onLoggedOut }) => {
                                 !user ? (
                                     <Navigate to="/login" replace />
                                 ) : (
-                                    <MovieView movies={movies} user={user} token={token} />
+                                    <MovieView movies={movies} />
                                 )
                             }
                         />
@@ -61,11 +58,7 @@ export const MainView = ({ setUser, onLoggedOut }) => {
                                 !user ? (
                                     <Navigate to="/login" replace />
                                 ) : (
-                                    <ProfileView
-                                        userId={user.id}
-                                        setUser={setUser}
-                                        onLoggedOut={onLoggedOut}
-                                    />
+                                    <ProfileView userId={user.id} onLoggedOut={handleLoggedOut} />
                                 )
                             }
                         />

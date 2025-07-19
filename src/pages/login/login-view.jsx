@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../features/user/userSlice";
+import { login, clearError } from "../../features/user/userSlice";
 import { Form, Button, Alert, Spinner } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/auth-layout/auth-layout";
@@ -9,7 +9,7 @@ export const LoginView = () => {
     const dispatch = useDispatch();
     const { user, token, status, error } = useSelector((state) => state.user);
 
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
@@ -22,8 +22,8 @@ export const LoginView = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
-        dispatch(login({ Username: username, Password: password }));
+        dispatch(clearError());
+        dispatch(login({ Email: email, Password: password }));
     };
 
     return (
@@ -36,13 +36,13 @@ export const LoginView = () => {
             )}
 
             <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="formUsername" className="form-group">
-                    <Form.Label>Username</Form.Label>
+                <Form.Group controlId="formEmail" className="form-group">
+                    <Form.Label>Email</Form.Label>
                     <Form.Control
-                        name="username"
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        name="email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                         minLength="3"
                         className="form-control"

@@ -1,16 +1,25 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginUser } from "../../services/userService";
 import { supabase } from "../../supabaseClient";
 
 // Async thunk for logging in the user
-export const login = createAsyncThunk("user/login", async (credentials, thunkAPI) => {
-    try {
-        const response = await loginUser(credentials);
-        return response; // Expecting user + token in response
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error.message);
+export const login = createAsyncThunk(
+    "user/login",
+    async ({ Email, Password }, { rejectWithValue }) => {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: Email,
+            password: Password
+        });
+
+        if (error) {
+            return rejectWithValue(error.message);
+        }
+
+        return {
+            user: data.user,
+            token: data.session?.access_token
+        };
     }
-});
+);
 
 // Update User info
 export const updateUserThunk = createAsyncThunk(
@@ -54,6 +63,9 @@ const userSlice = createSlice({
             state.user = null;
             state.token = null;
             state.status = "idle";
+            state.error = null;
+        },
+        clearError: (state) => {
             state.error = null;
         }
     },
@@ -103,5 +115,5 @@ const userSlice = createSlice({
     }
 });
 
-export const { setUser, logout } = userSlice.actions;
+export const { setUser, logout, clearError } = userSlice.actions;
 export default userSlice.reducer;

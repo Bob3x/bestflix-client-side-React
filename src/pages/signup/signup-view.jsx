@@ -5,14 +5,29 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import { Button, Form as BootstrapForm, Alert, Spinner } from "react-bootstrap";
 import { signupSchema } from "../../components/form-validation/form-validation";
 import AuthLayout from "../../components/auth-layout/auth-layout";
-import { signupUser } from "../../services/userService";
 import { login } from "../../features/user/userSlice";
+import { supabase } from "../../supabaseClient";
 
 export const SignupView = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+
+    const signupUser = async (values) => {
+        const { error } = await supabase.auth.signUp({
+            email: values.Email,
+            password: values.Password,
+            options: {
+                data: {
+                    username: values.Username
+                }
+            }
+        });
+        if (error) {
+            throw error;
+        }
+    };
 
     // Form submission handler
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -21,14 +36,16 @@ export const SignupView = () => {
             await signupUser(values);
 
             // 2. Auto-login after signup using Redux thunk
-            dispatch(login({ Username: values.Username, Password: values.Password }));
+            dispatch(login({ Email: values.Email, Password: values.Password }));
 
             setError("");
             setSuccess(true);
             resetForm();
 
             // Navigate to main view
-            navigate("/");
+            setTimeout(() => {
+                navigate("/");
+            }, 2000);
         } catch (error) {
             console.error("Error:", error);
             setError(error.message);

@@ -12,7 +12,7 @@ import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { fetchMoviesThunk } from "../../features/movies/moviesSlice";
 import { fetchGenresThunk } from "../../features/genres/genresSlice";
 
-export const MainView = ({ onLoggedOut }) => {
+export const MainView = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.user);
     const { movies } = useSelector((state) => state.movies);

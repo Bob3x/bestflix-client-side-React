@@ -7,31 +7,22 @@ export const fetchFavoritesThunk = createAsyncThunk(
     async (userId, { rejectWithValue }) => {
         const { data, error } = await supabase
             .from("favorites")
-            .select(
-                `
-           id, 
-           movie_id,
-           user_id, 
-           movies (
-               id,
-               title,
-               image,
-               genre
-            )  
-            `
-            )
+            .select("*, movies (title, image, description)")
             .eq("user_id", userId);
+        console.log("🎯 Supabase result:", data);
 
-        if (error) return rejectWithValue(error.message);
+        if (error) {
+            console.error("❌ Supabase error:", error.message);
+            return rejectWithValue(error.message);
+        }
 
         const favorites = data.map((fav) => ({
             id: fav.id,
             movie_id: fav.movie_id,
             user_id: fav.user_id,
             title: fav.movies?.title,
-            ...fav.movies
+            image: fav.movies?.image
         }));
-
         return favorites;
     }
 );
@@ -42,14 +33,20 @@ export const addFavoriteThunk = createAsyncThunk(
         const { data, error } = await supabase
             .from("favorites")
             .insert({ user_id: userId, movie_id: movieId })
-            .select();
+            .select("*, movies (title, image, description)");
 
         if (error) {
             console.error("Failed to add favorite:", error.message);
             return rejectWithValue(error.message);
         }
-
-        return data[0];
+        const fav = Array.isArray(data) ? data[0] : data;
+        return {
+            id: fav?.id,
+            movie_id: fav?.movie_id,
+            user_id: fav?.user_id,
+            title: fav?.movies?.title,
+            image: fav?.movies?.image
+        };
     }
 );
 
@@ -60,14 +57,22 @@ export const removeFavoriteThunk = createAsyncThunk(
             .from("favorites")
             .delete()
             .match({ user_id: userId, movie_id: movieId })
-            .select();
+            .select("*, movies (title, image, description)");
 
         if (error) {
             console.error("Failed to remove favorite:", error.message);
             return rejectWithValue(error.message);
         }
 
-        return data[0];
+        const removed = Array.isArray(data) ? data[0] : data;
+
+        return {
+            id: removed?.id,
+            movie_id: removed?.movie_id,
+            user_id: removed?.user_id,
+            title: removed?.movies?.title,
+            image: removed?.movies?.image
+        };
     }
 );
 

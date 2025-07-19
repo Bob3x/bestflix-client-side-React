@@ -4,9 +4,13 @@ import { Button, Container, Collapse, Card, Form as BootstrapForm, Alert, Spinne
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { updateSchema } from "../../components/form-validation/form-validation";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserThunk } from "../../features/user/userSlice";
 import "./update-user.scss";
 
-export const UpdateUser = ({ token, setUser, onUpdateSuccess, onDeleteAccount, isDeleting }) => {
+export const UpdateUser = ({ setUser, onUpdateSuccess, onDeleteAccount, isDeleting }) => {
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.user);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -19,30 +23,11 @@ export const UpdateUser = ({ token, setUser, onUpdateSuccess, onDeleteAccount, i
         try {
             console.log("Submitting values:", values);
 
-            const requestBody = JSON.stringify(values);
+            const updatedUser = await dispatch(
+                updateUserThunk({ userId: user.id, updates: values })
+            ).unwrap();
 
-            const response = await fetch(
-                "https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/users",
-                {
-                    method: "PUT",
-                    body: JSON.stringify(values),
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                // Handle validation errors from the server
-                const errorText = await response.text();
-                console.error("Server response:", errorText);
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            setUser(data);
+            setUser(updatedUser);
             setSuccess(true);
             resetForm();
 
@@ -52,7 +37,7 @@ export const UpdateUser = ({ token, setUser, onUpdateSuccess, onDeleteAccount, i
             }, 3000);
 
             if (onUpdateSuccess) {
-                onUpdateSuccess(data);
+                onUpdateSuccess(updatedUser);
             }
         } catch (error) {
             setError("Failed to update user. Please try again.");
@@ -203,7 +188,6 @@ export const UpdateUser = ({ token, setUser, onUpdateSuccess, onDeleteAccount, i
 };
 
 UpdateUser.propTypes = {
-    token: PropTypes.string.isRequired,
-    setUser: PropTypes.func.isRequired,
-    onUpdateSuccess: PropTypes.func.isRequired
+    setUser: PropTypes.func,
+    onUpdateSuccess: PropTypes.func
 };

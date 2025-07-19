@@ -11,16 +11,14 @@ import SignUpTest from "../../lab/SignUpTest";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { fetchMoviesThunk } from "../../features/movies/moviesSlice";
 
-export const MainView = () => {
+export const MainView = ({ setUser, onLoggedOut }) => {
     const dispatch = useDispatch();
     const { user, token } = useSelector((state) => state.user);
     const { movies } = useSelector((state) => state.movies);
     console.log("Movies state:", movies);
     useEffect(() => {
-        console.log("🚀 Dispatching fetchMoviesThunk");
         dispatch(fetchMoviesThunk());
     }, [dispatch]);
-    console.log("🧩 MainView is rendering...");
 
     return (
         <>
@@ -58,8 +56,18 @@ export const MainView = () => {
                         />
 
                         <Route
-                            path="/users/:Username"
-                            element={!user ? <Navigate to="/login" replace /> : <ProfileView />}
+                            path="/users/:id"
+                            element={
+                                !user ? (
+                                    <Navigate to="/login" replace />
+                                ) : (
+                                    <ProfileView
+                                        userId={user.id}
+                                        setUser={setUser}
+                                        onLoggedOut={onLoggedOut}
+                                    />
+                                )
+                            }
                         />
                         <Route
                             path="/"

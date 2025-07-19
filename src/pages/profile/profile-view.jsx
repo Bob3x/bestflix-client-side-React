@@ -1,50 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { UserInfo } from "./user-info";
 import { UpdateUser } from "../../pages/UpdateUser/update-user";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { FavoriteMovies } from "./favorite-movies";
-import { useSelector } from "react-redux";
+import { fetchFavoritesThunk } from "../../features/favorites/favoritesSlice";
+import { useSelector, useDispatch } from "react-redux";
 import "./profile-view.scss";
+import { deleteUserThunk, updateUserThunk } from "../../features/user/userSlice";
 
 export const ProfileView = ({ setUser, onLoggedOut }) => {
     const user = useSelector((state) => state.user.user);
     const favoriteMovies = useSelector((state) => state.favorites.items);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isDeleting, setIsDeleting] = useState(false);
+
+    useEffect(() => {
+        if (!user) {
+            dispatch(fetchFavoritesThunk(user.id));
+        }
+    }, [user, dispatch]);
 
     const handleUserRemove = async () => {
         if (
             !window.confirm(
                 "Are you sure you want to delete your account? This action cannot be undone."
             )
-        ) {
-            return;
-        }
-
-        try {
+        )
             setIsDeleting(true);
-            const response = await fetch(
-                `https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/users/${user.Username}`,
-                {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
+        try {
+            await dispatch(deleteUserThunk(user.id)).unwrap();
+            onLoggedOut();
+            localStorage.clear();
 
-            if (response.ok) {
-                // Clear user data first
-                onLoggedOut();
-                localStorage.clear();
-                alert("Your account has been successfully deleted.");
-                navigate("/login", { replace: true });
-            } else {
-                throw new Error("Failed to delete account");
-            }
+            alert("Your account has been successfully deleted.");
+            navigate("/login", { replace: true });
         } catch (error) {
             console.error("Error:", error);
             alert("Failed to delete account. Please try again.");
@@ -53,22 +45,28 @@ export const ProfileView = ({ setUser, onLoggedOut }) => {
         }
     };
 
-    const onUpdateSuccess = (updatedUser) => {
-        setUser(updatedUser);
-        localStorage.setItem("user", JSON.stringify(updatedUser));
+    const handleUpdateUser = async (updates) => {
+        try {
+            const updatedUser = await dispatch(
+                updateUserThunk({ userId: user.id, updates })
+            ).unwrap();
+            setUser(updatedUser);
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+        } catch (error) {
+            console.error("Error updating user:", error);
+            alert("Failed to update user information. Please try again.");
+        }
     };
-
     return (
         <Container className="profile-view">
             <Row className="justify-content-center mt-4">
                 <Col md={6} className="user-info">
-                    <UserInfo user={user.Username} email={user.Email} />
+                    <UserInfo user={user.userId} email={user.email} />
                 </Col>
                 <Col md={6} className="user-update">
                     <UpdateUser
-                        user={user}
                         setUser={setUser}
-                        onUpdateSuccess={onUpdateSuccess}
+                        onUpdateSuccess={handleUpdateUser}
                         onDeleteAccount={handleUserRemove}
                         isDeleting={isDeleting}
                     />
@@ -84,14 +82,6 @@ export const ProfileView = ({ setUser, onLoggedOut }) => {
 };
 
 ProfileView.propTypes = {
-    user: PropTypes.object.isRequired,
     setUser: PropTypes.func.isRequired,
-    onLoggedOut: PropTypes.func.isRequired,
-    movies: PropTypes.arrayOf(
-        PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            image: PropTypes.string.isRequired
-        })
-    ).isRequired
+    onLoggedOut: PropTypes.func.isRequired
 };

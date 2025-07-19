@@ -10,7 +10,7 @@ import { combineReducers } from "redux";
 const persistConfig = {
     key: "root",
     storage,
-    whitelist: ["user"] // only persist the user slice
+    whitelist: ["user", "movies", "favorites"] // only persist the user slice
 };
 
 const rootReducer = combineReducers({

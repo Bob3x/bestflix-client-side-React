@@ -18,7 +18,7 @@ export const FavoriteMovies = ({ favoriteMovies }) => {
                         {favoriteMovies.map((movie) => (
                             <div key={movie.id} className="favorite-movie-col">
                                 <div className="favorite-movie-item">
-                                    <Link to={`/movies/${movie.id}`} className="movie-link">
+                                    <Link to={`/movies/${movie.movie_id}`} className="movie-link">
                                         <div className="movie-poster-wrapper">
                                             <img
                                                 src={

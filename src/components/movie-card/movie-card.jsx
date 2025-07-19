@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Heart, HeartFill } from "react-bootstrap-icons";
 import "./movie-card.scss";
 import { useSelector, useDispatch } from "react-redux";
-import { addFavoriteThunk, removeFavoriteThunk } from "../../features/favorites/favoritesSlice";
+import {
+    fetchFavoritesThunk,
+    addFavoriteThunk,
+    removeFavoriteThunk
+} from "../../features/favorites/favoritesSlice";
 
-export const MovieCard = ({ movie }) => {
+export const MovieCard = ({ movie, token = "", setUser = () => {} }) => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
     const favorites = useSelector((state) => state.favorites.items);
@@ -32,6 +35,7 @@ export const MovieCard = ({ movie }) => {
             } else {
                 await dispatch(addFavoriteThunk({ userId: user.id, movieId })).unwrap();
             }
+            await dispatch(fetchFavoritesThunk(user.id)).unwrap();
             setShowTooltip(false); // Hide tooltip after action
             // optional: refresh favorites or show toast here
         } catch (error) {
@@ -84,10 +88,4 @@ export const MovieCard = ({ movie }) => {
             </Card.Body>
         </Card>
     );
-};
-
-MovieCard.defaultProps = {
-    user: null,
-    token: "",
-    setUser: () => {}
 };

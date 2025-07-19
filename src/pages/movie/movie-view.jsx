@@ -34,9 +34,9 @@ export const MovieView = () => {
         setIsLoading(true);
         try {
             if (isFavorite) {
-                await dispatch(removeFavoriteThunk({ userId: user.id, movieId }));
+                dispatch(removeFavoriteThunk({ userId: user.id, movieId }));
             } else {
-                await dispatch(addFavoriteThunk({ userId: user.id, movieId }));
+                dispatch(addFavoriteThunk({ userId: user.id, movieId }));
             }
         } catch (error) {
             console.error("Error toggling favorite:", error);
@@ -68,7 +68,7 @@ export const MovieView = () => {
                 <div className="text-center mt-5">
                     <h2 className="text-light">Movie not found</h2>
                     <Link to="/">
-                        <Button variant="primary" className="mt-3">
+                        <Button variant="secondary" className="back-button">
                             Back to Movies
                         </Button>
                     </Link>

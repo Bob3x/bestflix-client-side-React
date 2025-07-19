@@ -8,12 +8,11 @@ import { supabase } from "../supabaseClient";
  */
 
 export const fetchMovies = async () => {
-    console.log("🔍 Inside fetchMovies()");
-
     const { data, error } = await supabase.from("movies").select("*");
 
-    console.log("🎯 Supabase result:", data);
-    console.error("⚠️ Supabase error:", error);
+    if (error) {
+        throw new Error("Failed to fetch movies");
+    }
 
     return data;
 };

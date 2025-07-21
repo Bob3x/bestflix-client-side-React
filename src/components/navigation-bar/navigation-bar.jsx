@@ -58,7 +58,7 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
                                     title={
                                         <div className="user-avatar-wrapper">
                                             <div className="user-avatar">
-                                                {user?.Username?.charAt(0).toUpperCase() || ""}
+                                                {user?.userId?.charAt(0).toUpperCase() || ""}
                                             </div>
                                             <CaretDownFill size={12} className="dropdown-caret" />
                                         </div>

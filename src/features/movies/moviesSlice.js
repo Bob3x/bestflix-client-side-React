@@ -5,11 +5,8 @@ import { fetchMovies } from "../../services/movieService";
 export const fetchMoviesThunk = createAsyncThunk(
     "movies/fetchMovies",
     async (_, { rejectWithValue }) => {
-        console.log("📦 fetchMoviesThunk called");
-
         try {
             const movies = await fetchMovies(); // <- service call
-            console.log("🎬 Movies from service:", movies);
             return movies;
         } catch (err) {
             console.error("❌ Thunk error:", err.message);

@@ -1,5 +1,5 @@
 // src/services/movieService.js
-import { supabase } from "../supabaseClient";
+
 /**
  * Fetch movies from the API.
  * @param {string} token - The user's auth token.

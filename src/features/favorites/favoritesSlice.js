@@ -5,10 +5,7 @@ import { supabase } from "../../supabaseClient";
 export const fetchFavoritesThunk = createAsyncThunk(
     "favorites/fetchFavorites",
     async (userId, { rejectWithValue }) => {
-        const { data, error } = await supabase
-            .from("favorites")
-            .select("*, movies (title, image, description)")
-            .eq("user_id", userId);
+        const { data, error } = await supabase.from("favorites").select("*").eq("user_id", userId);
         console.log("🎯 Supabase result:", data);
 
         if (error) {
@@ -19,9 +16,7 @@ export const fetchFavoritesThunk = createAsyncThunk(
         const favorites = data.map((fav) => ({
             id: fav.id,
             movie_id: fav.movie_id,
-            user_id: fav.user_id,
-            title: fav.movies?.title,
-            image: fav.movies?.image
+            user_id: fav.user_id
         }));
         return favorites;
     }
@@ -33,7 +28,7 @@ export const addFavoriteThunk = createAsyncThunk(
         const { data, error } = await supabase
             .from("favorites")
             .insert({ user_id: userId, movie_id: movieId })
-            .select("*, movies (title, image, description)");
+            .select();
 
         if (error) {
             console.error("Failed to add favorite:", error.message);
@@ -43,9 +38,7 @@ export const addFavoriteThunk = createAsyncThunk(
         return {
             id: fav?.id,
             movie_id: fav?.movie_id,
-            user_id: fav?.user_id,
-            title: fav?.movies?.title,
-            image: fav?.movies?.image
+            user_id: fav?.user_id
         };
     }
 );
@@ -57,7 +50,7 @@ export const removeFavoriteThunk = createAsyncThunk(
             .from("favorites")
             .delete()
             .match({ user_id: userId, movie_id: movieId })
-            .select("*, movies (title, image, description)");
+            .select();
 
         if (error) {
             console.error("Failed to remove favorite:", error.message);
@@ -69,9 +62,7 @@ export const removeFavoriteThunk = createAsyncThunk(
         return {
             id: removed?.id,
             movie_id: removed?.movie_id,
-            user_id: removed?.user_id,
-            title: removed?.movies?.title,
-            image: removed?.movies?.image
+            user_id: removed?.user_id
         };
     }
 );

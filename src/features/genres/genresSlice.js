@@ -4,11 +4,8 @@ import { fetchAllGenres } from "../../services/movieService";
 export const fetchGenresThunk = createAsyncThunk(
     "genres/fetchGenres",
     async (_, { rejectWithValue }) => {
-        console.log("📦 fetchGenresThunk called");
-
         try {
             const genres = await fetchAllGenres(); // <- service call
-            console.log("🎬 Genres from service:", genres);
             return genres;
         } catch (err) {
             console.error("❌ Thunk error:", err.message);

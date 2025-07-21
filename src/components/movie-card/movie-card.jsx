@@ -14,6 +14,7 @@ export const MovieCard = ({ movie, genres }) => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
     const favorites = useSelector((state) => state.favorites.items);
+    const movies = useSelector((state) => state.movies.movies);
 
     const [showTooltip, setShowTooltip] = useState(false);
     const [isLoading, setIsLoading] = useState(false);

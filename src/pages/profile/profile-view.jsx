@@ -12,7 +12,8 @@ import { deleteUserThunk, updateUserThunk } from "../../features/user/userSlice"
 
 export const ProfileView = ({ setUser, onLoggedOut }) => {
     const user = useSelector((state) => state.user.user);
-    const favoriteMovies = useSelector((state) => state.favorites.items);
+    const favorites = useSelector((state) => state.favorites.items);
+    const movies = useSelector((state) => state.movies.movies);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isDeleting, setIsDeleting] = useState(false);
@@ -57,11 +58,16 @@ export const ProfileView = ({ setUser, onLoggedOut }) => {
             alert("Failed to update user information. Please try again.");
         }
     };
+
+    const favoriteMovies = favorites
+        .map((fav) => movies.find((m) => m.id === fav.movie_id))
+        .filter(Boolean);
+
     return (
         <Container className="profile-view">
             <Row className="justify-content-center mt-4">
                 <Col md={6} className="user-info">
-                    <UserInfo user={user.userId} email={user.email} />
+                    <UserInfo user={user.id} email={user.email} />
                 </Col>
                 <Col md={6} className="user-update">
                     <UpdateUser

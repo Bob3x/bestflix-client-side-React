@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/user/userSlice";
 import { Container, Row, Col } from "react-bootstrap";
@@ -15,13 +15,18 @@ import { fetchGenresThunk } from "../../features/genres/genresSlice";
 export const MainView = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.user);
+    const [localUser, setUser] = useState(user);
     const { movies } = useSelector((state) => state.movies);
     const genres = useSelector((state) => state.genres?.genres) || [];
-    console.log("Movies state:", movies);
+
     useEffect(() => {
         dispatch(fetchMoviesThunk());
         dispatch(fetchGenresThunk());
     }, [dispatch]);
+
+    useEffect(() => {
+        setUser(user);
+    }, [user]);
 
     const handleLoggedOut = () => {
         dispatch(logout());
@@ -30,7 +35,7 @@ export const MainView = () => {
 
     return (
         <>
-            {user && <NavigationBar user={user} onLoggedOut={handleLoggedOut} />}
+            {user && <NavigationBar user={user.id} onLoggedOut={handleLoggedOut} />}
             <Container>
                 <Row className="justify-content-md-center">
                     <Routes>
@@ -61,7 +66,11 @@ export const MainView = () => {
                                 !user ? (
                                     <Navigate to="/login" replace />
                                 ) : (
-                                    <ProfileView userId={user.id} onLoggedOut={handleLoggedOut} />
+                                    <ProfileView
+                                        userId={user.id}
+                                        onLoggedOut={handleLoggedOut}
+                                        setUser={setUser}
+                                    />
                                 )
                             }
                         />

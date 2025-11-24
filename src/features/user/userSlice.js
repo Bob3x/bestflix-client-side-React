@@ -26,10 +26,9 @@ export const updateUserThunk = createAsyncThunk(
     "user/updateUser",
     async ({ userId, updates }, { rejectWithValue }) => {
         const { data, error } = await supabase
-            .from("users")
-            .update(updates)
-            .eq("id", userId)
-            .select("*")
+            .from("profiles")
+            .upsert({ id: userId, ...updates }, { returning: "representation" })
+            .select()
             .single();
         if (error) return rejectWithValue(error.message);
         return data;
@@ -40,8 +39,9 @@ export const updateUserThunk = createAsyncThunk(
 export const deleteUserThunk = createAsyncThunk(
     "user/deleteUser",
     async (userId, { rejectWithValue }) => {
-        const { error } = await supabase.from("users").delete().eq("id", userId);
+        const { error } = await supabase.from("profiles").delete().eq("id", userId);
         if (error) return rejectWithValue(error.message);
+        await supabase.auth.signOut();
         return { userId };
     }
 );

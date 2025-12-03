@@ -14,41 +14,39 @@ export const SignupView = () => {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
 
-    const signupUser = async (values) => {
-        const { error } = await supabase.auth.signUp({
-            email: values.Email,
-            password: values.Password,
-            options: {
-                data: {
-                    username: values.Username
-                }
-            }
-        });
-        if (error) {
-            throw error;
-        }
-    };
-
     // Form submission handler
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+        setSubmitting(true);
+        setError("");
+        setSuccess(false);
+
         try {
-            // 1. Register the user
-            await signupUser(values);
+            const { data, error: signUpError } = await supabase.auth.signUp({
+                email: values.Email,
+                password: values.Password
+            });
+            if (signUpError) throw signUpError;
 
-            // 2. Auto-login after signup using Redux thunk
-            dispatch(login({ Email: values.Email, Password: values.Password }));
+            const userId = data.user?.id;
+            if (userId) {
+                const { error: profileError } = await supabase
+                    .from("profiles")
+                    .upsert({ id: userId, username: values.Username, avatar_url: "" })
+                    .select()
+                    .single();
+                if (profileError) {
+                    console.error("Profile upsert failed:", profileError);
+                }
+            }
 
-            setError("");
+            await dispatch(login({ Email: values.Email, Password: values.Password }));
+
             setSuccess(true);
             resetForm();
-
-            // Navigate to main view
-            setTimeout(() => {
-                navigate("/");
-            }, 2000);
-        } catch (error) {
-            console.error("Error:", error);
-            setError(error.message);
+            setTimeout(() => navigate("/"), 2000);
+        } catch (err) {
+            console.error("Signup error:", err);
+            setError(err.message || "Signup failed");
         } finally {
             setSubmitting(false);
         }

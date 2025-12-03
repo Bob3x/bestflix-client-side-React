@@ -2,7 +2,7 @@ name: Keep Site Awake
 
 on:
     schedule:
-        - cron: "0 0 * * *" # schedule: once per day at 00:00 UTC
+        - cron: "0 0,12 * * *" # schedule: twice per day at 00:00 and 12:00 UTC
     workflow_dispatch: {}
 
 jobs:

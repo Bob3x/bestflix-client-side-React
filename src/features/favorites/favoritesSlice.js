@@ -49,8 +49,8 @@ export const removeFavoriteThunk = createAsyncThunk(
         const { data, error } = await supabase
             .from("favorites")
             .delete()
-            .match({ user_id: userId, movie_id: movieId })
-            .select();
+            .eq("user_id", userId)
+            .eq("movie_id", movieId);
 
         if (error) {
             console.error("Failed to remove favorite:", error.message);
@@ -60,9 +60,7 @@ export const removeFavoriteThunk = createAsyncThunk(
         const removed = Array.isArray(data) ? data[0] : data;
 
         return {
-            id: removed?.id,
-            movie_id: removed?.movie_id,
-            user_id: removed?.user_id
+            movieId
         };
     }
 );
@@ -98,11 +96,7 @@ const favoritesSlice = createSlice({
             })
             .addCase(removeFavoriteThunk.fulfilled, (state, action) => {
                 // Remove the favorite from the items array
-                state.items = state.items.filter(
-                    (fav) =>
-                        fav.movie_id !== action.payload.movie_id ||
-                        fav.user_id !== action.payload.user_id
-                );
+                state.items = state.items.filter((fav) => fav.movie_id !== action.payload.movieId);
             });
     }
 });

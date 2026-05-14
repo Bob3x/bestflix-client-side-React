@@ -1,4 +1,4 @@
-# Bestflix (myFlix) — Frontend
+# Bestflix — Frontend
 
 Professional single-page React frontend for the Bestflix movie app.
 

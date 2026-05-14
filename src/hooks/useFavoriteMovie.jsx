@@ -17,7 +17,10 @@ export const useFavoriteMovie = (token) => {
     const toggleFavorite = async (movieId, isFavorite) => {
         setIsLoading(true);
         try {
-            const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+            const API_URL = (process.env.REACT_APP_API_URL || "http://localhost:8080").replace(
+                /\/+$/,
+                ""
+            );
             const response = await fetch(
                 `${API_URL}/api/users/${user.Username}/movies/${movieId}`,
                 {

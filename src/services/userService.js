@@ -7,7 +7,7 @@
  * @throws {Error} If login fails
  */
 export async function loginUser(credentials) {
-    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+    const API_URL = (process.env.REACT_APP_API_URL || "http://localhost:8080").replace(/\/+$/,'');
     const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: {
@@ -33,7 +33,7 @@ export async function loginUser(credentials) {
  * @throws {Error} If signup fails
  */
 export async function signupUser(userData) {
-    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+    const API_URL = (process.env.REACT_APP_API_URL || "http://localhost:8080").replace(/\/+$/,'');
     const response = await fetch(`${API_URL}/api/auth/signup`, {
         method: "POST",
         headers: {

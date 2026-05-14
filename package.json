@@ -11,8 +11,8 @@
         "test:coverage": "react-scripts test --coverage",
         "cypress": "cypress open"
     },
-    "author": "",
-    "license": "ISC",
+    "author": "Borislav Ginov",
+    "license": "MIT",
     "description": "",
     "dependencies": {
         "@reduxjs/toolkit": "^2.8.2",

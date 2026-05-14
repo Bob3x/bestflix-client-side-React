@@ -7,16 +7,14 @@
  * @throws {Error} If login fails
  */
 export async function loginUser(credentials) {
-    const response = await fetch(
-        "https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/login",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(credentials)
-        }
-    );
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+    const response = await fetch(`${API_URL}/api/auth/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(credentials)
+    });
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
@@ -35,16 +33,14 @@ export async function loginUser(credentials) {
  * @throws {Error} If signup fails
  */
 export async function signupUser(userData) {
-    const response = await fetch(
-        "https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/users",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userData)
-        }
-    );
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+    const response = await fetch(`${API_URL}/api/auth/signup`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+    });
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));

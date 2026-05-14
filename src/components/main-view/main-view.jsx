@@ -16,6 +16,7 @@ export const MainView = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.user);
     const [localUser, setUser] = useState(user);
+    const [searchQuery, setSearchQuery] = useState("");
     const { movies } = useSelector((state) => state.movies);
     const genres = useSelector((state) => state.genres?.genres) || [];
 
@@ -33,9 +34,25 @@ export const MainView = () => {
         localStorage.clear();
     };
 
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+    const visibleMovies = normalizedQuery
+        ? movies.filter((movie) => {
+              const title = movie.title?.toLowerCase() || "";
+              const overview = movie.overview?.toLowerCase() || "";
+              return title.includes(normalizedQuery) || overview.includes(normalizedQuery);
+          })
+        : movies;
+
     return (
         <>
-            {user && <NavigationBar user={user.id} onLoggedOut={handleLoggedOut} />}
+            {user && (
+                <NavigationBar
+                    user={user}
+                    onLoggedOut={handleLoggedOut}
+                    searchValue={searchQuery}
+                    onSearchChange={setSearchQuery}
+                />
+            )}
             <Container>
                 <Row className="justify-content-md-center">
                     <Routes>
@@ -81,7 +98,7 @@ export const MainView = () => {
                                     <Navigate to="/login" replace />
                                 ) : (
                                     <Row className="justify-content-md-center">
-                                        {movies.map((movie) => (
+                                        {visibleMovies.map((movie) => (
                                             <Col
                                                 className="mb-4"
                                                 key={movie.id}

@@ -1,67 +1,43 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { supabase } from "../../supabaseClient";
+import { fetchFavoritesApi, addFavoriteApi, removeFavoriteApi } from "../../apiClient";
 
 // Fetch favorites by user ID
 export const fetchFavoritesThunk = createAsyncThunk(
     "favorites/fetchFavorites",
     async (userId, { rejectWithValue }) => {
-        const { data, error } = await supabase.from("favorites").select("*").eq("user_id", userId);
-        console.log("🎯 Supabase result:", data);
-
-        if (error) {
-            console.error("❌ Supabase error:", error.message);
-            return rejectWithValue(error.message);
+        try {
+            const data = await fetchFavoritesApi(userId);
+            const favorites = Array.isArray(data)
+                ? data.map((fav) => ({ id: fav.id, movie_id: fav.movie_id, user_id: fav.user_id }))
+                : [];
+            return favorites;
+        } catch (err) {
+            return rejectWithValue(err.message || "Failed to fetch favorites");
         }
-
-        const favorites = data.map((fav) => ({
-            id: fav.id,
-            movie_id: fav.movie_id,
-            user_id: fav.user_id
-        }));
-        return favorites;
     }
 );
 
 export const addFavoriteThunk = createAsyncThunk(
     "favorites/addFavorite",
     async ({ userId, movieId }, { rejectWithValue }) => {
-        const { data, error } = await supabase
-            .from("favorites")
-            .insert({ user_id: userId, movie_id: movieId })
-            .select();
-
-        if (error) {
-            console.error("Failed to add favorite:", error.message);
-            return rejectWithValue(error.message);
+        try {
+            const fav = await addFavoriteApi({ userId, movieId });
+            return { id: fav?.id, movie_id: fav?.movie_id, user_id: fav?.user_id };
+        } catch (err) {
+            return rejectWithValue(err.message || "Failed to add favorite");
         }
-        const fav = Array.isArray(data) ? data[0] : data;
-        return {
-            id: fav?.id,
-            movie_id: fav?.movie_id,
-            user_id: fav?.user_id
-        };
     }
 );
 
 export const removeFavoriteThunk = createAsyncThunk(
     "favorites/removeFavorite",
     async ({ userId, movieId }, { rejectWithValue }) => {
-        const { data, error } = await supabase
-            .from("favorites")
-            .delete()
-            .eq("user_id", userId)
-            .eq("movie_id", movieId);
-
-        if (error) {
-            console.error("Failed to remove favorite:", error.message);
-            return rejectWithValue(error.message);
+        try {
+            await removeFavoriteApi({ userId, movieId });
+            return { movieId };
+        } catch (err) {
+            return rejectWithValue(err.message || "Failed to remove favorite");
         }
-
-        const removed = Array.isArray(data) ? data[0] : data;
-
-        return {
-            movieId
-        };
     }
 );
 
@@ -96,7 +72,9 @@ const favoritesSlice = createSlice({
             })
             .addCase(removeFavoriteThunk.fulfilled, (state, action) => {
                 // Remove the favorite from the items array
-                state.items = state.items.filter((fav) => fav.movie_id !== action.payload.movieId);
+                state.items = state.items.filter(
+                    (fav) => String(fav.movie_id) !== String(action.payload.movieId)
+                );
             });
     }
 });

@@ -6,13 +6,29 @@ import { Button, Form as BootstrapForm, Alert, Spinner } from "react-bootstrap";
 import { signupSchema } from "../../components/form-validation/form-validation";
 import AuthLayout from "../../components/auth-layout/auth-layout";
 import { login } from "../../features/user/userSlice";
-import { supabase } from "../../supabaseClient";
+import { signupApi } from "../../apiClient";
 
 export const SignupView = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+
+    const getSignupErrorMessage = (err) => {
+        if (err?.status === 409) {
+            return "An account with this email already exists. Try logging in instead.";
+        }
+
+        if (err?.status === 400) {
+            return err.message || "Please check the signup form and try again.";
+        }
+
+        if (err?.status === 0) {
+            return err.message;
+        }
+
+        return err.message || "Signup failed. Please try again.";
+    };
 
     // Form submission handler
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -21,24 +37,11 @@ export const SignupView = () => {
         setSuccess(false);
 
         try {
-            const { data, error: signUpError } = await supabase.auth.signUp({
-                email: values.Email,
-                password: values.Password
+            await signupApi({
+                Email: values.Email,
+                Password: values.Password,
+                username: values.Username
             });
-            if (signUpError) throw signUpError;
-
-            const userId = data.user?.id;
-            if (userId) {
-                const { error: profileError } = await supabase
-                    .from("profiles")
-                    .upsert({ id: userId, username: values.Username, avatar_url: "" })
-                    .select()
-                    .single();
-                if (profileError) {
-                    console.error("Profile upsert failed:", profileError);
-                }
-            }
-
             await dispatch(login({ Email: values.Email, Password: values.Password }));
 
             setSuccess(true);
@@ -46,7 +49,7 @@ export const SignupView = () => {
             setTimeout(() => navigate("/"), 2000);
         } catch (err) {
             console.error("Signup error:", err);
-            setError(err.message || "Signup failed");
+            setError(getSignupErrorMessage(err));
         } finally {
             setSubmitting(false);
         }
@@ -56,7 +59,7 @@ export const SignupView = () => {
         <AuthLayout title="Sign Up" subtitle="Create an account">
             {/* Error message display to client*/}
             {error && (
-                <Alert variant="danger" className="mb-3" role="alert">
+                <Alert variant="danger" className="mb-3" role="alert" aria-live="polite">
                     {error}
                 </Alert>
             )}

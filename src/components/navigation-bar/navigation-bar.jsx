@@ -5,7 +5,9 @@ import { SearchBar } from "../search-bar/search-bar";
 import logo from "../../assets/bestflix_logotype.svg";
 import "./navigation-bar.scss";
 
-export const NavigationBar = ({ user, onLoggedOut }) => {
+export const NavigationBar = ({ user, onLoggedOut, searchValue, onSearchChange }) => {
+    const displayName = user?.username || user?.Username || user?.email || "";
+
     return (
         <Navbar expand="md" className="navbar">
             <Container fluid>
@@ -50,7 +52,7 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
                         </Nav>
 
                         <div className="nav-section nav-section--center">
-                            <SearchBar />
+                            <SearchBar value={searchValue} onChange={onSearchChange} />
                         </div>
                         {user && (
                             <Nav className="nav-section nav-section--right">
@@ -58,7 +60,9 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
                                     title={
                                         <div className="user-avatar-wrapper">
                                             <div className="user-avatar">
-                                                {user?.userId?.charAt(0).toUpperCase() || ""}
+                                                {displayName
+                                                    ? displayName.charAt(0).toUpperCase()
+                                                    : ""}
                                             </div>
                                             <CaretDownFill size={12} className="dropdown-caret" />
                                         </div>

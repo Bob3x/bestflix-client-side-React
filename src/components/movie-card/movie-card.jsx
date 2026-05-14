@@ -13,13 +13,14 @@ import {
 export const MovieCard = ({ movie, genres }) => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
-    const favorites = useSelector((state) => state.favorites.items);
+    const favorites = useSelector((state) => state.favorites.items) || [];
     const movies = useSelector((state) => state.movies.movies);
+    const safeGenres = Array.isArray(genres) ? genres : [];
 
     const [showTooltip, setShowTooltip] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const isFavorite = favorites.some((fav) => fav.movie_id === Number(movie.id));
+    const isFavorite = favorites.some((fav) => String(fav.movie_id) === String(movie.id));
 
     const toggleFavorite = async (movieId) => {
         if (!user?.id) {
@@ -47,9 +48,10 @@ export const MovieCard = ({ movie, genres }) => {
     };
 
     const getFirstGenreName = () => {
-        if (!movie.genre_ids || !genres) return "";
+        if (movie?.genre?.name) return movie.genre.name;
+        if (!movie.genre_ids || safeGenres.length === 0) return "";
         const firstGenreId = movie.genre_ids[0];
-        const genreObj = genres.find((g) => g.id === firstGenreId);
+        const genreObj = safeGenres.find((g) => g.id === firstGenreId);
         return genreObj ? genreObj.name : "";
     };
 
@@ -69,7 +71,9 @@ export const MovieCard = ({ movie, genres }) => {
             </Link>
             <Card.Body className="movie-card__content">
                 <Card.Text className="movie-card__genre">
-                    {genres.length === 0 ? "Loading genre..." : getFirstGenreName()}
+                    {safeGenres.length === 0 && !movie?.genre?.name
+                        ? "Loading genre..."
+                        : getFirstGenreName()}
                 </Card.Text>
                 <div className="movie-card__title-wrapper">
                     <Card.Title className="movie-card__title">

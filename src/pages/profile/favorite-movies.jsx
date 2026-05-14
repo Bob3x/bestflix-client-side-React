@@ -12,12 +12,13 @@ export const FavoriteMovies = ({ favoriteMovies }) => {
     const favorites = useSelector((state) => state.favorites.items);
     const user = useSelector((state) => state.user.user);
 
-    const isFavorite = (movieId) => favorites.some((fav) => fav.movie_id === movieId);
+    const isFavorite = (movieId) =>
+        favorites.some((fav) => String(fav.movie_id) === String(movieId));
 
     const toggleFavorite = async (movieId) => {
         setIsLoading(true);
         try {
-            if (isFavorite) {
+            if (isFavorite(movieId)) {
                 await dispatch(removeFavoriteThunk({ userId: user.id, movieId })).unwrap();
             } else {
                 await dispatch(addFavoriteThunk({ userId: user.id, movieId })).unwrap();

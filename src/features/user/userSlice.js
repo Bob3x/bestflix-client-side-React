@@ -1,23 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { supabase } from "../../supabaseClient";
+import { loginApi, updateUserApi, deleteUserApi } from "../../apiClient";
 
 // Async thunk for logging in the user
 export const login = createAsyncThunk(
     "user/login",
     async ({ Email, Password }, { rejectWithValue }) => {
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: Email,
-            password: Password
-        });
-
-        if (error) {
-            return rejectWithValue(error.message);
+        try {
+            const data = await loginApi({ Email, Password });
+            return {
+                user: data.user,
+                token: data.token || data.access_token,
+            };
+        } catch (err) {
+            return rejectWithValue(err.message || "Login failed");
         }
-
-        return {
-            user: data.user,
-            token: data.session?.access_token
-        };
     }
 );
 
@@ -25,13 +21,12 @@ export const login = createAsyncThunk(
 export const updateUserThunk = createAsyncThunk(
     "user/updateUser",
     async ({ userId, updates }, { rejectWithValue }) => {
-        const { data, error } = await supabase
-            .from("profiles")
-            .upsert({ id: userId, ...updates }, { returning: "representation" })
-            .select()
-            .single();
-        if (error) return rejectWithValue(error.message);
-        return data;
+        try {
+            const data = await updateUserApi(userId, updates);
+            return data;
+        } catch (err) {
+            return rejectWithValue(err.message || "Update failed");
+        }
     }
 );
 
@@ -39,10 +34,12 @@ export const updateUserThunk = createAsyncThunk(
 export const deleteUserThunk = createAsyncThunk(
     "user/deleteUser",
     async (userId, { rejectWithValue }) => {
-        const { error } = await supabase.from("profiles").delete().eq("id", userId);
-        if (error) return rejectWithValue(error.message);
-        await supabase.auth.signOut();
-        return { userId };
+        try {
+            await deleteUserApi(userId);
+            return { userId };
+        } catch (err) {
+            return rejectWithValue(err.message || "Delete failed");
+        }
     }
 );
 

@@ -17,8 +17,9 @@ export const useFavoriteMovie = (token) => {
     const toggleFavorite = async (movieId, isFavorite) => {
         setIsLoading(true);
         try {
+            const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
             const response = await fetch(
-                `https://my-movies-flix-app-56f9661dc035.herokuapp.com/api/users/${user.Username}/movies/${movieId}`,
+                `${API_URL}/api/users/${user.Username}/movies/${movieId}`,
                 {
                     method: isFavorite ? "DELETE" : "POST",
                     headers: {

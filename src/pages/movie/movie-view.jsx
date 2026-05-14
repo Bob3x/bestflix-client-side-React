@@ -25,7 +25,7 @@ export const MovieView = ({ genres }) => {
 
     const movie = movies.find((m) => m.id === Number(movieId));
 
-    const isFavorite = favorites.some((fav) => fav.movie_id === Number(movieId));
+    const isFavorite = favorites.some((fav) => String(fav.movie_id) === String(movieId));
 
     const handleFavoriteClick = async (e) => {
         e.preventDefault();
@@ -34,9 +34,9 @@ export const MovieView = ({ genres }) => {
         setIsLoading(true);
         try {
             if (isFavorite) {
-                dispatch(removeFavoriteThunk({ userId: user.id, movieId }));
+                await dispatch(removeFavoriteThunk({ userId: user.id, movieId })).unwrap();
             } else {
-                dispatch(addFavoriteThunk({ userId: user.id, movieId }));
+                await dispatch(addFavoriteThunk({ userId: user.id, movieId })).unwrap();
             }
         } catch (error) {
             console.error("Error toggling favorite:", error);

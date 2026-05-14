@@ -1,0 +1,17 @@
+Server error: Error: listen EACCES: permission denied 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1926:21)
+    at listenInCluster (node:net:2005:12)
+    at Server.listen (node:net:2110:7)
+    at app.listen (D:\@_PROJECTS_@\_CODE_\bestflix-client-side-React\node_modules\express\lib\application.js:605:24)
+    at Object.<anonymous> (D:\@_PROJECTS_@\_CODE_\bestflix-client-side-React\server\mockServer.js:111:20)
+    at Module._compile (node:internal/modules/cjs/loader:1812:14)
+    at Object..js (node:internal/modules/cjs/loader:1943:10)
+    at Module.load (node:internal/modules/cjs/loader:1533:32)
+    at Module._load (node:internal/modules/cjs/loader:1335:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19) {
+  code: 'EACCES',
+  errno: -4092,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}

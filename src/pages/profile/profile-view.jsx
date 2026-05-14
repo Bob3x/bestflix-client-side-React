@@ -19,7 +19,7 @@ export const ProfileView = ({ setUser, onLoggedOut }) => {
     const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
-        if (!user) {
+        if (user?.id) {
             dispatch(fetchFavoritesThunk(user.id));
         }
     }, [user, dispatch]);
@@ -29,8 +29,11 @@ export const ProfileView = ({ setUser, onLoggedOut }) => {
             !window.confirm(
                 "Are you sure you want to delete your account? This action cannot be undone."
             )
-        )
-            setIsDeleting(true);
+        ) {
+            return;
+        }
+
+        setIsDeleting(true);
         try {
             await dispatch(deleteUserThunk(user.id)).unwrap();
             onLoggedOut();
@@ -60,14 +63,16 @@ export const ProfileView = ({ setUser, onLoggedOut }) => {
     };
 
     const favoriteMovies = favorites
-        .map((fav) => movies.find((m) => m.id === fav.movie_id))
+        .map((fav) => movies.find((m) => String(m.id) === String(fav.movie_id)))
         .filter(Boolean);
+
+    const displayName = user?.username || user?.Username || user?.email || "User";
 
     return (
         <Container className="profile-view">
             <Row className="justify-content-center mt-4">
                 <Col md={6} className="user-info">
-                    <UserInfo user={user.id} email={user.email} />
+                    <UserInfo user={displayName} email={user.email} />
                 </Col>
                 <Col md={6} className="user-update">
                     <UpdateUser

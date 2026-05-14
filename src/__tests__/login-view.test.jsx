@@ -18,15 +18,15 @@ describe("LoginView", () => {
 
     test("renders form inputs and submit button", () => {
         setup();
-        expect(screen.getByLabelText(/Username/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/Email/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
         expect(screen.getByRole("button", { name: /Login/i })).toBeInTheDocument();
     });
 
     test("lets user type into fields", () => {
         setup();
-        const usernameInput = screen.getByLabelText(/Username/i);
-        fireEvent.change(usernameInput, { target: { value: "testUser" } });
-        expect(usernameInput.value).toBe("testUser");
+        const emailInput = screen.getByLabelText(/Email/i);
+        fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+        expect(emailInput.value).toBe("test@example.com");
     });
 });

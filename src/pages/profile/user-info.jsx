@@ -4,7 +4,8 @@ import { Row, Col, Card } from "react-bootstrap";
 import "./user-info.scss";
 
 export const UserInfo = ({ user, email }) => {
-    const userInitial = user ? user.charAt(0).toUpperCase() : "?";
+    const userName = user ? String(user) : "";
+    const userInitial = userName ? userName.charAt(0).toUpperCase() : "?";
 
     return (
         <Card className="user-info-card">
@@ -18,7 +19,7 @@ export const UserInfo = ({ user, email }) => {
                     <div className="user-avatar">{userInitial}</div>
                 </div>
                 <div className="user-info-text">
-                    <Card.Text className="card-text-user">{user}</Card.Text>
+                    <Card.Text className="card-text-user">{userName}</Card.Text>
                     <Card.Text className="card-text-email">{email}</Card.Text>
                 </div>
             </Card.Body>

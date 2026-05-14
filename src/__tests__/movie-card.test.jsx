@@ -17,19 +17,14 @@ const mockToken = "testToken";
 const mockSetUser = jest.fn();
 
 const mockMovie = {
-    _id: "123",
+    id: 123,
     title: "Inception",
-    description: "A thief who steals corporate secrets through the use of dream-sharing technology",
-    genre: { name: "Thriller", description: "" },
-    director: {
-        name: "Christopher Nolan",
-        bio: "Best known for his cerebral...",
-        birth: "1970",
-        death: ""
-    },
-    image: "inception.jpg",
-    featured: true
+    overview: "A thief who steals corporate secrets through the use of dream-sharing technology",
+    genre_ids: [53],
+    poster_path: "/inception.jpg"
 };
+
+const mockGenres = [{ id: 53, name: "Thriller" }];
 
 describe("MovieCard", () => {
     test("renders movie title and genre", () => {
@@ -38,6 +33,7 @@ describe("MovieCard", () => {
                 <MemoryRouter>
                     <MovieCard
                         movie={mockMovie}
+                        genres={mockGenres}
                         user={mockUser}
                         token={mockToken}
                         setUser={mockSetUser}
@@ -56,6 +52,7 @@ describe("MovieCard", () => {
                 <MemoryRouter>
                     <MovieCard
                         movie={mockMovie}
+                        genres={mockGenres}
                         user={mockUser}
                         token={mockToken}
                         setUser={mockSetUser}
